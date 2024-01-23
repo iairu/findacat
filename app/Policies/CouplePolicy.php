@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\User;
+use App\Cat;
 use App\Couple;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -13,15 +13,12 @@ class CouplePolicy
     /**
      * Determine whether the user can edit the couple.
      *
-     * @param  \App\User  $user
+     * @param  \App\Cat  $cat
      * @param  \App\Couple  $couple
      * @return mixed
      */
-    public function edit(User $user, Couple $couple)
+    public function edit(Cat $cat, Couple $couple)
     {
-        return $couple->manager_id == $user->id
-        || $couple->husband_id == $user->id
-        || $couple->wife_id == $user->id
-        || is_system_admin($user);
+        return true;
     }
 }

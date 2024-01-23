@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Cat;
 
 class HomeController extends Controller
 {
@@ -13,7 +13,6 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
     }
 
     /**
@@ -23,19 +22,23 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user = auth()->user();
+        $cat = Cat::find(1); // todo: if not exist create
 
-        $usersMariageList = [];
-        foreach ($user->couples as $spouse) {
-            $usersMariageList[$spouse->pivot->id] = $user->name.' & '.$spouse->name;
+        if($cat == null) {
+            return redirect()->route('register');
         }
 
-        $malePersonList = User::where('gender_id', 1)->pluck('nickname', 'id');
-        $femalePersonList = User::where('gender_id', 2)->pluck('nickname', 'id');
+        $catsMariageList = [];
+        foreach ($cat->couples as $spouse) {
+            $catsMariageList[$spouse->pivot->id] = $cat->name.' & '.$spouse->name;
+        }
 
-        return view('users.show', [
-            'user'             => $user,
-            'usersMariageList' => $usersMariageList,
+        $malePersonList = Cat::where('gender_id', 1)->pluck('nickname', 'id');
+        $femalePersonList = Cat::where('gender_id', 2)->pluck('nickname', 'id');
+
+        return view('cats.show', [
+            'cat'             => $cat,
+            'catsMariageList' => $catsMariageList,
             'malePersonList'   => $malePersonList,
             'femalePersonList' => $femalePersonList,
         ]);

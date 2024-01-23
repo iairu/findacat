@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Helpers;
 
-use App\User;
+use App\Cat;
 use Tests\TestCase;
 
 class IsSystemAdminHelperTest extends TestCase

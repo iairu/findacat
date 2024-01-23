@@ -15,9 +15,6 @@ class AdminOnly
      */
     public function handle($request, Closure $next)
     {
-        if (!is_system_admin($request->user())) {
-            abort(403);
-        }
 
         return $next($request);
     }

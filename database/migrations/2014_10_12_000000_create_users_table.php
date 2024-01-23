@@ -13,7 +13,7 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('cats', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('nickname');
             $table->string('name')->nullable();
@@ -26,13 +26,13 @@ class CreateUsersTable extends Migration
             $table->unsignedTinyInteger('birth_order')->nullable();
             $table->date('dod')->nullable();
             $table->year('yod')->nullable();
-            $table->string('email')->unique()->nullable();
-            $table->string('password')->nullable();
+            // $table->string('email')->unique()->nullable();
+            // $table->string('password')->nullable();
             $table->string('address')->nullable();
-            $table->string('city')->nullable();
-            $table->string('phone')->nullable();
+            // $table->string('city')->nullable();
+            // $table->string('phone')->nullable();
             $table->string('photo_path')->nullable();
-            $table->uuid('manager_id')->nullable();
+            // $table->uuid('manager_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -45,6 +45,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('cats');
     }
 }

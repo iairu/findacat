@@ -1,15 +1,14 @@
 <?php
 
+use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Auth\ChangePasswordController;
 use App\Http\Controllers\BackupsController;
 use App\Http\Controllers\BirthdayController;
+use App\Http\Controllers\CatMarriagesController;
+use App\Http\Controllers\CatsController;
 use App\Http\Controllers\CouplesController;
 use App\Http\Controllers\FamilyActionsController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\UserMarriagesController;
-use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,37 +22,40 @@ use App\Http\Controllers\UsersController;
 */
 
 
-Route::get('/', [UsersController::class, 'search']);
-
-Auth::routes();
+Route::get('/', [CatsController::class, 'search']);
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('home', 'index')->name('home');
     Route::get('profile', 'index')->name('profile');
 });
 
+Route::controller(RegisterController::class)->group(function () {
+    Route::get('register', 'index')->name('register');
+    Route::post('register', 'create')->name('register');
+});
+
 Route::controller(FamilyActionsController::class)->group(function () {
-    Route::post('family-actions/{user}/set-father', 'setFather')->name('family-actions.set-father');
-    Route::post('family-actions/{user}/set-mother', 'setMother')->name('family-actions.set-mother');
-    Route::post('family-actions/{user}/add-child', 'addChild')->name('family-actions.add-child');
-    Route::post('family-actions/{user}/add-wife', 'addWife')->name('family-actions.add-wife');
-    Route::post('family-actions/{user}/add-husband', 'addHusband')->name('family-actions.add-husband');
-    Route::post('family-actions/{user}/set-parent', 'setParent')->name('family-actions.set-parent');
+    Route::post('family-actions/{cat}/set-father', 'setFather')->name('family-actions.set-father');
+    Route::post('family-actions/{cat}/set-mother', 'setMother')->name('family-actions.set-mother');
+    Route::post('family-actions/{cat}/add-child', 'addChild')->name('family-actions.add-child');
+    Route::post('family-actions/{cat}/add-wife', 'addWife')->name('family-actions.add-wife');
+    Route::post('family-actions/{cat}/add-husband', 'addHusband')->name('family-actions.add-husband');
+    Route::post('family-actions/{cat}/set-parent', 'setParent')->name('family-actions.set-parent');
 });
 
-Route::controller(UsersController::class)->group(function () {
-    Route::get('profile-search', 'search')->name('users.search');
-    Route::get('users/{user}', 'show')->name('users.show');
-    Route::get('users/{user}/edit', 'edit')->name('users.edit');
-    Route::patch('users/{user}', 'update')->name('users.update');
-    Route::get('users/{user}/chart', 'chart')->name('users.chart');
-    Route::get('users/{user}/tree', 'tree')->name('users.tree');
-    Route::get('users/{user}/death', 'death')->name('users.death');
-    Route::patch('users/{user}/photo-upload', 'photoUpload')->name('users.photo-upload');
-    Route::delete('users/{user}', 'destroy')->name('users.destroy');
+Route::controller(CatsController::class)->group(function () {
+    Route::get('profile-search', 'search')->name('cats.search');
+    Route::get('cats/{cat}', 'show')->name('cats.show');
+    Route::get('cats/{cat}/edit', 'edit')->name('cats.edit');
+    Route::patch('cats/{cat}', 'update')->name('cats.update');
+    Route::get('cats/{cat}/chart', 'chart')->name('cats.chart');
+    Route::get('cats/{cat}/tree', 'tree')->name('cats.tree');
+    Route::get('cats/{cat}/death', 'death')->name('cats.death');
+    Route::patch('cats/{cat}/photo-upload', 'photoUpload')->name('cats.photo-upload');
+    Route::delete('cats/{cat}', 'destroy')->name('cats.destroy');
 });
 
-Route::get('users/{user}/marriages', [UserMarriagesController::class, 'index'])->name('users.marriages');
+Route::get('cats/{cat}/marriages', [CatMarriagesController::class, 'index'])->name('cats.marriages');
 
 Route::get('birthdays', [BirthdayController::class, 'index'])->name('birthdays.index');
 
@@ -67,10 +69,6 @@ Route::controller(CouplesController::class)->group(function () {
 });
 
 
-Route::controller(ChangePasswordController::class)->middleware('auth')->group( function () {
-    Route::get('password/change', 'show')->name('password_change');
-    Route::post('password/change', 'update')->name('password_update');
-});
 /**
  * Admin only routes
  */

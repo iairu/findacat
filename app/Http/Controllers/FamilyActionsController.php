@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Cat;
 use App\Couple;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Http\Request;
@@ -10,13 +10,13 @@ use Illuminate\Http\Request;
 class FamilyActionsController extends Controller
 {
     /**
-     * Set father for a user.
+     * Set father for a cat.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $user
+     * @param  \App\Cat  $cat
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function setFather(Request $request, User $user)
+    public function setFather(Request $request, Cat $cat)
     {
         $request->validate([
             'set_father_id' => 'nullable',
@@ -24,30 +24,29 @@ class FamilyActionsController extends Controller
         ]);
 
         if ($request->get('set_father_id')) {
-            $user->father_id = $request->get('set_father_id');
-            $user->save();
+            $cat->father_id = $request->get('set_father_id');
+            $cat->save();
         } else {
-            $father = new User;
+            $father = new Cat;
             $father->id = Uuid::uuid4()->toString();
             $father->name = $request->get('set_father');
             $father->nickname = $request->get('set_father');
             $father->gender_id = 1;
-            $father->manager_id = auth()->id();
 
-            $user->setFather($father);
+            $cat->setFather($father);
         }
 
         return back();
     }
 
     /**
-     * Set mother for a user.
+     * Set mother for a cat.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $user
+     * @param  \App\Cat  $cat
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function setMother(Request $request, User $user)
+    public function setMother(Request $request, Cat $cat)
     {
         $request->validate([
             'set_mother_id' => 'nullable',
@@ -55,30 +54,29 @@ class FamilyActionsController extends Controller
         ]);
 
         if ($request->get('set_mother_id')) {
-            $user->mother_id = $request->get('set_mother_id');
-            $user->save();
+            $cat->mother_id = $request->get('set_mother_id');
+            $cat->save();
         } else {
-            $mother = new User;
+            $mother = new Cat;
             $mother->id = Uuid::uuid4()->toString();
             $mother->name = $request->get('set_mother');
             $mother->nickname = $request->get('set_mother');
             $mother->gender_id = 2;
-            $mother->manager_id = auth()->id();
 
-            $user->setMother($mother);
+            $cat->setMother($mother);
         }
 
         return back();
     }
 
     /**
-     * Add child for a user.
+     * Add child for a cat.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $user
+     * @param  \App\Cat  $cat
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function addChild(Request $request, User $user)
+    public function addChild(Request $request, Cat $cat)
     {
         $request->validate([
             'add_child_name'        => 'required|string|max:255',
@@ -87,14 +85,13 @@ class FamilyActionsController extends Controller
             'add_child_birth_order' => 'nullable|numeric',
         ]);
 
-        $child = new User;
+        $child = new Cat;
         $child->id = Uuid::uuid4()->toString();
         $child->name = $request->get('add_child_name');
         $child->nickname = $request->get('add_child_name');
         $child->gender_id = $request->get('add_child_gender_id');
         $child->parent_id = $request->get('add_child_parent_id');
         $child->birth_order = $request->get('add_child_birth_order');
-        $child->manager_id = auth()->id();
 
         \DB::beginTransaction();
         $child->save();
@@ -105,10 +102,10 @@ class FamilyActionsController extends Controller
             $child->mother_id = $couple->wife_id;
             $child->save();
         } else {
-            if ($user->gender_id == 1) {
-                $child->setFather($user);
+            if ($cat->gender_id == 1) {
+                $child->setFather($cat);
             } else {
-                $child->setMother($user);
+                $child->setMother($cat);
             }
 
         }
@@ -119,13 +116,13 @@ class FamilyActionsController extends Controller
     }
 
     /**
-     * Add wife for male user.
+     * Add wife for male cat.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $user
+     * @param  \App\Cat  $cat
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function addWife(Request $request, User $user)
+    public function addWife(Request $request, Cat $cat)
     {
         $request->validate([
             'set_wife_id'   => 'nullable',
@@ -134,29 +131,28 @@ class FamilyActionsController extends Controller
         ]);
 
         if ($request->get('set_wife_id')) {
-            $wife = User::findOrFail($request->get('set_wife_id'));
+            $wife = Cat::findOrFail($request->get('set_wife_id'));
         } else {
-            $wife = new User;
+            $wife = new Cat;
             $wife->id = Uuid::uuid4()->toString();
             $wife->name = $request->get('set_wife');
             $wife->nickname = $request->get('set_wife');
             $wife->gender_id = 2;
-            $wife->manager_id = auth()->id();
         }
 
-        $user->addWife($wife, $request->get('marriage_date'));
+        $cat->addWife($wife, $request->get('marriage_date'));
 
         return back();
     }
 
     /**
-     * Add husband for female user.
+     * Add husband for female cat.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $user
+     * @param  \App\Cat  $cat
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function addHusband(Request $request, User $user)
+    public function addHusband(Request $request, Cat $cat)
     {
         $this->validate($request, [
             'set_husband_id' => 'nullable',
@@ -165,33 +161,32 @@ class FamilyActionsController extends Controller
         ]);
 
         if ($request->get('set_husband_id')) {
-            $husband = User::findOrFail($request->get('set_husband_id'));
+            $husband = Cat::findOrFail($request->get('set_husband_id'));
         } else {
-            $husband = new User;
+            $husband = new Cat;
             $husband->id = Uuid::uuid4()->toString();
             $husband->name = $request->get('set_husband');
             $husband->nickname = $request->get('set_husband');
             $husband->gender_id = 1;
-            $husband->manager_id = auth()->id();
         }
 
-        $user->addHusband($husband, $request->get('marriage_date'));
+        $cat->addHusband($husband, $request->get('marriage_date'));
 
         return back();
     }
 
     /**
-     * Set parent for a user.
+     * Set parent for a cat.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $user
+     * @param  \App\Cat  $cat
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function setParent(Request $request, User $user)
+    public function setParent(Request $request, Cat $cat)
     {
-        $user->parent_id = $request->get('set_parent_id');
-        $user->save();
+        $cat->parent_id = $request->get('set_parent_id');
+        $cat->save();
 
-        return redirect()->route('users.show', $user);
+        return redirect()->route('cats.show', $cat);
     }
 }

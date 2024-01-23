@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use App\Couple;
-use App\User;
+use App\Cat;
 use App\UserMetadata;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;

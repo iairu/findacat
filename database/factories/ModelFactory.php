@@ -1,8 +1,8 @@
 <?php
 
 use App\Couple;
-use App\User;
-use App\UserMetadata;
+use App\Cat;
+use App\CatMetadata;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,22 +16,21 @@ use App\UserMetadata;
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(User::class, function (Faker\Generator $faker) {
+$factory->define(Cat::class, function (Faker\Generator $faker) {
     $name = $faker->name;
     return [
         'id'         => $faker->uuid,
         'name'       => $name,
         'nickname'   => $name,
         'gender_id'  => rand(1, 2),
-        'manager_id' => $faker->uuid,
     ];
 });
 
-$factory->state(User::class, 'male', function (Faker\Generator $faker) {
+$factory->state(Cat::class, 'male', function (Faker\Generator $faker) {
     return ['gender_id' => 1];
 });
 
-$factory->state(User::class, 'female', function (Faker\Generator $faker) {
+$factory->state(Cat::class, 'female', function (Faker\Generator $faker) {
     return ['gender_id' => 2];
 });
 
@@ -39,22 +38,22 @@ $factory->define(Couple::class, function (Faker\Generator $faker) {
     return [
         'id'         => $faker->uuid,
         'husband_id' => function () {
-            return factory(User::class)->states('male')->create()->id;
+            return factory(Cat::class)->states('male')->create()->id;
         },
         'wife_id'    => function () {
-            return factory(User::class)->states('female')->create()->id;
+            return factory(Cat::class)->states('female')->create()->id;
         },
         'manager_id' => function () {
-            return factory(User::class)->create()->id;
+            return factory(Cat::class)->create()->id;
         },
     ];
 });
 
-$factory->define(UserMetadata::class, function (Faker\Generator $faker) {
+$factory->define(CatMetadata::class, function (Faker\Generator $faker) {
     return [
         'id'      => $faker->uuid,
-        'user_id' => function () {
-            return factory(User::class)->create()->id;
+        'cat_id' => function () {
+            return factory(Cat::class)->create()->id;
         },
         'key'     => $faker->name,
         'value'   => $faker->sentence,

@@ -1,18 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-@can('edit', $couple)
     <div class="pull-right">
         {{ link_to_route('couples.edit', trans('couple.edit'), $couple, ['class' => 'btn btn-warning']) }}
     </div>
-@endcan
 <h2 class="page-header">
     {{ $couple->husband->name }} & {{ $couple->wife->name }} <small>{{ trans('couple.detail') }}</small>
 </h2>
 
 @include('couples.partials.stat')
 <br>
-<h4 class="page-header">{{ trans('user.childs') }} & {{ trans('user.grand_childs') }}</h4>
+<h4 class="page-header">{{ trans('cat.childs') }} & {{ trans('cat.grand_childs') }}</h4>
 @if ($couple->childs->isEmpty())
     <i>{{ trans('app.childs_were_not_recorded') }}</i>
 @else

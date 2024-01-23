@@ -23,30 +23,30 @@ class Couple extends Model
 
     public function husband()
     {
-        return $this->belongsTo(User::class)->withDefault(['name' => 'N/A']);
+        return $this->belongsTo(Cat::class)->withDefault(['name' => 'N/A']);
     }
 
     public function wife()
     {
-        return $this->belongsTo(User::class)->withDefault(['name' => 'N/A']);
+        return $this->belongsTo(Cat::class)->withDefault(['name' => 'N/A']);
     }
 
     public function childs()
     {
-        return $this->hasMany(User::class, 'parent_id')->orderBy('birth_order');
+        return $this->hasMany(Cat::class, 'parent_id')->orderBy('birth_order');
     }
 
-    public function addChild(User $user)
+    public function addChild(Cat $cat)
     {
-        $user->id = Uuid::uuid4()->toString();
-        $user->parent_id = $this->id;
-        $user->father_id = $this->husband_id;
-        $user->mother_id = $this->wife_id;
-        $user->save();
+        $cat->id = Uuid::uuid4()->toString();
+        $cat->parent_id = $this->id;
+        $cat->father_id = $this->husband_id;
+        $cat->mother_id = $this->wife_id;
+        $cat->save();
     }
 
     public function manager()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Cat::class);
     }
 }

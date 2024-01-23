@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use App\Couple;
-use App\User;
+use App\Cat;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

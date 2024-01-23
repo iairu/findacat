@@ -26,8 +26,6 @@ class CouplesController extends Controller
      */
     public function edit(Couple $couple)
     {
-        $this->authorize('edit', $couple);
-
         return view('couples.edit', compact('couple'));
     }
 
@@ -39,8 +37,6 @@ class CouplesController extends Controller
      */
     public function update(Couple $couple)
     {
-        $this->authorize('edit', $couple);
-
         $coupleData = request()->validate([
             'marriage_date' => 'nullable|date|date_format:Y-m-d',
             'divorce_date'  => 'nullable|date|date_format:Y-m-d',

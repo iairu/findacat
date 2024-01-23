@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('user.upcoming_birthday'))
+@section('title', __('cat.upcoming_birthday'))
 
 @section('content')
 
@@ -14,24 +14,24 @@
                 <thead>
                     <tr>
                         <td>#</td>
-                        <td class="text-left">{{ __('user.name') }}</td>
+                        <td class="text-left">{{ __('cat.name') }}</td>
                         <td>{{ __('birthday.birthday') }}</td>
-                        <td>{{ __('user.age') }}</td>
+                        <td>{{ __('cat.age') }}</td>
                     </tr>
                 </thead>
                 <tbody>
                     @php
                         $no = 1;
                     @endphp
-                    @forelse($users as $key => $user)
+                    @forelse($cats as $key => $cat)
                     <tr>
                         <td>{{ $no++ }}</td>
-                        <td class="text-left">{{ link_to_route('users.show', $user->name, $user->user_id) }}</td>
+                        <td class="text-left">{{ link_to_route('cats.show', $cat->name, $cat->cat_id) }}</td>
                         <td>
-                            {{ $user->birthday->format('j M') }}
-                            ({{ __('birthday.remaining', ['count' => $user->birthday_remaining]) }})
+                            {{ $cat->birthday->format('j M') }}
+                            ({{ __('birthday.remaining', ['count' => $cat->birthday_remaining]) }})
                         </td>
-                        <td>{{ __('birthday.age_years', ['age' => $user->age]) }}</td>
+                        <td>{{ __('birthday.age_years', ['age' => $cat->age]) }}</td>
                     </tr>
                     @empty
                     <tr>

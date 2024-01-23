@@ -13,14 +13,14 @@ class CreateUserMetadataTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_metadata', function (Blueprint $table) {
+        Schema::create('cat_metadata', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('user_id');
+            $table->uuid('cat_id');
             $table->string('key')->index();
             $table->text('value')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('cat_id')->references('id')->on('cats')->onDelete('cascade');
         });
     }
 
@@ -31,6 +31,6 @@ class CreateUserMetadataTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_metadata');
+        Schema::dropIfExists('cat_metadata');
     }
 }

@@ -3,7 +3,7 @@
 namespace Tests\Unit\Policies;
 
 use App\Couple;
-use App\User;
+use App\Cat;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
