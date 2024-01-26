@@ -71,6 +71,8 @@
         <hr>
         <form action="{{ route('backups.import') }}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
+            <p>Order and format of columns in CSV import has to be kept as in export.</p>
+            <p>Existing UUIDs won't be replaced.</p>
             <div class="form-group">
                 <label for="file" class="control-label">{{ trans('backup.import') }}</label>
                 <input type="file" name="file" class="form-control">

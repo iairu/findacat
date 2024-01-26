@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use League\Flysystem\FileExistsException;
 use App\Http\Requests\BackupUploadRequest;
 use BackupManager\Filesystems\Destination;
+use Exception;
 use Illuminate\Support\Facades\Response;
 use League\Flysystem\FileNotFoundException;
 
@@ -38,6 +39,18 @@ class BackupsController extends Controller
         }
 
         return view('backups.index', compact('backups'));
+    }
+
+
+    /**
+     * Display the specified Backup.
+     *
+     */
+    public function show(Request $request)
+    {
+
+        return view('backups.issue', [
+        ]);
     }
 
     /**
@@ -130,6 +143,8 @@ class BackupsController extends Controller
     {
         try {
             $file = $request->file('file');
+            if ($file == null) throw new Exception;
+            if ($file->getPathname() == "") throw new Exception;
             $fileContents = file($file->getPathname());
     
             foreach ($fileContents as $key=>$line) {
@@ -154,7 +169,8 @@ class BackupsController extends Controller
                     // Add more fields as needed
                 ]);
             }
-        } catch (FileNotFoundException $e) {
+        } catch (Exception $e) {
+            return redirect()->route('backups.issue');
         }
 
         return redirect()->route('backups.index');

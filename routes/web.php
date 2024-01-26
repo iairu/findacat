@@ -76,6 +76,7 @@ Route::group(['middleware' => 'admin'], function () {
      * Backup Restore Database Routes
      */
     Route::controller(BackupsController::class)->group(function () {
+        Route::post('backups/issue', 'issue')->name('backups.issue');
         Route::post('backups/export', 'export')->name('backups.export');
         Route::post('backups/import', 'import')->name('backups.import');
         Route::post('backups/upload', 'upload')->name('backups.upload');

@@ -13,7 +13,7 @@ return [
     'family_tree'       => 'Family Tree',
     'child_count'       => 'Child Count',
     'grand_child_count' => 'Grand Child Count',
-    'user_found'        => '<strong>:total</strong> found with keyword : <strong>:keyword</strong>',
+    'cat_found'        => '<strong>:total</strong> found with keyword : <strong>:keyword</strong>',
     'find_a_cat'        => 'Find A Cat',
     'find_a_cat_placeholder' => 'Enter name/nickname... click Search',
     'birthdays'         => 'Birthdays',

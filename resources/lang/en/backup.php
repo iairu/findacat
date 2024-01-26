@@ -3,12 +3,12 @@
 return [
     // Labels
     'index_title' => 'Database Backup Manager',
-    'list'        => 'Backup File List',
+    'list'        => 'GZ Backup File List',
     'actions'     => 'Actions',
     'empty'       => 'No backup file available.',
 
     // Actions
-    'create'              => 'Create Backup File',
+    'create'              => 'Create Backup GZ File',
     'delete'              => 'Delete this backup file',
     'sure_to_delete_file' => 'Are you sure to delete this file <strong>":filename"</strong>?',
     'confirm_delete'      => 'YES, please delete this file!',
@@ -18,7 +18,9 @@ return [
     'confirm_restore'     => 'YES, Restore Database!',
     'cancel_restore'      => 'Cancel Restore',
     'download'            => 'Download this file',
-    'upload'              => 'Upload Backup File',
+    'upload'              => 'Upload Backup GZ File',
+    'import'              => 'Import Backup CSV File',
+    'export'              => 'Export Backup CSV File',
 
     // Attributes
     'file_name'  => 'File Name',
