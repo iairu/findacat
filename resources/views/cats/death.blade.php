@@ -21,10 +21,6 @@
                         <td>{{ $cat->getMetadata('cemetery_location_address') }}</td>
                     </tr>
                     <tr>
-                        <th>{{ __('cat.dod') }}</th>
-                        <td>{{ $cat->dod ?: $cat->yod }}</td>
-                    </tr>
-                    <tr>
                         <th>{{ __('cat.age') }}</th>
                         <td>
                             @if ($cat->age)

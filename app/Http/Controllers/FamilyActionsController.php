@@ -29,8 +29,7 @@ class FamilyActionsController extends Controller
         } else {
             $father = new Cat;
             $father->id = Uuid::uuid4()->toString();
-            $father->name = $request->get('set_father');
-            $father->nickname = $request->get('set_father');
+            $father->full_name = $request->get('set_father');
             $father->gender_id = 1;
 
             $cat->setFather($father);
@@ -59,8 +58,7 @@ class FamilyActionsController extends Controller
         } else {
             $mother = new Cat;
             $mother->id = Uuid::uuid4()->toString();
-            $mother->name = $request->get('set_mother');
-            $mother->nickname = $request->get('set_mother');
+            $mother->full_name = $request->get('set_mother');
             $mother->gender_id = 2;
 
             $cat->setMother($mother);
@@ -82,16 +80,12 @@ class FamilyActionsController extends Controller
             'add_child_name'        => 'required|string|max:255',
             'add_child_gender_id'   => 'required|in:1,2',
             'add_child_parent_id'   => 'nullable|exists:couples,id',
-            'add_child_birth_order' => 'nullable|numeric',
         ]);
 
         $child = new Cat;
         $child->id = Uuid::uuid4()->toString();
-        $child->name = $request->get('add_child_name');
-        $child->nickname = $request->get('add_child_name');
+        $child->full_name = $request->get('add_child_name');
         $child->gender_id = $request->get('add_child_gender_id');
-        $child->parent_id = $request->get('add_child_parent_id');
-        $child->birth_order = $request->get('add_child_birth_order');
 
         \DB::beginTransaction();
         $child->save();
@@ -135,8 +129,7 @@ class FamilyActionsController extends Controller
         } else {
             $wife = new Cat;
             $wife->id = Uuid::uuid4()->toString();
-            $wife->name = $request->get('set_wife');
-            $wife->nickname = $request->get('set_wife');
+            $wife->full_name = $request->get('set_wife');
             $wife->gender_id = 2;
         }
 
@@ -165,8 +158,7 @@ class FamilyActionsController extends Controller
         } else {
             $husband = new Cat;
             $husband->id = Uuid::uuid4()->toString();
-            $husband->name = $request->get('set_husband');
-            $husband->nickname = $request->get('set_husband');
+            $husband->full_name = $request->get('set_husband');
             $husband->gender_id = 1;
         }
 
@@ -175,18 +167,18 @@ class FamilyActionsController extends Controller
         return back();
     }
 
-    /**
-     * Set parent for a cat.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Cat  $cat
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function setParent(Request $request, Cat $cat)
-    {
-        $cat->parent_id = $request->get('set_parent_id');
-        $cat->save();
+    // /**
+    //  * Set parent for a cat.
+    //  *
+    //  * @param  \Illuminate\Http\Request  $request
+    //  * @param  \App\Cat  $cat
+    //  * @return \Illuminate\Http\RedirectResponse
+    //  */
+    // public function setParent(Request $request, Cat $cat)
+    // {
+    //     $cat->parent_id = $request->get('set_parent_id');
+    //     $cat->save();
 
-        return redirect()->route('cats.show', $cat);
-    }
+    //     return redirect()->route('cats.show', $cat);
+    // }
 }

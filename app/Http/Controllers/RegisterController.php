@@ -55,8 +55,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'nickname' => 'required|string|max:255',
-            'name' => 'required|string|max:255',
+            'full_name' => 'required|string|max:255',
             'gender_id' => 'required|numeric|in:1,2',
         ]);
     }
@@ -71,8 +70,7 @@ class RegisterController extends Controller
     {
         $cat = Cat::create([
             'id' => Uuid::uuid4()->toString(),
-            'nickname' => $request->get('nickname'),
-            'name' => $request->get('name'),
+            'full_name' => $request->get('full_name'),
             'gender_id' => $request->get('gender_id'),
         ]);
         $cat->save();

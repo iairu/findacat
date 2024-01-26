@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Cat;
 use BackupManager\Manager;
 use Illuminate\Http\Request;
 use League\Flysystem\FileExistsException;
 use App\Http\Requests\BackupUploadRequest;
 use BackupManager\Filesystems\Destination;
+use Illuminate\Support\Facades\Response;
 use League\Flysystem\FileNotFoundException;
 
 /**
@@ -122,5 +124,60 @@ class BackupsController extends Controller
         }
 
         return redirect()->route('backups.index');
+    }
+
+    public function import(Request $request)
+    {
+        try {
+            $file = $request->file('file');
+            $fileContents = file($file->getPathname());
+    
+            foreach ($fileContents as $key=>$line) {
+                if ($key == 0) {
+                    continue;
+                }
+                $data = str_getcsv($line);
+    
+                Cat::create([
+                    'id' => $data[0],
+                    'full_name' => $data[1],
+                    'gender_id' => $data[2],
+                    'father_id' => $data[3],
+                    'mother_id' => $data[4],
+                    'dob' => $data[5],
+                    'titles_before_name' => $data[6],
+                    'titles_after_name' => $data[7],
+                    'registration_numbers' => $data[8],
+                    'ems_color' => $data[9],
+                    'chip_number' => $data[10],
+                    'genetic_tests' => $data[11],
+                    // Add more fields as needed
+                ]);
+            }
+        } catch (FileNotFoundException $e) {
+        }
+
+        return redirect()->route('backups.index');
+    }
+
+    public function export()
+    {
+        $cats = Cat::all();
+        $csvFileName = 'cats.csv';
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $csvFileName . '"',
+        ];
+
+        $handle = fopen('php://output', 'w');
+        fputcsv($handle, ['id', 'full_name', 'gender_id', 'father_id', 'mother_id', 'dob', 'titles_before_name', 'titles_after_name', 'registration_numbers', 'ems_color', 'chip_number', 'genetic_tests']); // Add more headers as needed
+
+        foreach ($cats as $cat) {
+            fputcsv($handle, [$cat->id, $cat->full_name, $cat->gender_id, $cat->father_id, $cat->mother_id, $cat->dob, $cat->titles_before_name, $cat->titles_after_name, $cat->registration_numbers, $cat->ems_color, $cat->chip_number, $cat->genetic_tests]); // Add more fields as needed
+        }
+
+        fclose($handle);
+
+        return Response::make('', 200, $headers);
     }
 }

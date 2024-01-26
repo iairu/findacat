@@ -16,10 +16,9 @@ abstract class TestCase extends BaseTestCase
         $userId = \Ramsey\Uuid\Uuid::uuid4()->toString();
         $overrides = array_merge([
             'id'         => $userId,
-            'manager_id' => $userId,
         ], $overrides);
 
-        $user = factory(User::class)->create($overrides);
+        $user = factory(Cat::class)->create($overrides);
         $this->actingAs($user);
 
         return $user;

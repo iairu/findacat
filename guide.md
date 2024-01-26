@@ -1,3 +1,4 @@
+# DB initialization
 config/app.php -> DEBUG true
 cp .env.example .env
 apt update
@@ -9,10 +10,12 @@ GRANT ALL ON *.* TO 'homestead'@'localhost' IDENTIFIED BY 'secret' WITH GRANT OP
 FLUSH PRIVILEGES;
 exit
 
-
+# Laravel setup procedure
 php artisan key:generate
 php artisan migrate
 php artisan serve
 
-todo:
-- remove @can
+# Laravel reset procedure
+php artisan migrate:reset
+php artisan migrate
+php artisan serve

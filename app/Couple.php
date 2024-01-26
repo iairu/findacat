@@ -23,23 +23,22 @@ class Couple extends Model
 
     public function husband()
     {
-        return $this->belongsTo(Cat::class)->withDefault(['name' => 'N/A']);
+        return $this->belongsTo(Cat::class)->withDefault(['full_name' => 'N/A']);
     }
 
     public function wife()
     {
-        return $this->belongsTo(Cat::class)->withDefault(['name' => 'N/A']);
+        return $this->belongsTo(Cat::class)->withDefault(['full_name' => 'N/A']);
     }
 
-    public function childs()
-    {
-        return $this->hasMany(Cat::class, 'parent_id')->orderBy('birth_order');
-    }
+    // public function childs()
+    // {
+    //     return $this->hasMany(Cat::class, 'parent_id');
+    // }
 
     public function addChild(Cat $cat)
     {
         $cat->id = Uuid::uuid4()->toString();
-        $cat->parent_id = $this->id;
         $cat->father_id = $this->husband_id;
         $cat->mother_id = $this->wife_id;
         $cat->save();

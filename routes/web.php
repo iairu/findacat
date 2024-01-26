@@ -51,7 +51,6 @@ Route::controller(CatsController::class)->group(function () {
     Route::get('cats/{cat}/chart', 'chart')->name('cats.chart');
     Route::get('cats/{cat}/tree', 'tree')->name('cats.tree');
     Route::get('cats/{cat}/death', 'death')->name('cats.death');
-    Route::patch('cats/{cat}/photo-upload', 'photoUpload')->name('cats.photo-upload');
     Route::delete('cats/{cat}', 'destroy')->name('cats.destroy');
 });
 
@@ -77,6 +76,8 @@ Route::group(['middleware' => 'admin'], function () {
      * Backup Restore Database Routes
      */
     Route::controller(BackupsController::class)->group(function () {
+        Route::post('backups/export', 'export')->name('backups.export');
+        Route::post('backups/import', 'import')->name('backups.import');
         Route::post('backups/upload', 'upload')->name('backups.upload');
         Route::post('backups/{fileName}/restore', 'restore')->name('backups.restore');
         Route::get('backups/{fileName}/dl', 'download')->name('backups.download');

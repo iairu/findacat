@@ -26,10 +26,9 @@ class CatsController extends Controller
 
         if ($q) {
             $cats = Cat::with('father', 'mother')->where(function ($query) use ($q) {
-                $query->where('name', 'like', '%'.$q.'%');
-                $query->orWhere('nickname', 'like', '%'.$q.'%');
+                $query->where('full_name', 'like', '%'.$q.'%');
             })
-                ->orderBy('name', 'asc')
+                ->orderBy('full_name', 'asc')
                 ->paginate(24);
         }
 
@@ -194,29 +193,6 @@ class CatsController extends Controller
     }
 
     /**
-     * Upload cats photo.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Cat  $cat
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function photoUpload(Request $request, Cat $cat)
-    {
-        $request->validate([
-            'photo' => 'required|image|max:200',
-        ]);
-
-        if (Storage::exists($cat->photo_path)) {
-            Storage::delete($cat->photo_path);
-        }
-
-        $cat->photo_path = $request->photo->store('images');
-        $cat->save();
-
-        return back();
-    }
-
-    /**
      * Get Cat list based on gender.
      *
      * @param int $genderId
@@ -225,7 +201,7 @@ class CatsController extends Controller
      */
     private function getPersonList(int $genderId)
     {
-        return Cat::where('gender_id', $genderId)->pluck('nickname', 'id');
+        return Cat::where('gender_id', $genderId)->pluck('full_name', 'id');
     }
 
     /**
@@ -240,7 +216,7 @@ class CatsController extends Controller
         $catsMariageList = [];
 
         foreach ($cat->couples as $spouse) {
-            $catsMariageList[$spouse->pivot->id] = $cat->name.' & '.$spouse->name;
+            $catsMariageList[$spouse->pivot->id] = $cat->full_name.' & '.$spouse->full_name;
         }
 
         return $catsMariageList;
@@ -256,7 +232,7 @@ class CatsController extends Controller
         $allMariageList = [];
 
         foreach (Couple::with('husband', 'wife')->get() as $couple) {
-            $allMariageList[$couple->id] = $couple->husband->name.' & '.$couple->wife->name;
+            $allMariageList[$couple->id] = $couple->husband->full_name.' & '.$couple->wife->full_name;
         }
 
         return $allMariageList;

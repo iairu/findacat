@@ -2,18 +2,18 @@
 
 return [
     // Labels
-    'show'               => 'Show Marriage Profile',
-    'detail'             => 'Marriage Profile',
+    'show'               => 'Show Couple Profile',
+    'detail'             => 'Couple Profile',
     'childs_count'       => 'Childs Count',
     'grand_childs_count' => 'Grand Childs Count',
 
     // Actions
-    'edit'               => 'Edit Marriage',
-    'update'             => 'Update Marriage',
+    'edit'               => 'Edit Couple',
+    'update'             => 'Update Couple',
 
     // Attributes
     'husband'            => 'Head of Family',
     'wife'               => 'Wife',
-    'marriage_date'      => 'Marriage Date',
+    'marriage_date'      => 'Mating Date',
     'divorce_date'       => 'Divorce Date',
 ];

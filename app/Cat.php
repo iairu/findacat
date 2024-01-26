@@ -38,11 +38,11 @@ class Cat extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'birth_order',
-        'nickname', 'gender_id', 'name',
-        'email', 'address', 'phone',
-        'dob', 'yob', 'dod', 'yod', 'city',
-        'father_id', 'mother_id', 'parent_id',
+        'id', 'full_name',
+        'gender_id', 
+        'titles_before_name', 'titles_after_name', 'registration_numbers',
+        'ems_color', 'chip_number', 'genetic_tests', 'dob',
+        'father_id', 'mother_id',
     ];
 
     /**
@@ -118,26 +118,26 @@ class Cat extends Model
     public function childs()
     {
         if ($this->gender_id == 2) {
-            return $this->hasMany(Cat::class, 'mother_id')->orderBy('birth_order');
+            return $this->hasMany(Cat::class, 'mother_id');
         }
 
-        return $this->hasMany(Cat::class, 'father_id')->orderBy('birth_order');
+        return $this->hasMany(Cat::class, 'father_id');
     }
 
     public function profileLink($type = 'profile')
     {
         $type = ($type == 'chart') ? 'chart' : 'show';
-        return link_to_route('cats.'.$type, $this->name, [$this->id]);
+        return link_to_route('cats.'.$type, $this->full_name, [$this->id]);
     }
 
     public function fatherLink()
     {
-        return $this->father_id ? link_to_route('cats.show', $this->father->name, [$this->father_id]) : null;
+        return $this->father_id ? link_to_route('cats.show', $this->father->full_name, [$this->father_id]) : null;
     }
 
     public function motherLink()
     {
-        return $this->mother_id ? link_to_route('cats.show', $this->mother->name, [$this->mother_id]) : null;
+        return $this->mother_id ? link_to_route('cats.show', $this->mother->full_name, [$this->mother_id]) : null;
     }
 
     public function wifes()
@@ -151,7 +151,6 @@ class Cat extends Model
             $this->wifes()->save($wife, [
                 'id'            => Uuid::uuid4()->toString(),
                 'marriage_date' => $marriageDate,
-                'manager_id'    => auth()->id(),
             ]);
             return $wife;
         }
@@ -170,7 +169,6 @@ class Cat extends Model
             $this->husbands()->save($husband, [
                 'id'            => Uuid::uuid4()->toString(),
                 'marriage_date' => $marriageDate,
-                'manager_id'    => auth()->id(),
             ]);
             return $husband;
         }
@@ -222,7 +220,7 @@ class Cat extends Model
                 }
 
             })
-            ->orderBy('birth_order')->get();
+            ->get();
     }
 
     public function parent()
@@ -235,35 +233,13 @@ class Cat extends Model
         return $this->belongsTo(Cat::class);
     }
 
-    public function managedCats()
-    {
-        return $this->hasMany(Cat::class, 'manager_id');
-    }
-
-    public function managedCouples()
-    {
-        return $this->hasMany(Couple::class, 'manager_id');
-    }
-
     public function getAgeAttribute()
     {
         $ageDetail = null;
         $yearOnlySuffix = Carbon::now()->format('-m-d');
 
-        if ($this->dob && !$this->dod) {
+        if ($this->dob) {
             $ageDetail = Carbon::parse($this->dob)->diffInYears();
-        }
-        if (!$this->dob && $this->yob) {
-            $ageDetail = Carbon::parse($this->yob.$yearOnlySuffix)->diffInYears();
-        }
-        if ($this->dob && $this->dod) {
-            $ageDetail = Carbon::parse($this->dob)->diffInYears($this->dod);
-        }
-        if (!$this->dob && $this->yob && !$this->dod && $this->yod) {
-            $ageDetail = Carbon::parse($this->yob.$yearOnlySuffix)->diffInYears($this->yod.$yearOnlySuffix);
-        }
-        if ($this->dob && $this->yob && $this->dod && $this->yod) {
-            $ageDetail = Carbon::parse($this->dob)->diffInYears($this->dod);
         }
 
         return $ageDetail;
@@ -274,20 +250,8 @@ class Cat extends Model
         $ageDetail = null;
         $yearOnlySuffix = Carbon::now()->format('-m-d');
 
-        if ($this->dob && !$this->dod) {
+        if ($this->dob) {
             $ageDetail = Carbon::parse($this->dob)->timespan();
-        }
-        if (!$this->dob && $this->yob) {
-            $ageDetail = Carbon::parse($this->yob.$yearOnlySuffix)->timespan();
-        }
-        if ($this->dob && $this->dod) {
-            $ageDetail = Carbon::parse($this->dob)->timespan($this->dod);
-        }
-        if (!$this->dob && $this->yob && !$this->dod && $this->yod) {
-            $ageDetail = Carbon::parse($this->yob.$yearOnlySuffix)->timespan($this->yod.$yearOnlySuffix);
-        }
-        if ($this->dob && $this->yob && $this->dod && $this->yod) {
-            $ageDetail = Carbon::parse($this->dob)->timespan($this->dod);
         }
 
         return $ageDetail;

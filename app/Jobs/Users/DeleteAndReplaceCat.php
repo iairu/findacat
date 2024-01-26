@@ -39,9 +39,6 @@ class DeleteAndReplaceCat
         DB::table('couples')->where('wife_id', $oldCatId)->update([
             'wife_id' => $replacementCatId,
         ]);
-        DB::table('couples')->where('manager_id', $oldCatId)->update([
-            'manager_id' => $replacementCatId,
-        ]);
     }
 
     private function removeDuplicatedCouples(string $oldCatId, string $replacementCatId)
@@ -86,7 +83,7 @@ class DeleteAndReplaceCat
 
     private function replaceCatonCatsTable(string $oldCatId, string $replacementCatId)
     {
-        foreach (['father_id', 'mother_id', 'manager_id'] as $field) {
+        foreach (['father_id', 'mother_id'] as $field) {
             DB::table('cats')->where($field, $oldCatId)->update([
                 $field => $replacementCatId,
             ]);

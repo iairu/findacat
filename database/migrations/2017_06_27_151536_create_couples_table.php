@@ -19,7 +19,6 @@ class CreateCouplesTable extends Migration
             $table->uuid('wife_id');
             $table->date('marriage_date')->nullable();
             $table->date('divorce_date')->nullable();
-            $table->uuid('manager_id')->nullable();
             $table->timestamps();
 
             $table->unique(['husband_id', 'wife_id']);

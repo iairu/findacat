@@ -20,8 +20,7 @@ $factory->define(Cat::class, function (Faker\Generator $faker) {
     $name = $faker->name;
     return [
         'id'         => $faker->uuid,
-        'name'       => $name,
-        'nickname'   => $name,
+        'full_name'   => $name,
         'gender_id'  => rand(1, 2),
     ];
 });
@@ -42,9 +41,6 @@ $factory->define(Couple::class, function (Faker\Generator $faker) {
         },
         'wife_id'    => function () {
             return factory(Cat::class)->states('female')->create()->id;
-        },
-        'manager_id' => function () {
-            return factory(Cat::class)->create()->id;
         },
     ];
 });

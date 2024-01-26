@@ -14,7 +14,7 @@
                 <thead>
                     <tr>
                         <td>#</td>
-                        <td class="text-left">{{ __('cat.name') }}</td>
+                        <td class="text-left">{{ __('cat.full_name') }}</td>
                         <td>{{ __('birthday.birthday') }}</td>
                         <td>{{ __('cat.age') }}</td>
                     </tr>
@@ -26,7 +26,7 @@
                     @forelse($cats as $key => $cat)
                     <tr>
                         <td>{{ $no++ }}</td>
-                        <td class="text-left">{{ link_to_route('cats.show', $cat->name, $cat->cat_id) }}</td>
+                        <td class="text-left">{{ link_to_route('cats.show', $cat->full_name, $cat->cat_id) }}</td>
                         <td>
                             {{ $cat->birthday->format('j M') }}
                             ({{ __('birthday.remaining', ['count' => $cat->birthday_remaining]) }})

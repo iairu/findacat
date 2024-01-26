@@ -1,0 +1,38 @@
+<?php
+
+return [
+    'edit' => 'Edit',
+    'titles_before_name' => 'Titles before Name',
+    'full_name' => 'Full Name',
+    'titles_after_name' => 'Titles after Name',
+    'ems_color' => 'EMS Color',
+    'ems_color_translated' => 'Translated EMS Color',
+    'gender' => 'Gender',
+    'dob' => 'Date of Birth',
+    'genetic_tests' => 'Genetic Tests',
+    'chip_number' => 'Chip Number',
+    'registration_numbers' => 'Registration Numbers',
+    'details' => 'Details',
+    'father' => 'Father',
+    'set_father' => 'Set Father',
+    'set_mother' => 'Set Mother',
+    'child_name' => 'Child Name',
+    'child_gender' => 'Child Gender',
+    'add_child_from_existing_couples' => 'Add Child from existing couples',
+    'add_wife' => 'Set Mating Partner',
+    'add_husband' => 'Set Mating Partner',
+    'mother' => 'Mother',
+    'parent' => 'Parent',
+    'wife' => 'Female Mating Partner',
+    'husband' => 'Male Mating Partner',
+    'grand_father' => 'Grand Father',
+    'grand_mother' => 'Grand Mother',
+    'childs' => 'Children',
+    'add_child' => 'Add Child',
+    'grand_childs' => 'Grand Children',
+    'marriages' => 'Mating',
+    'profile' => 'Profile',
+    'family' => 'Family',
+    'siblings' => 'Siblings'
+
+];

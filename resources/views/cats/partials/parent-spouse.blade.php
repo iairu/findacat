@@ -47,28 +47,6 @@
                         @endif
                 </td>
             </tr>
-            <tr>
-                <th class="col-sm-4">{{ __('cat.parent') }}</th>
-                <td class="col-sm-8">
-                    <div class="pull-right">
-                        @unless (request('action') == 'set_parent')
-                            {{ link_to_route('cats.show', __('cat.set_parent'), [$cat->id, 'action' => 'set_parent'], ['class' => 'btn btn-link btn-xs']) }}
-                        @endunless
-                    </div>
-
-                    @if ($cat->parent)
-                    {{ $cat->parent->husband->name }} & {{ $cat->parent->wife->name }}
-                    @endif
-
-                    @if (request('action') == 'set_parent')
-                        {{ Form::open(['route' => ['family-actions.set-parent', $cat->id]]) }}
-                        {!! FormField::select('set_parent_id', $allMariageList, ['label' => false, 'value' => $cat->parent_id, 'placeholder' => __('app.select_from_existing_couples')]) !!}
-                        {{ Form::submit(__('app.update'), ['class' => 'btn btn-info btn-sm', 'id' => 'set_parent_button']) }}
-                        {{ link_to_route('cats.show', __('app.cancel'), $cat, ['class' => 'btn btn-default btn-sm']) }}
-                        {{ Form::close() }}
-                    @endif
-                </td>
-            </tr>
             @if ($cat->gender_id == 1)
             <tr>
                 <th>{{ __('cat.wife') }}</th>

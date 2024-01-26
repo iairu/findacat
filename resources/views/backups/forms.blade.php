@@ -61,5 +61,24 @@
                 <input type="submit" value="{{ trans('backup.upload') }}" class="btn btn-primary">
             </div>
         </form>
+        <hr>
+        <form action="{{ route('backups.export') }}" method="post" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <div class="form-group">
+                <input type="submit" value="{{ trans('backup.export') }}" class="btn btn-primary">
+            </div>
+        </form>
+        <hr>
+        <form action="{{ route('backups.import') }}" method="post" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <div class="form-group">
+                <label for="file" class="control-label">{{ trans('backup.import') }}</label>
+                <input type="file" name="file" class="form-control">
+                {!! $errors->first('file', '<div class="text-danger text-right">:message</div>') !!}
+            </div>
+            <div class="form-group">
+                <input type="submit" value="{{ trans('backup.import') }}" class="btn btn-primary">
+            </div>
+        </form>
     </div>
 </div>

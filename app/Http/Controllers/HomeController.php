@@ -30,11 +30,11 @@ class HomeController extends Controller
 
         $catsMariageList = [];
         foreach ($cat->couples as $spouse) {
-            $catsMariageList[$spouse->pivot->id] = $cat->name.' & '.$spouse->name;
+            $catsMariageList[$spouse->pivot->id] = $cat->full_name.' & '.$spouse->full_name;
         }
 
-        $malePersonList = Cat::where('gender_id', 1)->pluck('nickname', 'id');
-        $femalePersonList = Cat::where('gender_id', 2)->pluck('nickname', 'id');
+        $malePersonList = Cat::where('gender_id', 1)->pluck('full_name', 'id');
+        $femalePersonList = Cat::where('gender_id', 2)->pluck('full_name', 'id');
 
         return view('cats.show', [
             'cat'             => $cat,

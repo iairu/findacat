@@ -19,7 +19,7 @@ class BirthdayController extends Controller
         $birthdayDateRaw = "concat(YEAR(CURDATE()), '-', RIGHT(dob, 5)) as birthday_date";
 
         $catBirthdayQuery = Cat::whereNotNull('dob')
-            ->select('cats.name', 'cats.dob', 'cats.id as cat_id', DB::raw($birthdayDateRaw))
+            ->select('cats.full_name', 'cats.dob', 'cats.id as cat_id', DB::raw($birthdayDateRaw))
             ->orderBy('birthday_date', 'asc')
             ->havingBetween('birthday_date', [today()->format('Y-m-d'), today()->addDays(60)->format('Y-m-d')]);
 

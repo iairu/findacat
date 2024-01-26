@@ -6,147 +6,117 @@ use App\Cat;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class ManageUserFamiliesTest extends TestCase
+class ManageCatFamiliesTest extends TestCase
 {
     use RefreshDatabase;
 
     /** @test */
-    public function user_can_update_their_father()
+    public function cat_can_update_their_father()
     {
-        $user = $this->loginAsUser();
+        $cat = factory(Cat::class);
         $this->visit(route('profile'));
         $this->seePageIs(route('profile'));
         $this->dontSeeElement('input', ['name' => 'set_father']);
-        $this->click(trans('user.set_father'));
-        $this->seePageIs(route('users.show', [$user->id, 'action' => 'set_father']));
+        $this->click(trans('cat.set_father'));
+        $this->seePageIs(route('cats.show', ['action' => 'set_father']));
         $this->seeElement('input', ['name' => 'set_father']);
 
         $this->submitForm('set_father_button', [
             'set_father' => 'Nama Ayah',
         ]);
 
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase('cats', [
             'nickname' => 'Nama Ayah',
         ]);
 
-        $this->assertEquals('Nama Ayah', $user->fresh()->father->nickname);
+        $this->assertEquals('Nama Ayah', $cat->fresh()->father->nickname);
     }
 
     /** @test */
-    public function user_can_update_their_mother()
+    public function cat_can_update_their_mother()
     {
-        $user = $this->loginAsUser();
+        $cat = factory(Cat::class);
         $this->visit(route('profile'));
         $this->seePageIs(route('profile'));
         $this->dontSeeElement('input', ['name' => 'set_mother']);
-        $this->click(trans('user.set_mother'));
-        $this->seePageIs(route('users.show', [$user->id, 'action' => 'set_mother']));
+        $this->click(trans('cat.set_mother'));
+        $this->seePageIs(route('cats.show', ['action' => 'set_mother']));
         $this->seeElement('input', ['name' => 'set_mother']);
 
         $this->submitForm('set_mother_button', [
             'set_mother' => 'Nama Ibu',
         ]);
 
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase('cats', [
             'nickname'   => 'Nama Ibu',
-            'manager_id' => $user->id,
         ]);
 
-        $this->assertEquals('Nama Ibu', $user->fresh()->mother->nickname);
+        $this->assertEquals('Nama Ibu', $cat->fresh()->mother->nickname);
     }
 
     /** @test */
-    public function user_can_add_childrens()
+    public function cat_can_add_childrens()
     {
-        $user = $this->loginAsUser(['gender_id' => 1]);
+        $cat = factory(Cat::class)->create(['gender_id' => 1]);
         $this->visit(route('profile'));
         $this->seePageIs(route('profile'));
-        $this->click(trans('user.add_child'));
+        $this->click(trans('cat.add_child'));
         $this->seeElement('input', ['name' => 'add_child_name']);
         $this->seeElement('input', ['name' => 'add_child_gender_id']);
         $this->seeElement('select', ['name' => 'add_child_parent_id']);
 
-        $this->submitForm(trans('user.add_child'), [
+        $this->submitForm(trans('cat.add_child'), [
             'add_child_name'      => 'Nama Anak 1',
             'add_child_gender_id' => 1,
             'add_child_parent_id' => '',
         ]);
 
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase('cats', [
             'nickname'   => 'Nama Anak 1',
             'gender_id'  => 1,
-            'father_id'  => $user->id,
+            'father_id'  => $cat->id,
             'mother_id'  => null,
             'parent_id'  => null,
-            'manager_id' => $user->id,
         ]);
     }
 
     /** @test */
-    public function user_can_add_childrens_with_parent_id_if_exist()
+    public function cat_can_add_childrens_with_parent_id_if_exist()
     {
-        $husband = $this->loginAsUser(['gender_id' => 1]);
-        $wife = factory(User::class)->states('female')->create(['manager_id' => $husband->id]);
+        $husband = factory(Cat::class)->create(['gender_id' => 1]);
+        $wife = factory(Cat::class)->states('female')->create([]);
         $husband->addWife($wife);
 
         $marriageId = $husband->fresh()->wifes->first()->pivot->id;
 
         $this->visit(route('profile'));
         $this->seePageIs(route('profile'));
-        $this->click(trans('user.add_child'));
+        $this->click(trans('cat.add_child'));
         $this->seeElement('input', ['name' => 'add_child_name']);
         $this->seeElement('input', ['name' => 'add_child_gender_id']);
         $this->seeElement('select', ['name' => 'add_child_parent_id']);
 
-        $this->submitForm(trans('user.add_child'), [
+        $this->submitForm(trans('cat.add_child'), [
             'add_child_name'      => 'Nama Anak 1',
             'add_child_gender_id' => 1,
             'add_child_parent_id' => $marriageId,
         ]);
 
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase('cats', [
             'nickname'   => 'Nama Anak 1',
             'gender_id'  => 1,
             'father_id'  => $husband->id,
             'mother_id'  => $wife->id,
-            'manager_id' => $husband->id,
         ]);
     }
 
     /** @test */
-    public function user_can_add_children_with_birth_order()
+    public function cat_can_set_wife()
     {
-        $user = $this->loginAsUser(['gender_id' => 1]);
+        $cat = factory(Cat::class)->create(['gender_id' => 1]);
         $this->visit(route('profile'));
         $this->seePageIs(route('profile'));
-        $this->click(trans('user.add_child'));
-        $this->seeElement('input', ['name' => 'add_child_birth_order']);
-
-        $this->submitForm(trans('user.add_child'), [
-            'add_child_name'        => 'Nama Anak 1',
-            'add_child_gender_id'   => 1,
-            'add_child_birth_order' => 2,
-            'add_child_parent_id'   => '',
-        ]);
-
-        $this->seeInDatabase('users', [
-            'nickname'    => 'Nama Anak 1',
-            'gender_id'   => 1,
-            'father_id'   => $user->id,
-            'mother_id'   => null,
-            'parent_id'   => null,
-            'manager_id'  => $user->id,
-            'birth_order' => 2,
-        ]);
-    }
-
-    /** @test */
-    public function user_can_set_wife()
-    {
-        $user = $this->loginAsUser(['gender_id' => 1]);
-        $this->visit(route('profile'));
-        $this->seePageIs(route('profile'));
-        $this->click(trans('user.add_wife'));
+        $this->click(trans('cat.add_wife'));
         $this->seeElement('input', ['name' => 'set_wife']);
 
         $this->submitForm('set_wife_button', [
@@ -154,31 +124,30 @@ class ManageUserFamiliesTest extends TestCase
             'marriage_date' => '2010-01-01',
         ]);
 
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase('cats', [
             'nickname'  => 'Nama Istri',
             'gender_id' => 2,
         ]);
 
-        $wife = User::where([
+        $wife = Cat::where([
             'nickname'  => 'Nama Istri',
             'gender_id' => 2,
         ])->first();
 
         $this->seeInDatabase('couples', [
-            'husband_id'    => $user->id,
+            'husband_id'    => $cat->id,
             'wife_id'       => $wife->id,
             'marriage_date' => '2010-01-01',
-            'manager_id'    => $user->id,
         ]);
     }
 
     /** @test */
-    public function user_can_set_husband()
+    public function cat_can_set_husband()
     {
-        $user = $this->loginAsUser(['gender_id' => 2]);
+        $cat = factory(Cat::class)->create(['gender_id' => 2]);
         $this->visit(route('profile'));
         $this->seePageIs(route('profile'));
-        $this->click(trans('user.add_husband'));
+        $this->click(trans('cat.add_husband'));
         $this->seeElement('input', ['name' => 'set_husband']);
 
         $this->submitForm('set_husband_button', [
@@ -186,36 +155,34 @@ class ManageUserFamiliesTest extends TestCase
             'marriage_date' => '2010-03-03',
         ]);
 
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase('cats', [
             'nickname'   => 'Nama Suami',
             'gender_id'  => 1,
-            'manager_id' => $user->id,
         ]);
 
-        $husband = User::where([
+        $husband = Cat::where([
             'nickname'  => 'Nama Suami',
             'gender_id' => 1,
         ])->first();
 
         $this->seeInDatabase('couples', [
             'husband_id'    => $husband->id,
-            'wife_id'       => $user->id,
+            'wife_id'       => $cat->id,
             'marriage_date' => '2010-03-03',
-            'manager_id'    => $user->id,
         ]);
     }
 
     /** @test */
-    public function user_can_pick_father_from_existing_user()
+    public function cat_can_pick_father_from_existing_cat()
     {
-        $user = $this->loginAsUser();
-        $father = factory(User::class)->states('male')->create();
+        $cat = factory(Cat::class);
+        $father = factory(Cat::class)->states('male')->create();
 
         $this->visit(route('profile'));
         $this->seePageIs(route('profile'));
         $this->dontSeeElement('input', ['name' => 'set_father']);
-        $this->click(trans('user.set_father'));
-        $this->seePageIs(route('users.show', [$user->id, 'action' => 'set_father']));
+        $this->click(trans('cat.set_father'));
+        $this->seePageIs(route('cats.show', ['action' => 'set_father']));
         $this->seeElement('input', ['name' => 'set_father']);
         $this->seeElement('select', ['name' => 'set_father_id']);
 
@@ -224,20 +191,20 @@ class ManageUserFamiliesTest extends TestCase
             'set_father_id' => $father->id,
         ]);
 
-        $this->assertEquals($father->nickname, $user->fresh()->father->nickname);
+        $this->assertEquals($father->nickname, $cat->fresh()->father->nickname);
     }
 
     /** @test */
-    public function user_can_pick_mother_from_existing_user()
+    public function cat_can_pick_mother_from_existing_cat()
     {
-        $user = $this->loginAsUser();
-        $mother = factory(User::class)->states('female')->create();
+        $cat = factory(Cat::class);
+        $mother = factory(Cat::class)->states('female')->create();
 
         $this->visit(route('profile'));
         $this->seePageIs(route('profile'));
         $this->dontSeeElement('input', ['name' => 'set_mother']);
-        $this->click(trans('user.set_mother'));
-        $this->seePageIs(route('users.show', [$user->id, 'action' => 'set_mother']));
+        $this->click(trans('cat.set_mother'));
+        $this->seePageIs(route('cats.show', ['action' => 'set_mother']));
         $this->seeElement('input', ['name' => 'set_mother']);
         $this->seeElement('select', ['name' => 'set_mother_id']);
 
@@ -246,18 +213,18 @@ class ManageUserFamiliesTest extends TestCase
             'set_mother_id' => $mother->id,
         ]);
 
-        $this->assertEquals($mother->nickname, $user->fresh()->mother->nickname);
+        $this->assertEquals($mother->nickname, $cat->fresh()->mother->nickname);
     }
 
     /** @test */
-    public function user_can_pick_wife_from_existing_user()
+    public function cat_can_pick_wife_from_existing_cat()
     {
-        $user = $this->loginAsUser(['gender_id' => 1]);
-        $wife = factory(User::class)->states('female')->create();
+        $cat = factory(Cat::class)->create(['gender_id' => 1]);
+        $wife = factory(Cat::class)->states('female')->create();
 
         $this->visit(route('profile'));
         $this->seePageIs(route('profile'));
-        $this->click(trans('user.add_wife'));
+        $this->click(trans('cat.add_wife'));
         $this->seeElement('input', ['name' => 'set_wife']);
         $this->seeElement('select', ['name' => 'set_wife_id']);
 
@@ -268,22 +235,21 @@ class ManageUserFamiliesTest extends TestCase
         ]);
 
         $this->seeInDatabase('couples', [
-            'husband_id'    => $user->id,
+            'husband_id'    => $cat->id,
             'wife_id'       => $wife->id,
             'marriage_date' => '2010-01-01',
-            'manager_id'    => $user->id,
         ]);
     }
 
     /** @test */
-    public function user_can_pick_husband_from_existing_user()
+    public function cat_can_pick_husband_from_existing_cat()
     {
-        $user = $this->loginAsUser(['gender_id' => 2]);
-        $husband = factory(User::class)->states('male')->create();
+        $cat = factory(Cat::class)->create(['gender_id' => 2]);
+        $husband = factory(Cat::class)->states('male')->create();
 
         $this->visit(route('profile'));
         $this->seePageIs(route('profile'));
-        $this->click(trans('user.add_husband'));
+        $this->click(trans('cat.add_husband'));
         $this->seeElement('input', ['name' => 'set_husband']);
         $this->seeElement('select', ['name' => 'set_husband_id']);
 
@@ -295,34 +261,9 @@ class ManageUserFamiliesTest extends TestCase
 
         $this->seeInDatabase('couples', [
             'husband_id'    => $husband->id,
-            'wife_id'       => $user->id,
+            'wife_id'       => $cat->id,
             'marriage_date' => '2010-03-03',
-            'manager_id'    => $user->id,
         ]);
     }
 
-    /** @test */
-    public function user_can_set_parent_from_existing_couple_id()
-    {
-        $user = $this->loginAsUser();
-        $husband = factory(User::class)->states('male')->create();
-        $wife = factory(User::class)->states('female')->create();
-        $husband->addWife($wife);
-
-        $marriageId = $husband->fresh()->wifes->first()->pivot->id;
-
-        $this->visit(route('profile'));
-        $this->click(__('user.set_parent'));
-        $this->seeElement('select', ['name' => 'set_parent_id']);
-
-        $this->submitForm('set_parent_button', [
-            'set_parent_id' => $marriageId,
-        ]);
-
-        $this->seeInDatabase('users', [
-            'id'         => $user->id,
-            'parent_id'  => $marriageId,
-            'manager_id' => $user->id,
-        ]);
-    }
 }

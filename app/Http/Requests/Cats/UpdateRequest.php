@@ -24,22 +24,15 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'nickname'    => 'sometimes|required|string|max:255',
-            'name'        => 'sometimes|required|string|max:255',
+            'full_name'    => 'sometimes|required|string|max:255',
             'gender_id'   => 'sometimes|required|numeric',
             'dob'         => 'nullable|date|date_format:Y-m-d',
-            'yob'         => 'nullable|date_format:Y',
-            'dod'         => 'nullable|date|date_format:Y-m-d',
-            'yod'         => 'nullable|date_format:Y',
-            'phone'       => 'nullable|string|max:255',
-            'address'     => 'nullable|string|max:255',
-            'city'        => 'nullable|string|max:255',
-            'birth_order' => 'nullable|numeric|min:1',
-
-            'cemetery_location_name'      => 'nullable|string|max:255',
-            'cemetery_location_address'   => 'nullable|string|max:255',
-            'cemetery_location_latitude'  => 'required_with:cemetery_location_longitude|nullable|string|max:255',
-            'cemetery_location_longitude' => 'required_with:cemetery_location_latitude|nullable|string|max:255',
+            'titles_before_name'     => 'nullable|string|max:255',
+            'titles_after_name'     => 'nullable|string|max:255',
+            'ems_color'     => 'nullable|string|max:255',
+            'genetic_tests'     => 'nullable|string|max:255',
+            'chip_number'     => 'nullable|string|max:255',
+            'registration_numbers'     => 'nullable|string|max:255',
         ];
     }
 
@@ -53,7 +46,6 @@ class UpdateRequest extends FormRequest
     {
         $formData = parent::validated();
 
-        $formData['yod'] = $this->getYod($formData);
         $formData['yob'] = $this->getYob($formData);
 
         return $formData;
@@ -67,19 +59,6 @@ class UpdateRequest extends FormRequest
 
         if (isset($formData['dob']) && $formData['dob']) {
             return substr($formData['dob'], 0, 4);
-        }
-
-        return;
-    }
-
-    private function getYod($formData)
-    {
-        if (isset($formData['yod'])) {
-            return $formData['yod'];
-        }
-
-        if (isset($formData['dod']) && $formData['dod']) {
-            return substr($formData['dod'], 0, 4);
         }
 
         return;

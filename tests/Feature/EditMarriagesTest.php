@@ -25,7 +25,7 @@ class EditMarriagesTest extends TestCase
     public function manager_can_edit_couple_data()
     {
         $user = $this->loginAsUser();
-        $couple = factory(Couple::class)->create(['manager_id' => $user->id]);
+        $couple = factory(Couple::class)->create([]);
 
         $this->visit(route('couples.show', $couple));
 

@@ -27,10 +27,7 @@
             </div>
             <div class="row">
                 <div class="col-md-8">
-                    {!! FormField::select('add_child_parent_id', $catsMariageList, ['label' => __('cat.add_child_from_existing_couples', ['name' => $cat->name]), 'placeholder' => __('app.unknown')]) !!}
-                </div>
-                <div class="col-md-4">
-                    {!! FormField::text('add_child_birth_order', ['label' => __('cat.birth_order'), 'type' => 'number', 'min' => 1]) !!}
+                    {!! FormField::select('add_child_parent_id', $catsMariageList, ['label' => __('cat.add_child_from_existing_couples', ['full_name' => $cat->full_name]), 'placeholder' => __('app.unknown')]) !!}
                 </div>
             </div>
 

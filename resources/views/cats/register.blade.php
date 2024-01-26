@@ -10,29 +10,15 @@
                     <form class="form-horizontal" role="form" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}
 
-                        <div class="form-group{{ $errors->has('nickname') ? ' has-error' : '' }}">
-                            <label for="nickname" class="col-md-4 control-label">{{ trans('cat.nickname') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="nickname" type="text" class="form-control" name="nickname" value="{{ old('nickname') }}" required autofocus>
-
-                                @if ($errors->has('nickname'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('nickname') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">{{ trans('cat.name') }}</label>
+                            <label for="full_name" class="col-md-4 control-label">{{ trans('cat.full_name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required>
+                                <input id="full_name" type="text" class="form-control" name="full_name" value="{{ old('full_name') }}" required>
 
-                                @if ($errors->has('name'))
+                                @if ($errors->has('full_name'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
+                                        <strong>{{ $errors->first('full_name') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -41,7 +27,7 @@
                         <div class="form-group{{ $errors->has('gender_id') ? ' has-error' : '' }}">
                             <label for="gender_id" class="col-md-4 control-label">{{ trans('cat.gender') }}</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-4" style="padding-left: 2em;">
                                 {!! FormField::radios('gender_id', [1 => trans('app.male'), 2 => trans('app.female')], ['label' => false]) !!}
                             </div>
                         </div>
