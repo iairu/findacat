@@ -130,6 +130,11 @@ class Cat extends Model
         return link_to_route('cats.'.$type, $this->full_name, [$this->id]);
     }
 
+    public function l()
+    {
+        return link_to_route('cats.tree', $this->full_name, [$this->id], ['title' => $this->full_name.' ('.$this->gender.')']);
+    }
+
     public function fatherLink()
     {
         return $this->father_id ? link_to_route('cats.show', $this->father->full_name, [$this->father_id]) : null;
@@ -138,6 +143,16 @@ class Cat extends Model
     public function motherLink()
     {
         return $this->mother_id ? link_to_route('cats.show', $this->mother->full_name, [$this->mother_id]) : null;
+    }
+
+    public function f()
+    {
+        return $this->father_id ? $this->father : null;
+    }
+
+    public function m()
+    {
+        return $this->mother_id ? $this->mother : null;
     }
 
     public function wifes()

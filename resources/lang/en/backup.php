@@ -19,7 +19,7 @@ return [
     'cancel_restore'      => 'Cancel Restore',
     'download'            => 'Download this file',
     'upload'              => 'Upload Backup GZ File',
-    'import'              => 'Import Backup CSV File',
+    'import'              => 'Import Backup CSV File (Unsafe)',
     'export'              => 'Export Backup CSV File',
 
     // Attributes

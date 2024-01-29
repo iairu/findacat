@@ -37,7 +37,7 @@
             </div>
             <div class="panel-footer">
                 {{ link_to_route('cats.show', trans('app.show_profile'), [$cat->id], ['class' => 'btn btn-default btn-xs']) }}
-                {{ link_to_route('cats.chart', trans('app.show_family_chart'), [$cat->id], ['class' => 'btn btn-default btn-xs']) }}
+                {{ link_to_route('cats.tree', trans('app.show_family_tree'), [$cat->id], ['class' => 'btn btn-default btn-xs']) }}
             </div>
         </div>
     </div>
