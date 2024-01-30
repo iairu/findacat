@@ -11,7 +11,23 @@
 
 {{ Form::open(['method' => 'get','class' => '']) }}
 <div class="input-group">
-    {{ Form::text('q', request('q'), ['class' => 'form-control', 'placeholder' => trans('app.find_a_cat_placeholder')]) }}
+    {{ Form::text('full_name', request('full_name'), ['class' => 'form-control', 'placeholder' => trans('app.full_name')]) }}
+    {{ Form::text('ems_color', request('ems_color'), ['class' => 'form-control', 'placeholder' => trans('app.ems_color')]) }}
+    {{ Form::text('dob', request('dob'), ['class' => 'form-control', 'placeholder' => trans('app.dob')]) }}
+    {{ Form::text('breed', request('breed'), ['class' => 'form-control', 'placeholder' => trans('app.breed')]) }}
+    {{ Form::text('registration_numbers', request('registration_numbers'), ['class' => 'form-control', 'placeholder' => trans('app.registration_numbers')]) }}
+    <select name="kind" id="kind" required>
+        <option value="substring">substring</option>
+        <option value="approximate">approximate</option>
+        <option value="exact">exact</option>
+    </select>
+    <select name="generations" id="generations" required>
+        <option value="5">5</option>
+        <option value="4">4</option>
+        <option value="3">3</option>
+        <option value="2">2</option>
+        <option value="1">1</option>
+    </select>
     <span class="input-group-btn">
         {{ Form::submit(trans('app.search'), ['class' => 'btn btn-default']) }}
         {{ link_to_route('cats.search', 'Reset', [], ['class' => 'btn btn-default']) }}
@@ -19,7 +35,7 @@
 </div>
 {{ Form::close() }}
 
-@if (request('q'))
+@if (request('full_name') || request('ems_color') || request('dob') || request('breed') || request('registration_numbers'))
 <br>
 {{ $cats->appends(Request::except('page'))->render() }}
 @foreach ($cats->chunk(4) as $chunkedUser)
@@ -37,7 +53,7 @@
             </div>
             <div class="panel-footer">
                 {{ link_to_route('cats.show', trans('app.show_profile'), [$cat->id], ['class' => 'btn btn-default btn-xs']) }}
-                {{ link_to_route('cats.tree', trans('app.show_family_tree'), [$cat->id], ['class' => 'btn btn-default btn-xs']) }}
+                {{ link_to_route('cats.tree', trans('app.show_family_tree'), [$cat->id, request('generations')], ['class' => 'btn btn-default btn-xs']) }}
             </div>
         </div>
     </div>

@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('titles_after_name')->nullable();
             $table->string('registration_numbers')->nullable();
             $table->string('ems_color')->nullable();
+            $table->string('breed')->nullable();
             $table->string('chip_number')->nullable();
             $table->string('genetic_tests')->nullable();
             $table->rememberToken();

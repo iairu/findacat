@@ -7,6 +7,7 @@ return [
     'titles_after_name' => 'Titles after Name',
     'ems_color' => 'EMS Color',
     'ems_color_translated' => 'Translated EMS Color',
+    'breed' => 'Breed',
     'gender' => 'Gender',
     'dob' => 'Date of Birth',
     'genetic_tests' => 'Genetic Tests',

@@ -40,7 +40,7 @@ class Cat extends Model
     protected $fillable = [
         'id', 'full_name',
         'gender_id', 
-        'titles_before_name', 'titles_after_name', 'registration_numbers',
+        'titles_before_name', 'titles_after_name', 'registration_numbers', 'breed',
         'ems_color', 'chip_number', 'genetic_tests', 'dob',
         'father_id', 'mother_id',
     ];
@@ -132,7 +132,7 @@ class Cat extends Model
 
     public function l()
     {
-        return link_to_route('cats.tree', $this->full_name, [$this->id], ['title' => $this->full_name.' ('.$this->gender.')']);
+        return link_to_route('cats.tree', $this->full_name, [$this->id, 5], ['title' => $this->full_name.' ('.$this->gender.')']);
     }
 
     public function fatherLink()

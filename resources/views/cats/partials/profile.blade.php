@@ -27,6 +27,10 @@
                 <td>{{ $cat->ems_color }} = </td>
             </tr>
             <tr>
+                <th>{{ trans('cat.breed') }}</th>
+                <td>{{ $cat->breed }} = </td>
+            </tr>
+            <tr>
                 <th>{{ trans('cat.genetic_tests') }}</th>
                 <td>{!! nl2br($cat->genetic_tests) !!}</td>
             </tr>

@@ -21,15 +21,29 @@ class CatsController extends Controller
      */
     public function search(Request $request)
     {
-        $q = $request->get('q');
+        $full_name = $request->get('full_name');
+        $ems_color = $request->get('ems_color');
+        $dob = $request->get('dob');
+        $breed = $request->get('breed');
+        $registration_numbers = $request->get('registration_numbers');
+        $kind = $request->get('kind');
         $cats = [];
 
-        if ($q) {
-            $cats = Cat::with('father', 'mother')->where(function ($query) use ($q) {
-                $query->where('full_name', 'like', '%'.$q.'%');
-            })
-                ->orderBy('full_name', 'asc')
-                ->paginate(24);
+        if ($kind) {
+            if ($full_name || $ems_color || $dob || $breed || $registration_numbers) {
+                $cats = Cat::with('father', 'mother')->where(function ($query) use ($kind, $full_name, $ems_color, $dob, $breed, $registration_numbers) {
+                    $query->where(array_filter([
+                        $full_name ? ['full_name', ($kind == "exact") ? '=' : (($kind == "substring") ? 'like' : 'like'), ($kind == "exact") ? $full_name : (($kind == "substring") ? '%'.$full_name.'%' : '%'.$full_name.'%')] : '',
+                        $ems_color ? ['ems_color', ($kind == "exact") ? '=' : (($kind == "substring") ? 'like' : 'like'), ($kind == "exact") ? $ems_color : (($kind == "substring") ? '%'.$ems_color.'%' : '%'.$ems_color.'%')] : '',
+                        $dob ? ['dob', ($kind == "exact") ? 'like' : (($kind == "substring") ? '=' : 'like'), ($kind == "exact") ? $dob : (($kind == "substring") ? '%'.$dob.'%' : '%'.$dob.'%')] : '',
+                        $breed ? ['breed', ($kind == "exact") ? 'like' : (($kind == "substring") ? '=' : 'like'), ($kind == "exact") ? $breed : (($kind == "substring") ? '%'.$breed.'%' : '%'.$breed.'%')] : '',
+                        $registration_numbers ? ['registration_numbers', ($kind == "exact") ? '=' : (($kind == "substring") ? 'like' : 'like'), ($kind == "exact") ? $registration_numbers : (($kind == "substring") ? '%'.$registration_numbers.'%' : '%'.$registration_numbers.'%')] : '',
+                    ]));
+                })
+                    ->orderBy('full_name', 'asc')
+                    ->paginate(24);
+                return view('cats.search', compact('cats'));
+            }
         }
 
         return view('cats.search', compact('cats'));
@@ -93,9 +107,9 @@ class CatsController extends Controller
      * @param  \App\Cat  $cat
      * @return \Illuminate\View\View
      */
-    public function tree(Cat $cat)
+    public function tree(Cat $cat, int $generations = 5)
     {
-        return view('cats.tree', compact('cat'));
+        return view('cats.tree', compact('cat', 'generations'));
     }
 
     /**

@@ -8,6 +8,7 @@
             <tr><td>{{ __('cat.titles_after_name') }}</td><td>{{ $cat->father_id ? $cat->father->full_name : '' }}</td></tr>
             <tr><td>{{ __('cat.registration_numbers') }}</td><td>{{ $cat->mother_id ? $cat->mother->full_name : '' }}</td></tr>
             <tr><td>{{ __('cat.ems_color') }}</td><td>{{ $childsCount = $cat->childs()->count() }}</td></tr>
+            <tr><td>{{ __('cat.breed') }}</td><td>{{ $childsCount = $cat->childs()->count() }}</td></tr>
             <tr><td>{{ __('cat.chip_number') }}</td><td>{{ $spousesCount = $cat->marriages()->count() }}</td></tr>
             <tr><td>{{ __('cat.genetic_tests') }}</td><td>{{ $managedUserCount = $cat->managedUsers()->count() }}</td></tr>
             <tr><td>{{ __('cat.dob') }}</td><td>{{ $managedCoupleCount = $cat->managedCouples()->count() }}</td></tr>

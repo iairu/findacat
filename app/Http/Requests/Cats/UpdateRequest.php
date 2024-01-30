@@ -30,6 +30,7 @@ class UpdateRequest extends FormRequest
             'titles_before_name'     => 'nullable|string|max:255',
             'titles_after_name'     => 'nullable|string|max:255',
             'ems_color'     => 'nullable|string|max:255',
+            'breed'     => 'nullable|string|max:255',
             'genetic_tests'     => 'nullable|string|max:255',
             'chip_number'     => 'nullable|string|max:255',
             'registration_numbers'     => 'nullable|string|max:255',

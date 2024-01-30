@@ -15,7 +15,7 @@ return [
     'grand_child_count' => 'Grand Child Count',
     'cat_found'        => '<strong>:total</strong> found with keyword : <strong>:keyword</strong>',
     'find_a_cat'        => 'Find A Cat',
-    'find_a_cat_placeholder' => 'Enter name/nickname... click Search',
+    'find_a_cat_placeholder' => 'Enter name/other details... click Search',
     'birthdays'         => 'Birthdays',
     'example'           => 'Eg.',
     'contact'           => 'Contact',
