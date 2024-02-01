@@ -5,261 +5,776 @@
 @section('cat-content')
 
 @section('ext_css')
-<style>
-.family-tree {
-    height: calc(25px*32);
-}
-.family-tree > div {
-  border: 1px solid;
-  width: calc(100%/5);
-  position: absolute;
-}
-/* @if ($generations == 4)
-.five {
-    display: none;
-}
-.four {
-    height: 25px !important;
-}
-.three {
-    height: 50px !important;
-}
-.two {
-    height: 100px !important;
-}
-.one {
-    height: 200px !important;
-}
-@endif
-
-@if ($generations == "3")
-.five, .four {
-    display: none;
-}
-.three {
-    height: 25px !important;
-}
-.two {
-    height: 50px !important;
-}
-.one {
-    height: 100px !important;
-}
-@endif
-
-@if ($generations == 2)
-.five, .four, .three {
-    display: none;
-}
-.two {
-    height: 25px !important;
-}
-.one {
-    height: 50px !important;
-}
-@endif
-
-@if ($generations == 1)
-.five, .four, .three, .two {
-    display: none;
-}
-.one {
-    height: 25px !important;
-}
-@endif */
+<script src="/js/jquery.min.js"></script>
+<script src="/js/inbreeding.js"></script>
 </style>
 @endsection
 
 
+<div id="generations">Generations: <span class="generations">{{$generations}}</span></div>
+<div id="controls">
+    <h3 class="result">Inbreeding:
+        <span id="result"><i>F</i> = 0.0%</span>
+    </h3>
+    <button id="calculate">Calculate</button>
+</div>
 <div id="wrapper" class="family-tree">
-    {{$generations}}
-    <!-- <div id="x" style="left: 0;margin-top: -25px;height: 25px;">{{ $cat->l() }}</div> -->
-        @if ($cat->f())
-        <div id="f" class="one" style="left: 0;height: 400px;">{{ $cat->f()->l() }}</div>
-            @if ($cat->f()->f())
-            <div id="ff" class="two" style="left: calc((100%/5)*1);height: 200px;">{{ $cat->f()->f()->l() }}</div>
-                @if ($cat->f()->f()->f())
-                <div id="fff" class="three" style="left: calc((100%/5)*2);height: 100px;">{{ $cat->f()->f()->f()->l() }}</div>
-                    @if ($cat->f()->f()->f()->f())
-                    <div id="ffff" class="four" style="left: calc((100%/5)*3);height: 50px;">{{ $cat->f()->f()->f()->f()->l() }}</div>
-                        @if ($cat->f()->f()->f()->f()->f())
-                        <div id="fffff" class="five" style="left: calc((100%/5)*4);height: 25px;">{{ $cat->f()->f()->f()->f()->f()->l() }}</div>
-                        @endif
-                        @if ($cat->f()->f()->f()->f()->m())
-                        <div id="ffffm" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*1);">{{ $cat->f()->f()->f()->f()->m()->l() }}</div>
-                        @endif
-                    @endif
-                    @if ($cat->f()->f()->f()->m())
-                    <div id="fffm" class="four" style="left: calc((100%/5)*3);height: 50px;margin-top: calc(50px*1);">{{ $cat->f()->f()->f()->m()->l() }}</div>
-                        @if ($cat->f()->f()->f()->m()->f())
-                        <div id="fffmf" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*2);">{{ $cat->f()->f()->f()->m()->f()->l() }}</div>
-                        @endif
-                        @if ($cat->f()->f()->f()->m()->m())
-                        <div id="fffmm" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*3);">{{ $cat->f()->f()->f()->m()->m()->l() }}</div>
-                        @endif
-                    @endif
-                @endif
-                @if ($cat->f()->f()->m())
-                <div id="ffm" class="three" style="left: calc((100%/5)*2);height: 100px;margin-top: calc(100px*1);">{{ $cat->f()->f()->m()->l() }}</div>
-                    @if ($cat->f()->f()->m()->f())
-                    <div id="ffmf" class="four" style="left: calc((100%/5)*3);height: 50px;margin-top: calc(50px*2);">{{ $cat->f()->f()->m()->f()->l() }}</div>
-                        @if ($cat->f()->f()->m()->f()->f())
-                        <div id="ffmff" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*4);">{{ $cat->f()->f()->m()->f()->f()->l() }}</div>
-                        @endif
-                        @if ($cat->f()->f()->m()->f()->m())
-                        <div id="ffmfm" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*5);">{{ $cat->f()->f()->m()->f()->m()->l() }}</div>
-                        @endif
-                    @endif
-                    @if ($cat->f()->f()->m()->m())
-                    <div id="ffmm" class="four" style="left: calc((100%/5)*3);height: 50px;margin-top: calc(50px*3);">{{ $cat->f()->f()->m()->m()->l() }}</div>
-                        @if ($cat->f()->f()->m()->m()->f())
-                        <div id="ffmmf" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*6);">{{ $cat->f()->f()->m()->m()->f()->l() }}</div>
-                        @endif
-                        @if ($cat->f()->f()->m()->m()->m())
-                        <div id="ffmmm" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*7);">{{ $cat->f()->f()->m()->m()->m()->l() }}</div>
-                        @endif
-                    @endif
-                @endif
-            @endif
-            @if ($cat->f()->m())
-            <div id="fm" class="two" style="left: calc((100%/5)*1);height: 200px;margin-top: calc(200px*1);">{{ $cat->f()->m()->l() }}</div>
-                @if ($cat->f()->m()->f())
-                <div id="fmf" class="three" style="left: calc((100%/5)*2);height: 100px;margin-top: calc(100px*2);">{{ $cat->f()->m()->f()->l() }}</div>
-                    @if ($cat->f()->m()->f()->f())
-                    <div id="fmff" class="four" style="left: calc((100%/5)*3);height: 50px;margin-top: calc(50px*4);">{{ $cat->f()->m()->f()->f()->l() }}</div>
-                        @if ($cat->f()->m()->f()->f()->f())
-                        <div id="fmfff" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*8);">{{ $cat->f()->m()->f()->f()->f()->l() }}</div>
-                        @endif
-                        @if ($cat->f()->m()->f()->f()->m())
-                        <div id="fmffm" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*9);">{{ $cat->f()->m()->f()->f()->m()->l() }}</div>
-                        @endif
-                    @endif
-                    @if ($cat->f()->m()->f()->m())
-                    <div id="fmfm" class="four" style="left: calc((100%/5)*3);height: 50px;margin-top: calc(50px*5);">{{ $cat->f()->m()->f()->m()->l() }}</div>
-                        @if ($cat->f()->m()->f()->m()->f())
-                        <div id="fmfmf" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*10);">{{ $cat->f()->m()->f()->m()->f()->l() }}</div>
-                        @endif
-                        @if ($cat->f()->m()->f()->m()->m())
-                        <div id="fmfmm" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*11);">{{ $cat->f()->m()->f()->m()->m()->l() }}</div>
-                        @endif
-                    @endif
-                @endif
-                @if ($cat->f()->m()->m())
-                <div id="fmm" class="three" style="left: calc((100%/5)*2);height: 100px;margin-top: calc(100px*3);">{{ $cat->f()->m()->m()->l() }}</div>
-                    @if ($cat->f()->m()->m()->f())
-                    <div id="fmmf" class="four" style="left: calc((100%/5)*3);height: 50px;margin-top: calc(50px*6);">{{ $cat->f()->m()->m()->f()->l() }}</div>
-                        @if ($cat->f()->m()->m()->f()->f())
-                        <div id="fmmff" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*12);">{{ $cat->f()->m()->m()->f()->f()->l() }}</div>
-                        @endif
-                        @if ($cat->f()->m()->m()->f()->m())
-                        <div id="fmmfm" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*13);">{{ $cat->f()->m()->m()->f()->m()->l() }}</div>
-                        @endif
-                    @endif
-                    @if ($cat->f()->m()->m()->m())
-                    <div id="fmmm" class="four" style="left: calc((100%/5)*3);height: 50px;margin-top: calc(50px*7);">{{ $cat->f()->m()->m()->m()->l() }}</div>
-                        @if ($cat->f()->m()->m()->m()->f())
-                        <div id="fmmmf" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*14);">{{ $cat->f()->m()->m()->m()->f()->l() }}</div>
-                        @endif
-                        @if ($cat->f()->m()->m()->m()->m())
-                        <div id="fmmmm" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*15);">{{ $cat->f()->m()->m()->m()->m()->l() }}</div>
-                        @endif
-                    @endif
-                @endif
-            @endif
-        @endif
-        @if ($cat->m())
-        <div id="m" class="one" style="left: 0;height: 400px;margin-top: calc(400px*1);">{{ $cat->m()->l() }}</div>
-            @if ($cat->m()->f())
-            <div id="mf" class="two" style="left: calc((100%/5)*1);height: 200px;margin-top: calc(200px*2);">{{ $cat->m()->f()->l() }}</div>
-                @if ($cat->m()->f()->f())
-                <div id="mff" class="three" style="left: calc((100%/5)*2);height: 100px;margin-top: calc(100px*4);">{{ $cat->m()->f()->f()->l() }}</div>
-                    @if ($cat->m()->f()->f()->f())
-                    <div id="mfff" class="four" style="left: calc((100%/5)*3);height: 50px;margin-top: calc(50px*8);">{{ $cat->m()->f()->f()->f()->l() }}</div>
-                        @if ($cat->m()->f()->f()->f()->f())
-                        <div id="mffff" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*16);">{{ $cat->m()->f()->f()->f()->f()->l() }}</div>
-                        @endif
-                        @if ($cat->m()->f()->f()->f()->m())
-                        <div id="mfffm" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*17);">{{ $cat->m()->f()->f()->f()->m()->l() }}</div>
-                        @endif
-                    @endif
-                    @if ($cat->m()->f()->f()->m())
-                    <div id="mffm" class="four" style="left: calc((100%/5)*3);height: 50px;margin-top: calc(50px*9);">{{ $cat->m()->f()->f()->m()->l() }}</div>
-                        @if ($cat->m()->f()->f()->m()->f())
-                        <div id="mffmf" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*18);">{{ $cat->m()->f()->f()->m()->f()->l() }}</div>
-                        @endif
-                        @if ($cat->m()->f()->f()->m()->m())
-                        <div id="mffmm" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*19);">{{ $cat->m()->f()->f()->m()->m()->l() }}</div>
-                        @endif
-                    @endif
-                @endif
-                @if ($cat->m()->f()->m())
-                <div id="mfm" class="three" style="left: calc((100%/5)*2);height: 100px;margin-top: calc(100px*5);">{{ $cat->m()->f()->m()->l() }}</div>
-                    @if ($cat->m()->f()->m()->f())
-                    <div id="mfmf" class="four" style="left: calc((100%/5)*3);height: 50px;margin-top: calc(50px*10);">{{ $cat->m()->f()->m()->f()->l() }}</div>
-                        @if ($cat->m()->f()->m()->f()->f())
-                        <div id="mfmff" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*20);">{{ $cat->m()->f()->m()->f()->f()->l() }}</div>
-                        @endif
-                        @if ($cat->m()->f()->m()->f()->m())
-                        <div id="mfmfm" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*21);">{{ $cat->m()->f()->m()->f()->m()->l() }}</div>
-                        @endif
-                    @endif
-                    @if ($cat->m()->f()->m()->m())
-                    <div id="mfmm" class="four" style="left: calc((100%/5)*3);height: 50px;margin-top: calc(50px*11);">{{ $cat->m()->f()->m()->m()->l() }}</div>
-                        @if ($cat->m()->f()->m()->m()->f())
-                        <div id="mfmmf" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*22);">{{ $cat->m()->f()->m()->m()->f()->l() }}</div>
-                        @endif
-                        @if ($cat->m()->f()->m()->m()->m())
-                        <div id="mfmmm" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*23);">{{ $cat->m()->f()->m()->m()->m()->l() }}</div>
-                        @endif
-                    @endif
-                @endif
-            @endif
-            @if ($cat->m()->m())
-            <div id="mm" class="two" style="left: calc((100%/5)*1);height: 200px;margin-top: calc(200px*3);">{{ $cat->m()->m()->l() }}</div>
-                @if ($cat->m()->m()->f())
-                <div id="mmf" class="three" style="left: calc((100%/5)*2);height: 100px;margin-top: calc(100px*6);">{{ $cat->m()->m()->f()->l() }}</div>
-                    @if ($cat->m()->m()->f()->f())
-                    <div id="mmff" class="four" style="left: calc((100%/5)*3);height: 50px;margin-top: calc(50px*12);">{{ $cat->m()->m()->f()->f()->l() }}</div>
-                        @if ($cat->m()->m()->f()->f()->f())
-                        <div id="mmfff" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*24);">{{ $cat->m()->m()->f()->f()->f()->l() }}</div>
-                        @endif
-                        @if ($cat->m()->m()->f()->f()->m())
-                        <div id="mmffm" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*25);">{{ $cat->m()->m()->f()->f()->m()->l() }}</div>
-                        @endif
-                    @endif
-                    @if ($cat->m()->m()->f()->m())
-                    <div id="mmfm" class="four" style="left: calc((100%/5)*3);height: 50px;margin-top: calc(50px*13);">{{ $cat->m()->m()->f()->m()->l() }}</div>
-                        @if ($cat->m()->m()->f()->m()->f())
-                        <div id="mmfmf" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*26);">{{ $cat->m()->m()->f()->m()->f()->l() }}</div>
-                        @endif
-                        @if ($cat->m()->m()->f()->m()->m())
-                        <div id="mmfmm" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*27);">{{ $cat->m()->m()->f()->m()->m()->l() }}</div>
-                        @endif
-                    @endif
-                @endif
-                @if ($cat->m()->m()->m())
-                <div id="mmm" class="three" style="left: calc((100%/5)*2);height: 100px;margin-top: calc(100px*7);">{{ $cat->m()->m()->m()->l() }}</div>
-                    @if ($cat->m()->m()->m()->f())
-                    <div id="mmmf" class="four" style="left: calc((100%/5)*3);height: 50px;margin-top: calc(50px*14);">{{ $cat->m()->m()->m()->f()->l() }}</div>
-                        @if ($cat->m()->m()->m()->f()->f())
-                        <div id="mmmff" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*28);">{{ $cat->m()->m()->m()->f()->f()->l() }}</div>
-                        @endif
-                        @if ($cat->m()->m()->m()->f()->m())
-                        <div id="mmmfm" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*29);">{{ $cat->m()->m()->m()->f()->m()->l() }}</div>
-                        @endif
-                    @endif
-                    @if ($cat->m()->m()->m()->m())
-                    <div id="mmmm" class="four" class="four" style="left: calc((100%/5)*3);height: 50px;margin-top: calc(50px*15);">{{ $cat->m()->m()->m()->m()->l() }}</div>
-                        @if ($cat->m()->m()->m()->m()->f())
-                        <div id="mmmmf" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*30);">{{ $cat->m()->m()->m()->m()->f()->l() }}</div>
-                        @endif
-                        @if ($cat->m()->m()->m()->m()->m())
-                        <div id="mmmmm" class="five" style="left: calc((100%/5)*4);height: 25px;margin-top: calc(25px*31);">{{ $cat->m()->m()->m()->m()->m()->l() }}</div>
-                        @endif
-                    @endif
-                @endif
-            @endif
-        @endif
+    <div id="pedigree">
+
+        <table data-level="0">
+
+            <tbody>
+
+                <tr class="offspring">
+
+                    <td> Offspring: <input class="ind" id="offspring" type="text">{{$cat->l()}}
+
+                        <br>
+
+                        &nbsp;
+                    </td>
+
+                    <td class="anc">
+
+                        <table data-level="1">
+
+                            <tbody>
+
+                                <tr class="s">
+
+                                    <td> Sire: <input class="ind" id="s" type="text">{{$cat->f()->l()}}<br>
+
+                                        &nbsp; </td>
+
+                                    <td class="anc">
+
+                                        <table data-level="2">
+
+                                            <tbody>
+
+                                                <tr class="s">
+
+                                                    <td> <input class="ind" id="ss" type="text"> </td>
+
+                                                    <td class="anc">
+
+                                                        <table data-level="3">
+
+                                                            <tbody>
+
+                                                                <tr class="s">
+
+                                                                    <td> <input class="ind" id="sss" type="text"> </td>
+
+                                                                    <td class="anc">
+
+                                                                        <table data-level="4">
+
+                                                                            <tbody>
+
+                                                                                <tr class="s">
+
+                                                                                    <td>
+
+                                                                                        <input class="ind" id="ssss" type="text">
+
+                                                                                    </td>
+
+                                                                                    <td class="anc">
+                                                                                        <table data-level="5">
+                                                                                            <tbody>
+                                                                                                <tr class="s">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="sssss">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                                <tr class="d">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="ssssd">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+
+                                                                                </tr>
+
+                                                                                <tr class="d">
+
+                                                                                    <td>
+
+                                                                                        <input class="ind" id="sssd" type="text">
+
+                                                                                    </td>
+
+                                                                                    <td class="anc">
+                                                                                        <table data-level="5">
+                                                                                            <tbody>
+                                                                                                <tr class="s">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="sssds">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                                <tr class="d">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="sssdd">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+
+                                                                                </tr>
+
+                                                                            </tbody>
+
+                                                                        </table>
+
+                                                                    </td>
+
+                                                                </tr>
+
+                                                                <tr class="d">
+
+                                                                    <td> <input class="ind" id="ssd" type="text"> </td>
+
+                                                                    <td class="anc">
+
+                                                                        <table data-level="4">
+
+                                                                            <tbody>
+
+                                                                                <tr class="s">
+
+                                                                                    <td>
+
+                                                                                        <input class="ind" id="ssds" type="text">
+
+                                                                                    </td>
+
+                                                                                    <td class="anc">
+                                                                                        <table data-level="5">
+                                                                                            <tbody>
+                                                                                                <tr class="s">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="ssdss">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                                <tr class="d">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="ssdsd">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+
+                                                                                </tr>
+
+                                                                                <tr class="d">
+
+                                                                                    <td>
+
+                                                                                        <input class="ind" id="ssdd" type="text">
+
+                                                                                    </td>
+
+                                                                                    <td class="anc">
+                                                                                        <table data-level="5">
+                                                                                            <tbody>
+                                                                                                <tr class="s">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="ssdds">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                                <tr class="d">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="ssddd">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+
+                                                                                </tr>
+
+                                                                            </tbody>
+
+                                                                        </table>
+
+                                                                    </td>
+
+                                                                </tr>
+
+                                                            </tbody>
+
+                                                        </table>
+
+                                                    </td>
+
+                                                </tr>
+
+                                                <tr class="d">
+
+                                                    <td> <input class="ind" id="sd" type="text"> </td>
+
+                                                    <td class="anc">
+
+                                                        <table data-level="3">
+
+                                                            <tbody>
+
+                                                                <tr class="s">
+
+                                                                    <td> <input class="ind" id="sds" type="text"> </td>
+
+                                                                    <td class="anc">
+
+                                                                        <table data-level="4">
+
+                                                                            <tbody>
+
+                                                                                <tr class="s">
+
+                                                                                    <td>
+
+                                                                                        <input class="ind" id="sdss" type="text">
+
+                                                                                    </td>
+
+                                                                                    <td class="anc">
+                                                                                        <table data-level="5">
+                                                                                            <tbody>
+                                                                                                <tr class="s">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="sdsss">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                                <tr class="d">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="sdssd">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+
+                                                                                </tr>
+
+                                                                                <tr class="d">
+
+                                                                                    <td>
+
+                                                                                        <input class="ind" id="sdsd" type="text">
+
+                                                                                    </td>
+
+                                                                                    <td class="anc">
+                                                                                        <table data-level="5">
+                                                                                            <tbody>
+                                                                                                <tr class="s">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="sdsds">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                                <tr class="d">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="sdsdd">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+
+                                                                                </tr>
+
+                                                                            </tbody>
+
+                                                                        </table>
+
+                                                                    </td>
+
+                                                                </tr>
+
+                                                                <tr class="d">
+
+                                                                    <td> <input class="ind" id="sdd" type="text"> </td>
+
+                                                                    <td class="anc">
+
+                                                                        <table data-level="4">
+
+                                                                            <tbody>
+
+                                                                                <tr class="s">
+
+                                                                                    <td>
+
+                                                                                        <input class="ind" id="sdds" type="text">
+
+                                                                                    </td>
+
+                                                                                    <td class="anc">
+                                                                                        <table data-level="5">
+                                                                                            <tbody>
+                                                                                                <tr class="s">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="sddss">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                                <tr class="d">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="sddsd">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+
+                                                                                </tr>
+
+                                                                                <tr class="d">
+
+                                                                                    <td>
+
+                                                                                        <input class="ind" id="sddd" type="text">
+
+                                                                                    </td>
+
+                                                                                    <td class="anc">
+                                                                                        <table data-level="5">
+                                                                                            <tbody>
+                                                                                                <tr class="s">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="sddds">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                                <tr class="d">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="sdddd">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+
+                                                                                </tr>
+
+                                                                            </tbody>
+
+                                                                        </table>
+
+                                                                    </td>
+
+                                                                </tr>
+
+                                                            </tbody>
+
+                                                        </table>
+
+                                                    </td>
+
+                                                </tr>
+
+                                            </tbody>
+
+                                        </table>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr class="d">
+
+                                    <td> Dam:<br>
+
+                                        <input class="ind" id="d" type="text"> <br>
+
+                                        &nbsp;
+                                    </td>
+
+                                    <td class="anc">
+
+                                        <table data-level="2">
+
+                                            <tbody>
+
+                                                <tr class="s">
+
+                                                    <td> <input class="ind" id="ds" type="text"> </td>
+
+                                                    <td class="anc">
+
+                                                        <table data-level="3">
+
+                                                            <tbody>
+
+                                                                <tr class="s">
+
+                                                                    <td> <input class="ind" id="dss" type="text"> </td>
+
+                                                                    <td class="anc">
+
+                                                                        <table data-level="4">
+
+                                                                            <tbody>
+
+                                                                                <tr class="s">
+
+                                                                                    <td>
+
+                                                                                        <input class="ind" id="dsss" type="text">
+
+                                                                                    </td>
+
+                                                                                    <td class="anc">
+                                                                                        <table data-level="5">
+                                                                                            <tbody>
+                                                                                                <tr class="s">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="dssss">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                                <tr class="d">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="dsssd">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+
+                                                                                </tr>
+
+                                                                                <tr class="d">
+
+                                                                                    <td>
+
+                                                                                        <input class="ind" id="dssd" type="text">
+
+                                                                                    </td>
+
+                                                                                    <td class="anc">
+                                                                                        <table data-level="5">
+                                                                                            <tbody>
+                                                                                                <tr class="s">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="dssds">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                                <tr class="d">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="dssdd">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+
+                                                                                </tr>
+
+                                                                            </tbody>
+
+                                                                        </table>
+
+                                                                    </td>
+
+                                                                </tr>
+
+                                                                <tr class="d">
+
+                                                                    <td> <input class="ind" id="dsd" type="text"> </td>
+
+                                                                    <td class="anc">
+
+                                                                        <table data-level="4">
+
+                                                                            <tbody>
+
+                                                                                <tr class="s">
+
+                                                                                    <td>
+
+                                                                                        <input class="ind" id="dsds" type="text">
+
+                                                                                    </td>
+
+                                                                                    <td class="anc">
+                                                                                        <table data-level="5">
+                                                                                            <tbody>
+                                                                                                <tr class="s">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="dsdss">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                                <tr class="d">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="dsdsd">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+
+                                                                                </tr>
+
+                                                                                <tr class="d">
+
+                                                                                    <td>
+
+                                                                                        <input class="ind" id="dsdd" type="text">
+
+                                                                                    </td>
+
+                                                                                    <td class="anc">
+                                                                                        <table data-level="5">
+                                                                                            <tbody>
+                                                                                                <tr class="s">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="dsdds">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                                <tr class="d">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="dsddd">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+
+                                                                                </tr>
+
+                                                                            </tbody>
+
+                                                                        </table>
+
+                                                                    </td>
+
+                                                                </tr>
+
+                                                            </tbody>
+
+                                                        </table>
+
+                                                    </td>
+
+                                                </tr>
+
+                                                <tr class="d">
+
+                                                    <td> <input class="ind" id="dd" type="text"> </td>
+
+                                                    <td class="anc">
+
+                                                        <table data-level="3">
+
+                                                            <tbody>
+
+                                                                <tr class="s">
+
+                                                                    <td> <input class="ind" id="dds" type="text"> </td>
+
+                                                                    <td class="anc">
+
+                                                                        <table data-level="4">
+
+                                                                            <tbody>
+
+                                                                                <tr class="s">
+
+                                                                                    <td>
+
+                                                                                        <input class="ind" id="ddss" type="text">
+
+                                                                                    </td>
+
+                                                                                    <td class="anc">
+                                                                                        <table data-level="5">
+                                                                                            <tbody>
+                                                                                                <tr class="s">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="ddsss">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                                <tr class="d">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="ddssd">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+
+                                                                                </tr>
+
+                                                                                <tr class="d">
+
+                                                                                    <td>
+
+                                                                                        <input class="ind" id="ddsd" type="text">
+
+                                                                                    </td>
+
+                                                                                    <td class="anc">
+                                                                                        <table data-level="5">
+                                                                                            <tbody>
+                                                                                                <tr class="s">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="ddsds">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                                <tr class="d">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="ddsdd">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+
+                                                                                </tr>
+
+                                                                            </tbody>
+
+                                                                        </table>
+
+                                                                    </td>
+
+                                                                </tr>
+
+                                                                <tr class="d">
+
+                                                                    <td> <input class="ind" id="ddd" type="text"> </td>
+
+                                                                    <td class="anc">
+
+                                                                        <table data-level="4">
+
+                                                                            <tbody>
+
+                                                                                <tr class="s">
+
+                                                                                    <td>
+
+                                                                                        <input class="ind" id="ddds" type="text">
+
+                                                                                    </td>
+
+                                                                                    <td class="anc">
+                                                                                        <table data-level="5">
+                                                                                            <tbody>
+                                                                                                <tr class="s">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="dddss">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                                <tr class="d">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="dddsd">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+
+                                                                                </tr>
+
+                                                                                <tr class="d">
+
+                                                                                    <td>
+
+                                                                                        <input class="ind" id="dddd" type="text">
+
+                                                                                    </td>
+
+                                                                                    <td class="anc">
+                                                                                        <table data-level="5">
+                                                                                            <tbody>
+                                                                                                <tr class="s">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="dddds">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                                <tr class="d">
+                                                                                                    <td>
+                                                                                                        <input type="text" class="ind" id="ddddd">
+                                                                                                    </td>
+                                                                                                    <td class="anc"></td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+
+                                                                                </tr>
+
+                                                                            </tbody>
+
+                                                                        </table>
+
+                                                                    </td>
+
+                                                                </tr>
+
+                                                            </tbody>
+
+                                                        </table>
+
+                                                    </td>
+
+                                                </tr>
+
+                                            </tbody>
+
+                                        </table>
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
     </div>
 </div>
 <hr>

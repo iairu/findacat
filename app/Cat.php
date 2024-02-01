@@ -145,12 +145,12 @@ class Cat extends Model
         return $this->mother_id ? link_to_route('cats.show', $this->mother->full_name, [$this->mother_id]) : null;
     }
 
-    public function f()
+    public function s()
     {
         return $this->father_id ? $this->father : null;
     }
 
-    public function m()
+    public function d()
     {
         return $this->mother_id ? $this->mother : null;
     }
