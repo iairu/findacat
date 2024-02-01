@@ -1055,4 +1055,6 @@ $(document).ready(function() {
         .on('blur', 'input.ind', hideNameChoices);
     
     clearCurrentField();
+    // Populate values
+    Array.prototype.slice.call(document.body.getElementsByTagName("input")).forEach(elm => { elm.value = elm.getAttribute("data")});
     });

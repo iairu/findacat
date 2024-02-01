@@ -155,6 +155,12 @@ class Cat extends Model
         return $this->dam_id ? $this->dam : null;
     }
 
+    public function id()
+    {
+        return $this->id != "1" ? $this->id : "";
+    }
+
+
     public function wifes()
     {
         return $this->belongsToMany(Cat::class, 'couples', 'husband_id', 'wife_id')->using('App\CouplePivot')->withPivot(['id'])->withTimestamps()->orderBy('marriage_date');
