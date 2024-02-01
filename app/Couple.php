@@ -39,8 +39,8 @@ class Couple extends Model
     public function addChild(Cat $cat)
     {
         $cat->id = Uuid::uuid4()->toString();
-        $cat->father_id = $this->husband_id;
-        $cat->mother_id = $this->wife_id;
+        $cat->sire_id = $this->husband_id;
+        $cat->dam_id = $this->wife_id;
         $cat->save();
     }
 

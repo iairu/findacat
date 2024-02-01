@@ -48,8 +48,8 @@
                 <h3 class="panel-title">{{ $cat->profileLink() }} ({{ $cat->gender }})</h3>
                 <div>{{ $cat->titles_after_name }}</div>
                 <hr style="margin: 5px 0;">
-                <div>{{ trans('cat.father') }} : {{ $cat->father_id ? $cat->father->full_name : '' }}</div>
-                <div>{{ trans('cat.mother') }} : {{ $cat->mother_id ? $cat->mother->full_name : '' }}</div>
+                <div>{{ trans('cat.sire') }} : {{ $cat->sire_id ? $cat->sire->full_name : '' }}</div>
+                <div>{{ trans('cat.dam') }} : {{ $cat->dam_id ? $cat->dam->full_name : '' }}</div>
             </div>
             <div class="panel-footer">
                 {{ link_to_route('cats.show', trans('app.show_profile'), [$cat->id], ['class' => 'btn btn-default btn-xs']) }}

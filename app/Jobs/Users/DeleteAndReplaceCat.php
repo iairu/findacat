@@ -83,7 +83,7 @@ class DeleteAndReplaceCat
 
     private function replaceCatonCatsTable(string $oldCatId, string $replacementCatId)
     {
-        foreach (['father_id', 'mother_id'] as $field) {
+        foreach (['sire_id', 'dam_id'] as $field) {
             DB::table('cats')->where($field, $oldCatId)->update([
                 $field => $replacementCatId,
             ]);

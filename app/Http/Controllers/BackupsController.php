@@ -156,8 +156,8 @@ class BackupsController extends Controller
                     'id' => $data[0],
                     'full_name' => $data[1],
                     'gender_id' => $data[2],
-                    'father_id' => $data[3],
-                    'mother_id' => $data[4],
+                    'sire_id' => $data[3],
+                    'dam_id' => $data[4],
                     'dob' => $data[5],
                     'titles_before_name' => $data[6],
                     'titles_after_name' => $data[7],
@@ -186,10 +186,10 @@ class BackupsController extends Controller
         ];
 
         $handle = fopen('php://output', 'w');
-        fputcsv($handle, ['id', 'full_name', 'gender_id', 'father_id', 'mother_id', 'dob', 'titles_before_name', 'titles_after_name', 'registration_numbers', 'ems_color', 'breed', 'chip_number', 'genetic_tests']); // Add more headers as needed
+        fputcsv($handle, ['id', 'full_name', 'gender_id', 'sire_id', 'dam_id', 'dob', 'titles_before_name', 'titles_after_name', 'registration_numbers', 'ems_color', 'breed', 'chip_number', 'genetic_tests']); // Add more headers as needed
 
         foreach ($cats as $cat) {
-            fputcsv($handle, [$cat->id, $cat->full_name, $cat->gender_id, $cat->father_id, $cat->mother_id, $cat->dob, $cat->titles_before_name, $cat->titles_after_name, $cat->registration_numbers, $cat->ems_color, $cat->breed, $cat->chip_number, $cat->genetic_tests]); // Add more fields as needed
+            fputcsv($handle, [$cat->id, $cat->full_name, $cat->gender_id, $cat->sire_id, $cat->dam_id, $cat->dob, $cat->titles_before_name, $cat->titles_after_name, $cat->registration_numbers, $cat->ems_color, $cat->breed, $cat->chip_number, $cat->genetic_tests]); // Add more fields as needed
         }
 
         fclose($handle);

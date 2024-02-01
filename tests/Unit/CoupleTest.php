@@ -41,8 +41,8 @@ class CoupleTest extends TestCase
         $child = $child->fresh();
         $this->assertCount(1, $couple->fresh()->childs);
         $this->assertEquals($child->parent_id, $couple->id);
-        $this->assertEquals($child->father_id, $couple->husband_id);
-        $this->assertEquals($child->mother_id, $couple->wife_id);
+        $this->assertEquals($child->sire_id, $couple->husband_id);
+        $this->assertEquals($child->dam_id, $couple->wife_id);
     }
 
     /** @test */

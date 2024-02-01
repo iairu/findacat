@@ -10,58 +10,58 @@ use Illuminate\Http\Request;
 class FamilyActionsController extends Controller
 {
     /**
-     * Set father for a cat.
+     * Set sire for a cat.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Cat  $cat
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function setFather(Request $request, Cat $cat)
+    public function setSire(Request $request, Cat $cat)
     {
         $request->validate([
-            'set_father_id' => 'nullable',
-            'set_father'    => 'required_without:set_father_id|max:255',
+            'set_sire_id' => 'nullable',
+            'set_sire'    => 'required_without:set_sire_id|max:255',
         ]);
 
-        if ($request->get('set_father_id')) {
-            $cat->father_id = $request->get('set_father_id');
+        if ($request->get('set_sire_id')) {
+            $cat->sire_id = $request->get('set_sire_id');
             $cat->save();
         } else {
-            $father = new Cat;
-            $father->id = Uuid::uuid4()->toString();
-            $father->full_name = $request->get('set_father');
-            $father->gender_id = 1;
+            $sire = new Cat;
+            $sire->id = Uuid::uuid4()->toString();
+            $sire->full_name = $request->get('set_sire');
+            $sire->gender_id = 1;
 
-            $cat->setFather($father);
+            $cat->setSire($sire);
         }
 
         return back();
     }
 
     /**
-     * Set mother for a cat.
+     * Set dam for a cat.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Cat  $cat
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function setMother(Request $request, Cat $cat)
+    public function setDam(Request $request, Cat $cat)
     {
         $request->validate([
-            'set_mother_id' => 'nullable',
-            'set_mother'    => 'required_without:set_mother_id|max:255',
+            'set_dam_id' => 'nullable',
+            'set_dam'    => 'required_without:set_dam_id|max:255',
         ]);
 
-        if ($request->get('set_mother_id')) {
-            $cat->mother_id = $request->get('set_mother_id');
+        if ($request->get('set_dam_id')) {
+            $cat->dam_id = $request->get('set_dam_id');
             $cat->save();
         } else {
-            $mother = new Cat;
-            $mother->id = Uuid::uuid4()->toString();
-            $mother->full_name = $request->get('set_mother');
-            $mother->gender_id = 2;
+            $dam = new Cat;
+            $dam->id = Uuid::uuid4()->toString();
+            $dam->full_name = $request->get('set_dam');
+            $dam->gender_id = 2;
 
-            $cat->setMother($mother);
+            $cat->setDam($dam);
         }
 
         return back();
@@ -92,14 +92,14 @@ class FamilyActionsController extends Controller
 
         if ($request->get('add_child_parent_id')) {
             $couple = Couple::find($request->get('add_child_parent_id'));
-            $child->father_id = $couple->husband_id;
-            $child->mother_id = $couple->wife_id;
+            $child->sire_id = $couple->husband_id;
+            $child->dam_id = $couple->wife_id;
             $child->save();
         } else {
             if ($cat->gender_id == 1) {
-                $child->setFather($cat);
+                $child->setSire($cat);
             } else {
-                $child->setMother($cat);
+                $child->setDam($cat);
             }
 
         }

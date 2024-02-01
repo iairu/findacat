@@ -7,27 +7,27 @@
     <table class="table table-bordered table-striped">
         <tbody>
             <tr>
-                <th style="width: 9%">{{ trans('cat.grand_father') }} & {{ trans('cat.grand_mother') }}</th>
+                <th style="width: 9%">{{ trans('cat.grand_sire') }} & {{ trans('cat.grand_dam') }}</th>
                 <td class="text-center">
-                    {{ $fatherGrandpa ? $fatherGrandpa->profileLink('chart') : '?' }}
+                    {{ $sireGrandpa ? $sireGrandpa->profileLink('chart') : '?' }}
                 </td>
                 <td class="text-center">
-                    {{ $fatherGrandma ? $fatherGrandma->profileLink('chart') : '?' }}
+                    {{ $sireGrandma ? $sireGrandma->profileLink('chart') : '?' }}
                 </td>
                 <td class="text-center">
-                    {{ $motherGrandpa ? $motherGrandpa->profileLink('chart') : '?' }}
+                    {{ $damGrandpa ? $damGrandpa->profileLink('chart') : '?' }}
                 </td>
                 <td class="text-center">
-                    {{ $motherGrandma ? $motherGrandma->profileLink('chart') : '?' }}
+                    {{ $damGrandma ? $damGrandma->profileLink('chart') : '?' }}
                 </td>
             </tr>
             <tr>
-                <th>{{ trans('cat.father') }} & {{ trans('cat.mother') }}</th>
+                <th>{{ trans('cat.sire') }} & {{ trans('cat.dam') }}</th>
                 <td class="text-center" colspan="2">
-                    {{ $father ? $father->profileLink('chart') : '?' }}
+                    {{ $sire ? $sire->profileLink('chart') : '?' }}
                 </td>
                 <td class="text-center" colspan="2">
-                    {{ $mother ? $mother->profileLink('chart') : '?' }}
+                    {{ $dam ? $dam->profileLink('chart') : '?' }}
                 </td>
             </tr>
             <tr>

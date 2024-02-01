@@ -17,8 +17,8 @@ class CreateUsersTable extends Migration
             $table->uuid('id')->primary();
             $table->string('full_name')->nullable();
             $table->boolean('gender_id')->unsigned();
-            $table->uuid('father_id')->nullable();
-            $table->uuid('mother_id')->nullable();
+            $table->uuid('sire_id')->nullable();
+            $table->uuid('dam_id')->nullable();
             // $table->uuid('parent_id')->nullable();
             $table->string('dob')->nullable(); //date
             $table->string('titles_before_name')->nullable();

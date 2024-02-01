@@ -104,12 +104,12 @@ class CatTest extends TestCase
     }
 
     /** @test */
-    public function cat_have_father_link_method()
+    public function cat_have_sire_link_method()
     {
-        $father = factory(Cat::class)->create();
-        $cat = factory(Cat::class)->create(['father_id' => $father->id]);
+        $sire = factory(Cat::class)->create();
+        $cat = factory(Cat::class)->create(['sire_id' => $sire->id]);
 
-        $this->assertEquals($father->profileLink(), $cat->fatherLink());
+        $this->assertEquals($sire->profileLink(), $cat->sireLink());
     }
 
     /** @test */
@@ -177,12 +177,12 @@ class CatTest extends TestCase
     }
 
     /** @test */
-    public function cat_have_mother_link_method()
+    public function cat_have_dam_link_method()
     {
-        $mother = factory(Cat::class)->create();
-        $cat = factory(Cat::class)->create(['mother_id' => $mother->id]);
+        $dam = factory(Cat::class)->create();
+        $cat = factory(Cat::class)->create(['dam_id' => $dam->id]);
 
-        $this->assertEquals($mother->profileLink(), $cat->motherLink());
+        $this->assertEquals($dam->profileLink(), $cat->damLink());
     }
 
     /** @test */

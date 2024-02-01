@@ -42,7 +42,7 @@ class Cat extends Model
         'gender_id', 
         'titles_before_name', 'titles_after_name', 'registration_numbers', 'breed',
         'ems_color', 'chip_number', 'genetic_tests', 'dob',
-        'father_id', 'mother_id',
+        'sire_id', 'dam_id',
     ];
 
     /**
@@ -71,46 +71,46 @@ class Cat extends Model
         return $this->gender_id == 1 ? trans('app.male_code') : trans('app.female_code');
     }
 
-    public function setFather(Cat $father)
+    public function setSire(Cat $sire)
     {
-        if ($father->gender_id == 1) {
+        if ($sire->gender_id == 1) {
 
-            if ($father->exists == false) {
-                $father->save();
+            if ($sire->exists == false) {
+                $sire->save();
             }
 
-            $this->father_id = $father->id;
+            $this->sire_id = $sire->id;
             $this->save();
 
-            return $father;
+            return $sire;
         }
 
         return false;
     }
 
-    public function setMother(Cat $mother)
+    public function setDam(Cat $dam)
     {
-        if ($mother->gender_id == 2) {
+        if ($dam->gender_id == 2) {
 
-            if ($mother->exists == false) {
-                $mother->save();
+            if ($dam->exists == false) {
+                $dam->save();
             }
 
-            $this->mother_id = $mother->id;
+            $this->dam_id = $dam->id;
             $this->save();
 
-            return $mother;
+            return $dam;
         }
 
         return false;
     }
 
-    public function father()
+    public function sire()
     {
         return $this->belongsTo(Cat::class);
     }
 
-    public function mother()
+    public function dam()
     {
         return $this->belongsTo(Cat::class);
     }
@@ -118,10 +118,10 @@ class Cat extends Model
     public function childs()
     {
         if ($this->gender_id == 2) {
-            return $this->hasMany(Cat::class, 'mother_id');
+            return $this->hasMany(Cat::class, 'dam_id');
         }
 
-        return $this->hasMany(Cat::class, 'father_id');
+        return $this->hasMany(Cat::class, 'sire_id');
     }
 
     public function profileLink($type = 'profile')
@@ -135,24 +135,24 @@ class Cat extends Model
         return link_to_route('cats.tree', $this->full_name, [$this->id, 5], ['title' => $this->full_name.' ('.$this->gender.')']);
     }
 
-    public function fatherLink()
+    public function sireLink()
     {
-        return $this->father_id ? link_to_route('cats.show', $this->father->full_name, [$this->father_id]) : null;
+        return $this->sire_id ? link_to_route('cats.show', $this->sire->full_name, [$this->sire_id]) : null;
     }
 
-    public function motherLink()
+    public function damLink()
     {
-        return $this->mother_id ? link_to_route('cats.show', $this->mother->full_name, [$this->mother_id]) : null;
+        return $this->dam_id ? link_to_route('cats.show', $this->dam->full_name, [$this->dam_id]) : null;
     }
 
     public function s()
     {
-        return $this->father_id ? $this->father : null;
+        return $this->sire_id ? $this->sire : null;
     }
 
     public function d()
     {
-        return $this->mother_id ? $this->mother : null;
+        return $this->dam_id ? $this->dam : null;
     }
 
     public function wifes()
@@ -216,18 +216,18 @@ class Cat extends Model
 
     public function siblings()
     {
-        if (is_null($this->father_id) && is_null($this->mother_id) && is_null($this->parent_id)) {
+        if (is_null($this->sire_id) && is_null($this->dam_id) && is_null($this->parent_id)) {
             return collect([]);
         }
 
         return Cat::where('id', '!=', $this->id)
             ->where(function ($query) {
-                if (!is_null($this->father_id)) {
-                    $query->where('father_id', $this->father_id);
+                if (!is_null($this->sire_id)) {
+                    $query->where('sire_id', $this->sire_id);
                 }
 
-                if (!is_null($this->mother_id)) {
-                    $query->orWhere('mother_id', $this->mother_id);
+                if (!is_null($this->dam_id)) {
+                    $query->orWhere('dam_id', $this->dam_id);
                 }
 
                 if (!is_null($this->parent_id)) {

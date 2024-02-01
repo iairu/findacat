@@ -22,44 +22,44 @@ class PersonRelationsTest extends TestCase
     }
 
     /** @test */
-    public function person_can_have_a_father()
+    public function person_can_have_a_sire()
     {
         $person = factory(User::class)->create();
-        $father = factory(User::class)->states('male')->create();
-        $person->setFather($father);
+        $sire = factory(User::class)->states('male')->create();
+        $person->setSire($sire);
 
         $this->seeInDatabase('users', [
             'id' => $person->id,
-            'father_id' => $father->id,
+            'sire_id' => $sire->id,
         ]);
 
-        $this->assertEquals($father->name, $person->father->name);
+        $this->assertEquals($sire->name, $person->sire->name);
     }
 
     /** @test */
-    public function person_can_have_a_mother()
+    public function person_can_have_a_dam()
     {
         $person = factory(User::class)->create();
-        $mother = factory(User::class)->states('female')->create();
-        $person->setMother($mother);
+        $dam = factory(User::class)->states('female')->create();
+        $person->setDam($dam);
 
         $this->seeInDatabase('users', [
             'id' => $person->id,
-            'mother_id' => $mother->id,
+            'dam_id' => $dam->id,
         ]);
 
-        $this->assertEquals($mother->name, $person->mother->name);
+        $this->assertEquals($dam->name, $person->dam->name);
     }
 
     /** @test */
     public function person_can_many_childs()
     {
-        $mother = factory(User::class)->states('female')->create();
+        $dam = factory(User::class)->states('female')->create();
         $person = factory(User::class)->create();
-        $person->setMother($mother);
+        $person->setDam($dam);
         $person = factory(User::class)->create();
-        $person->setMother($mother);
+        $person->setDam($dam);
 
-        $this->assertCount(2, $mother->childs);
+        $this->assertCount(2, $dam->childs);
     }
 }

@@ -4,45 +4,45 @@
     <table class="table">
         <tbody>
             <tr>
-                <th class="col-sm-4">{{ __('cat.father') }}</th>
+                <th class="col-sm-4">{{ __('cat.sire') }}</th>
                 <td class="col-sm-8">
-                        @if (request('action') == 'set_father')
-                        {{ Form::open(['route' => ['family-actions.set-father', $cat->id]]) }}
-                        {!! FormField::select('set_father_id', $malePersonList, ['label' => false, 'value' => $cat->father_id, 'placeholder' => __('app.select_from_existing_males')]) !!}
+                        @if (request('action') == 'set_sire')
+                        {{ Form::open(['route' => ['family-actions.set-sire', $cat->id]]) }}
+                        {!! FormField::select('set_sire_id', $malePersonList, ['label' => false, 'value' => $cat->sire_id, 'placeholder' => __('app.select_from_existing_males')]) !!}
                         <div class="input-group">
-                            {{ Form::text('set_father', null, ['class' => 'form-control input-sm', 'placeholder' => __('app.enter_new_name')]) }}
+                            {{ Form::text('set_sire', null, ['class' => 'form-control input-sm', 'placeholder' => __('app.enter_new_name')]) }}
                             <span class="input-group-btn">
-                                {{ Form::submit(__('app.update'), ['class' => 'btn btn-info btn-sm', 'id' => 'set_father_button']) }}
+                                {{ Form::submit(__('app.update'), ['class' => 'btn btn-info btn-sm', 'id' => 'set_sire_button']) }}
                                 {{ link_to_route('cats.show', __('app.cancel'), [$cat->id], ['class' => 'btn btn-default btn-sm']) }}
                             </span>
                         </div>
                         {{ Form::close() }}
                         @else
-                            {{ $cat->fatherLink() }}
+                            {{ $cat->sireLink() }}
                             <div class="pull-right">
-                                {{ link_to_route('cats.show', __('cat.set_father'), [$cat->id, 'action' => 'set_father'], ['class' => 'btn btn-link btn-xs']) }}
+                                {{ link_to_route('cats.show', __('cat.set_sire'), [$cat->id, 'action' => 'set_sire'], ['class' => 'btn btn-link btn-xs']) }}
                             </div>
                         @endif
                 </td>
             </tr>
             <tr>
-                <th>{{ __('cat.mother') }}</th>
+                <th>{{ __('cat.dam') }}</th>
                 <td>
-                        @if (request('action') == 'set_mother')
-                        {{ Form::open(['route' => ['family-actions.set-mother', $cat->id]]) }}
-                        {!! FormField::select('set_mother_id', $femalePersonList, ['label' => false, 'value' => $cat->mother_id, 'placeholder' => __('app.select_from_existing_females')]) !!}
+                        @if (request('action') == 'set_dam')
+                        {{ Form::open(['route' => ['family-actions.set-dam', $cat->id]]) }}
+                        {!! FormField::select('set_dam_id', $femalePersonList, ['label' => false, 'value' => $cat->dam_id, 'placeholder' => __('app.select_from_existing_females')]) !!}
                         <div class="input-group">
-                            {{ Form::text('set_mother', null, ['class' => 'form-control input-sm', 'placeholder' => __('app.enter_new_name')]) }}
+                            {{ Form::text('set_dam', null, ['class' => 'form-control input-sm', 'placeholder' => __('app.enter_new_name')]) }}
                             <span class="input-group-btn">
-                                {{ Form::submit(__('app.update'), ['class' => 'btn btn-info btn-sm', 'id' => 'set_mother_button']) }}
+                                {{ Form::submit(__('app.update'), ['class' => 'btn btn-info btn-sm', 'id' => 'set_dam_button']) }}
                                 {{ link_to_route('cats.show', __('app.cancel'), [$cat->id], ['class' => 'btn btn-default btn-sm']) }}
                             </span>
                         </div>
                         {{ Form::close() }}
                         @else
-                            {{ $cat->motherLink() }}
+                            {{ $cat->damLink() }}
                             <div class="pull-right">
-                                {{ link_to_route('cats.show', __('cat.set_mother'), [$cat->id, 'action' => 'set_mother'], ['class' => 'btn btn-link btn-xs']) }}
+                                {{ link_to_route('cats.show', __('cat.set_dam'), [$cat->id, 'action' => 'set_dam'], ['class' => 'btn btn-link btn-xs']) }}
                             </div>
                         @endif
                 </td>

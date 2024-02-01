@@ -31,11 +31,11 @@ class CatsDeletionTest extends TestCase
     }
 
     /** @test */
-    public function anyone_can_delete_a_cat_the_replace_childs_father_id()
+    public function anyone_can_delete_a_cat_the_replace_childs_sire_id()
     {
         $cat = factory(Cat::class)->create([]);
         $oldCat = factory(Cat::class)->states('male')->create([]);
-        $oldCatChild = factory(Cat::class)->create(['father_id' => $oldCat->id]);
+        $oldCatChild = factory(Cat::class)->create(['sire_id' => $oldCat->id]);
         $replacementCat = factory(Cat::class)->states('male')->create([]);
 
         $this->visit(route('cats.edit', [$oldCat, 'action' => 'delete']));
@@ -50,21 +50,21 @@ class CatsDeletionTest extends TestCase
         ]);
 
         $this->dontSeeInDatabase('cats', [
-            'father_id' => $oldCat->id,
+            'sire_id' => $oldCat->id,
         ]);
 
         $this->seeInDatabase('cats', [
             'id'        => $oldCatChild->id,
-            'father_id' => $replacementCat->id,
+            'sire_id' => $replacementCat->id,
         ]);
     }
 
     /** @test */
-    public function anyone_can_delete_a_cat_the_replace_childs_mother_id()
+    public function anyone_can_delete_a_cat_the_replace_childs_dam_id()
     {
         $cat = factory(Cat::class)->create([]);
         $oldCat = factory(Cat::class)->states('female')->create([]);
-        $oldCatChild = factory(Cat::class)->create(['mother_id' => $oldCat->id]);
+        $oldCatChild = factory(Cat::class)->create(['dam_id' => $oldCat->id]);
         $replacementCat = factory(Cat::class)->states('female')->create([]);
 
         $this->visit(route('cats.edit', [$oldCat, 'action' => 'delete']));
@@ -79,12 +79,12 @@ class CatsDeletionTest extends TestCase
         ]);
 
         $this->dontSeeInDatabase('cats', [
-            'mother_id' => $oldCat->id,
+            'dam_id' => $oldCat->id,
         ]);
 
         $this->seeInDatabase('cats', [
             'id'        => $oldCatChild->id,
-            'mother_id' => $replacementCat->id,
+            'dam_id' => $replacementCat->id,
         ]);
     }
 
@@ -215,7 +215,7 @@ class CatsDeletionTest extends TestCase
     {
         $cat = factory(Cat::class)->create([]);
         $maleCat = factory(Cat::class)->states('male')->create([]);
-        $maleCatChild = factory(Cat::class)->create(['father_id' => $maleCat->id]);
+        $maleCatChild = factory(Cat::class)->create(['sire_id' => $maleCat->id]);
 
         $replacementMaleCat = factory(Cat::class)->states('male')->create();
         $femaleCat = factory(Cat::class)->states('female')->create();

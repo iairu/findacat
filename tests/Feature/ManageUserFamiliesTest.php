@@ -11,47 +11,47 @@ class ManageCatFamiliesTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function cat_can_update_their_father()
+    public function cat_can_update_their_sire()
     {
         $cat = factory(Cat::class);
         $this->visit(route('profile'));
         $this->seePageIs(route('profile'));
-        $this->dontSeeElement('input', ['name' => 'set_father']);
-        $this->click(trans('cat.set_father'));
-        $this->seePageIs(route('cats.show', ['action' => 'set_father']));
-        $this->seeElement('input', ['name' => 'set_father']);
+        $this->dontSeeElement('input', ['name' => 'set_sire']);
+        $this->click(trans('cat.set_sire'));
+        $this->seePageIs(route('cats.show', ['action' => 'set_sire']));
+        $this->seeElement('input', ['name' => 'set_sire']);
 
-        $this->submitForm('set_father_button', [
-            'set_father' => 'Nama Ayah',
+        $this->submitForm('set_sire_button', [
+            'set_sire' => 'Nama Ayah',
         ]);
 
         $this->seeInDatabase('cats', [
             'nickname' => 'Nama Ayah',
         ]);
 
-        $this->assertEquals('Nama Ayah', $cat->fresh()->father->nickname);
+        $this->assertEquals('Nama Ayah', $cat->fresh()->sire->nickname);
     }
 
     /** @test */
-    public function cat_can_update_their_mother()
+    public function cat_can_update_their_dam()
     {
         $cat = factory(Cat::class);
         $this->visit(route('profile'));
         $this->seePageIs(route('profile'));
-        $this->dontSeeElement('input', ['name' => 'set_mother']);
-        $this->click(trans('cat.set_mother'));
-        $this->seePageIs(route('cats.show', ['action' => 'set_mother']));
-        $this->seeElement('input', ['name' => 'set_mother']);
+        $this->dontSeeElement('input', ['name' => 'set_dam']);
+        $this->click(trans('cat.set_dam'));
+        $this->seePageIs(route('cats.show', ['action' => 'set_dam']));
+        $this->seeElement('input', ['name' => 'set_dam']);
 
-        $this->submitForm('set_mother_button', [
-            'set_mother' => 'Nama Ibu',
+        $this->submitForm('set_dam_button', [
+            'set_dam' => 'Nama Ibu',
         ]);
 
         $this->seeInDatabase('cats', [
             'nickname'   => 'Nama Ibu',
         ]);
 
-        $this->assertEquals('Nama Ibu', $cat->fresh()->mother->nickname);
+        $this->assertEquals('Nama Ibu', $cat->fresh()->dam->nickname);
     }
 
     /** @test */
@@ -74,8 +74,8 @@ class ManageCatFamiliesTest extends TestCase
         $this->seeInDatabase('cats', [
             'nickname'   => 'Nama Anak 1',
             'gender_id'  => 1,
-            'father_id'  => $cat->id,
-            'mother_id'  => null,
+            'sire_id'  => $cat->id,
+            'dam_id'  => null,
             'parent_id'  => null,
         ]);
     }
@@ -105,8 +105,8 @@ class ManageCatFamiliesTest extends TestCase
         $this->seeInDatabase('cats', [
             'nickname'   => 'Nama Anak 1',
             'gender_id'  => 1,
-            'father_id'  => $husband->id,
-            'mother_id'  => $wife->id,
+            'sire_id'  => $husband->id,
+            'dam_id'  => $wife->id,
         ]);
     }
 
@@ -173,47 +173,47 @@ class ManageCatFamiliesTest extends TestCase
     }
 
     /** @test */
-    public function cat_can_pick_father_from_existing_cat()
+    public function cat_can_pick_sire_from_existing_cat()
     {
         $cat = factory(Cat::class);
-        $father = factory(Cat::class)->states('male')->create();
+        $sire = factory(Cat::class)->states('male')->create();
 
         $this->visit(route('profile'));
         $this->seePageIs(route('profile'));
-        $this->dontSeeElement('input', ['name' => 'set_father']);
-        $this->click(trans('cat.set_father'));
-        $this->seePageIs(route('cats.show', ['action' => 'set_father']));
-        $this->seeElement('input', ['name' => 'set_father']);
-        $this->seeElement('select', ['name' => 'set_father_id']);
+        $this->dontSeeElement('input', ['name' => 'set_sire']);
+        $this->click(trans('cat.set_sire'));
+        $this->seePageIs(route('cats.show', ['action' => 'set_sire']));
+        $this->seeElement('input', ['name' => 'set_sire']);
+        $this->seeElement('select', ['name' => 'set_sire_id']);
 
-        $this->submitForm('set_father_button', [
-            'set_father'    => '',
-            'set_father_id' => $father->id,
+        $this->submitForm('set_sire_button', [
+            'set_sire'    => '',
+            'set_sire_id' => $sire->id,
         ]);
 
-        $this->assertEquals($father->nickname, $cat->fresh()->father->nickname);
+        $this->assertEquals($sire->nickname, $cat->fresh()->sire->nickname);
     }
 
     /** @test */
-    public function cat_can_pick_mother_from_existing_cat()
+    public function cat_can_pick_dam_from_existing_cat()
     {
         $cat = factory(Cat::class);
-        $mother = factory(Cat::class)->states('female')->create();
+        $dam = factory(Cat::class)->states('female')->create();
 
         $this->visit(route('profile'));
         $this->seePageIs(route('profile'));
-        $this->dontSeeElement('input', ['name' => 'set_mother']);
-        $this->click(trans('cat.set_mother'));
-        $this->seePageIs(route('cats.show', ['action' => 'set_mother']));
-        $this->seeElement('input', ['name' => 'set_mother']);
-        $this->seeElement('select', ['name' => 'set_mother_id']);
+        $this->dontSeeElement('input', ['name' => 'set_dam']);
+        $this->click(trans('cat.set_dam'));
+        $this->seePageIs(route('cats.show', ['action' => 'set_dam']));
+        $this->seeElement('input', ['name' => 'set_dam']);
+        $this->seeElement('select', ['name' => 'set_dam_id']);
 
-        $this->submitForm('set_mother_button', [
-            'set_mother'    => '',
-            'set_mother_id' => $mother->id,
+        $this->submitForm('set_dam_button', [
+            'set_dam'    => '',
+            'set_dam_id' => $dam->id,
         ]);
 
-        $this->assertEquals($mother->nickname, $cat->fresh()->mother->nickname);
+        $this->assertEquals($dam->nickname, $cat->fresh()->dam->nickname);
     }
 
     /** @test */

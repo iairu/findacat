@@ -35,8 +35,8 @@ Route::controller(RegisterController::class)->group(function () {
 });
 
 Route::controller(FamilyActionsController::class)->group(function () {
-    Route::post('family-actions/{cat}/set-father', 'setFather')->name('family-actions.set-father');
-    Route::post('family-actions/{cat}/set-mother', 'setMother')->name('family-actions.set-mother');
+    Route::post('family-actions/{cat}/set-sire', 'setSire')->name('family-actions.set-sire');
+    Route::post('family-actions/{cat}/set-dam', 'setDam')->name('family-actions.set-dam');
     Route::post('family-actions/{cat}/add-child', 'addChild')->name('family-actions.add-child');
     Route::post('family-actions/{cat}/add-wife', 'addWife')->name('family-actions.add-wife');
     Route::post('family-actions/{cat}/add-husband', 'addHusband')->name('family-actions.add-husband');

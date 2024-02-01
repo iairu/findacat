@@ -31,7 +31,7 @@ class CatsController extends Controller
 
         if ($kind) {
             if ($full_name || $ems_color || $dob || $breed || $registration_numbers) {
-                $cats = Cat::with('father', 'mother')->where(function ($query) use ($kind, $full_name, $ems_color, $dob, $breed, $registration_numbers) {
+                $cats = Cat::with('sire', 'dam')->where(function ($query) use ($kind, $full_name, $ems_color, $dob, $breed, $registration_numbers) {
                     $query->where(array_filter([
                         $full_name ? ['full_name', ($kind == "exact") ? '=' : (($kind == "substring") ? 'like' : 'like'), ($kind == "exact") ? $full_name : (($kind == "substring") ? '%'.$full_name.'%' : '%'.$full_name.'%')] : '',
                         $ems_color ? ['ems_color', ($kind == "exact") ? '=' : (($kind == "substring") ? 'like' : 'like'), ($kind == "exact") ? $ems_color : (($kind == "substring") ? '%'.$ems_color.'%' : '%'.$ems_color.'%')] : '',
@@ -79,14 +79,14 @@ class CatsController extends Controller
      */
     public function chart(Cat $cat)
     {
-        $father = $cat->father_id ? $cat->father : null;
-        $mother = $cat->mother_id ? $cat->mother : null;
+        $sire = $cat->sire_id ? $cat->sire : null;
+        $dam = $cat->dam_id ? $cat->dam : null;
 
-        $fatherGrandpa = $father && $father->father_id ? $father->father : null;
-        $fatherGrandma = $father && $father->mother_id ? $father->mother : null;
+        $sireGrandpa = $sire && $sire->sire_id ? $sire->sire : null;
+        $sireGrandma = $sire && $sire->dam_id ? $sire->dam : null;
 
-        $motherGrandpa = $mother && $mother->father_id ? $mother->father : null;
-        $motherGrandma = $mother && $mother->mother_id ? $mother->mother : null;
+        $damGrandpa = $dam && $dam->sire_id ? $dam->sire : null;
+        $damGrandma = $dam && $dam->dam_id ? $dam->dam : null;
 
         $childs = $cat->childs;
         $colspan = $childs->count();
@@ -95,8 +95,8 @@ class CatsController extends Controller
         $siblings = $cat->siblings();
 
         return view('cats.chart', compact(
-            'cat', 'childs', 'father', 'mother', 'fatherGrandpa',
-            'fatherGrandma', 'motherGrandpa', 'motherGrandma',
+            'cat', 'childs', 'sire', 'dam', 'sireGrandpa',
+            'sireGrandma', 'damGrandpa', 'damGrandma',
             'siblings', 'colspan'
         ));
     }
