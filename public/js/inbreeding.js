@@ -1057,4 +1057,6 @@ $(document).ready(function() {
     clearCurrentField();
     // Populate values
     Array.prototype.slice.call(document.body.getElementsByTagName("input")).forEach(elm => { elm.value = elm.getAttribute("data")});
+    populateAll();
+    calculate();
     });
