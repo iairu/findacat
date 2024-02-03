@@ -2,10 +2,12 @@
     <div class="panel-heading"><h3 class="panel-title">{{ trans('cat.profile') }}</h3></div>
     <table class="table">
         <tbody>
+            @if ($cat->titles_before_name)
             <tr>
                 <th>{{ trans('cat.titles_before_name') }}</th>
                 <td>{{ $cat->titles_before_name }}</td>
             </tr>
+            @endif
             <tr>
                 <th class="col-sm-4">{{ trans('cat.full_name') }}</th>
                 <td class="col-sm-8">{{ $cat->profileLink() }}</td>

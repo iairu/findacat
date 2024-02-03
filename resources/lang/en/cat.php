@@ -34,6 +34,26 @@ return [
     'marriages' => 'Mating',
     'profile' => 'Profile',
     'family' => 'Family',
-    'siblings' => 'Siblings'
+    'siblings' => 'Siblings',
+    'breeding_station' => 'Breeding Station',
+    'country_code' => 'Country Code',
+    'alternative_name' => 'Alternative Name',
+    'print_name_r1' => 'Print Name R1',
+    'print_name_r2' => 'Print Name R2',
+    'dod' => 'Date of Death',
+    'original_reg_num' => 'Original Reg No',
+    'last_reg_num' => 'Last Reg No',
+    'reg_num_2' => 'Reg No 2',
+    'reg_num_3' => 'Reg No 3',
+    'notes' => 'Notes',
+    'breeder' => 'Breeder',
+    'current_owner' => 'Current Owner',
+    'country_of_origin' => 'Country of Origin',
+    'country' => 'Country',
+    'ownership_notes' => 'Ownership Notes',
+    'personal_info' => 'Personal Info',
+    'photo' => 'Photo',
+    'vet_confirmation' => 'Veterinary Confirmation',
+    'doo' => 'Date of Ownership'
 
 ];
