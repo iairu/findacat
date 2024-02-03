@@ -161,11 +161,29 @@ class BackupsController extends Controller
                     'dob' => $data[5],
                     'titles_before_name' => $data[6],
                     'titles_after_name' => $data[7],
-                    'registration_numbers' => $data[8],
-                    'ems_color' => $data[9],
-                    'breed' => $data[10],
-                    'chip_number' => $data[11],
-                    'genetic_tests' => $data[12],
+                    'ems_color' => $data[8],
+                    'breed' => $data[9],
+                    'chip_number' => $data[10],
+                    'genetic_tests' => $data[11],
+                    'breeding_station' => $data[12],
+                    'country_code' => $data[13],
+                    'alternative_name' => $data[14],
+                    'print_name_r1' => $data[15],
+                    'print_name_r2' => $data[16],
+                    'dod' => $data[17],
+                    'original_reg_num' => $data[18],
+                    'last_reg_num' => $data[19],
+                    'reg_num_2' => $data[20],
+                    'reg_num_3' => $data[21],
+                    'notes' => $data[22],
+                    'breeder' => $data[23],
+                    'current_owner' => $data[24],
+                    'country_of_origin' => $data[25],
+                    'country' => $data[26],
+                    'ownership_notes' => $data[27],
+                    'personal_info' => $data[28],
+                    'photo' => $data[29],
+                    'vet_confirmation' => $data[30]
                     // Add more fields as needed
                 ]);
             }
@@ -186,10 +204,10 @@ class BackupsController extends Controller
         ];
 
         $handle = fopen('php://output', 'w');
-        fputcsv($handle, ['id', 'full_name', 'gender_id', 'sire_id', 'dam_id', 'dob', 'titles_before_name', 'titles_after_name', 'registration_numbers', 'ems_color', 'breed', 'chip_number', 'genetic_tests']); // Add more headers as needed
+        fputcsv($handle, ['id', 'full_name', 'gender_id', 'sire_id', 'dam_id', 'dob', 'titles_before_name', 'titles_after_name', 'ems_color', 'breed', 'chip_number', 'genetic_tests', 'breeding_station', 'country_code', 'alternative_name', 'print_name_r1', 'print_name_r2', 'dod', 'original_reg_num', 'last_reg_num', 'reg_num_2', 'reg_num_3', 'notes', 'breeder', 'current_owner', 'country_of_origin', 'country', 'ownership_notes', 'personal_info', 'photo', 'vet_confirmation']); // Add more headers as needed
 
         foreach ($cats as $cat) {
-            fputcsv($handle, [$cat->id, $cat->full_name, $cat->gender_id, $cat->sire_id, $cat->dam_id, $cat->dob, $cat->titles_before_name, $cat->titles_after_name, $cat->registration_numbers, $cat->ems_color, $cat->breed, $cat->chip_number, $cat->genetic_tests]); // Add more fields as needed
+            fputcsv($handle, [$cat->id, $cat->full_name, $cat->gender_id, $cat->sire_id, $cat->dam_id, $cat->dob, $cat->titles_before_name, $cat->titles_after_name, $cat->ems_color, $cat->breed, $cat->chip_number, $cat->genetic_tests, $cat->breeding_station, $cat->country_code, $cat->alternative_name, $cat->print_name_r1, $cat->print_name_r2, $cat->dod, $cat->original_reg_num, $cat->last_reg_num, $cat->reg_num_2, $cat->reg_num_3, $cat->notes, $cat->breeder, $cat->current_owner, $cat->country_of_origin, $cat->country, $cat->ownership_notes, $cat->personal_info, $cat->photo, $cat->vet_confirmation]); // Add more fields as needed
         }
 
         fclose($handle);

@@ -12,7 +12,7 @@ return [
     'dob' => 'Date of Birth',
     'genetic_tests' => 'Genetic Tests',
     'chip_number' => 'Chip Number',
-    'registration_numbers' => 'Registration Numbers',
+    'reg_num' => 'Registration Numbers',
     'details' => 'Details',
     'sire' => 'Sire',
     'set_sire' => 'Set Sire',

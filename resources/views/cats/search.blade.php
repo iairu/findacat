@@ -11,11 +11,11 @@
 
 {{ Form::open(['method' => 'get','class' => '']) }}
 <div class="input-group">
-    {{ Form::text('full_name', request('full_name'), ['class' => 'form-control', 'placeholder' => trans('app.full_name')]) }}
-    {{ Form::text('ems_color', request('ems_color'), ['class' => 'form-control', 'placeholder' => trans('app.ems_color')]) }}
-    {{ Form::text('dob', request('dob'), ['class' => 'form-control', 'placeholder' => trans('app.dob')]) }}
-    {{ Form::text('breed', request('breed'), ['class' => 'form-control', 'placeholder' => trans('app.breed')]) }}
-    {{ Form::text('registration_numbers', request('registration_numbers'), ['class' => 'form-control', 'placeholder' => trans('app.registration_numbers')]) }}
+    {{ Form::text('full_name', request('full_name'), ['class' => 'form-control', 'placeholder' => trans('cat.full_name')]) }}
+    {{ Form::text('ems_color', request('ems_color'), ['class' => 'form-control', 'placeholder' => trans('cat.ems_color')]) }}
+    {{ Form::text('dob', request('dob'), ['class' => 'form-control', 'placeholder' => trans('cat.dob')]) }}
+    {{ Form::text('breed', request('breed'), ['class' => 'form-control', 'placeholder' => trans('cat.breed')]) }}
+    {{ Form::text('reg_num', request('reg_num'), ['class' => 'form-control', 'placeholder' => trans('cat.reg_num')]) }}
     <select name="kind" id="kind" required>
         <option value="substring">substring</option>
         <option value="approximate">approximate</option>
@@ -35,7 +35,7 @@
 </div>
 {{ Form::close() }}
 
-@if (request('full_name') || request('ems_color') || request('dob') || request('breed') || request('registration_numbers'))
+@if (request('full_name') || request('ems_color') || request('dob') || request('breed') || request('reg_num'))
 <br>
 {{ $cats->appends(Request::except('page'))->render() }}
 @foreach ($cats->chunk(4) as $chunkedUser)

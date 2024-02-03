@@ -1,20 +1,13 @@
 <div class="panel panel-default">
-    <div class="panel-heading"><h3 class="panel-title">{{ __('cat.delete') }} : {{ $cat->name }}</h3></div>
+    <div class="panel-heading"><h3 class="panel-title">{{ __('cat.delete') }} : {{ $cat->full_name }}</h3></div>
     <div class="panel-body">
         <table class="table table-condensed">
-            <tr><td>{{ __('cat.full_name') }}</td><td>{{ $cat->full_name }}</td></tr>
-            <tr><td>{{ __('cat.gender_id') }}</td><td>{{ $cat->gender_id }}</td></tr>
             <tr><td>{{ __('cat.titles_before_name') }}</td><td>{{ $cat->titles_before_name }}</td></tr>
-            <tr><td>{{ __('cat.titles_after_name') }}</td><td>{{ $cat->sire_id ? $cat->sire->full_name : '' }}</td></tr>
-            <tr><td>{{ __('cat.registration_numbers') }}</td><td>{{ $cat->dam_id ? $cat->dam->full_name : '' }}</td></tr>
-            <tr><td>{{ __('cat.ems_color') }}</td><td>{{ $childsCount = $cat->childs()->count() }}</td></tr>
-            <tr><td>{{ __('cat.breed') }}</td><td>{{ $childsCount = $cat->childs()->count() }}</td></tr>
-            <tr><td>{{ __('cat.chip_number') }}</td><td>{{ $spousesCount = $cat->marriages()->count() }}</td></tr>
-            <tr><td>{{ __('cat.genetic_tests') }}</td><td>{{ $managedUserCount = $cat->managedUsers()->count() }}</td></tr>
-            <tr><td>{{ __('cat.dob') }}</td><td>{{ $managedCoupleCount = $cat->managedCouples()->count() }}</td></tr>
-            <tr><td>{{ __('cat.sire_id') }}</td><td>{{ $managedCoupleCount = $cat->managedCouples()->count() }}</td></tr>
-            <tr><td>{{ __('cat.dam_id') }}</td><td>{{ $managedCoupleCount = $cat->managedCouples()->count() }}</td></tr>
-            <tr><td>{{ __('cat.parent_id') }}</td><td>{{ $managedCoupleCount = $cat->managedCouples()->count() }}</td></tr>
+            <tr><td>{{ __('cat.full_name') }}</td><td>{{ $cat->full_name }}</td></tr>
+            <tr><td>{{ __('cat.titles_after_name') }}</td><td>{{ $cat->titles_after_name }}</td></tr>
+            <tr><td>{{ __('cat.gender_id') }}</td><td>{{ $cat->gender_id }}</td></tr>
+            <tr><td>{{ __('cat.sire') }}</td><td>{{ $cat->sire_id ? $cat->sire->full_name : '' }}</td></tr>
+            <tr><td>{{ __('cat.dam') }}</td><td>{{ $cat->dam_id ? $cat->dam->full_name : '' }}</td></tr>
         </table>
         @if ($childsCount + $spousesCount + $managedUserCount + $managedCoupleCount)
             {{ __('cat.replace_delete_text') }}

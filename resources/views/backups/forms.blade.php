@@ -77,7 +77,7 @@
             <p>- Create a backup using GZ first guaranteeing valid integrity</p>
             <p>- Use CSV import feature below</p>
             <p>- If integrity breaks restore given GZ backup</p>
-            <p>- id 1 is reserved for no origin</p>
+            <p>- Use id 1 as no origin for correct family trees and inbreeding calculation</p>
             <div class="form-group">
                 <label for="file" class="control-label">{{ trans('backup.import') }}</label>
                 <input type="file" name="file" class="form-control">

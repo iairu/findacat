@@ -22,7 +22,7 @@
                 <div class="col-md-6">
                     @includeWhen(request('tab') == null || !in_array(request('tab'), $validTabs), 'cats.partials.edit_profile')
                     @includeWhen(request('tab') == 'death', 'cats.partials.edit_death')
-                    @includeWhen(request('tab') == 'contact_address', 'cats.partials.edit_contact_address')
+                    @includeWhen(request('tab') == 'details', 'cats.partials.edit_details')
                     <div class="text-right">
                         {{ Form::submit(__('app.update'), ['class' => 'btn btn-primary']) }}
                         {{ link_to_route('cats.show', __('app.cancel'), [$cat->id], ['class' => 'btn btn-default']) }}

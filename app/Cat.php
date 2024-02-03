@@ -40,9 +40,14 @@ class Cat extends Model
     protected $fillable = [
         'id', 'full_name',
         'gender_id', 
-        'titles_before_name', 'titles_after_name', 'registration_numbers', 'breed',
+        'titles_before_name', 'titles_after_name', 'breed',
         'ems_color', 'chip_number', 'genetic_tests', 'dob',
         'sire_id', 'dam_id',
+        'breeding_station', 'country_code', 'alternative_name', 
+        'print_name_r1', 'print_name_r2', 'dod', 'original_reg_num', 
+        'last_reg_num', 'reg_num_2', 'reg_num_3', 'notes', 'breeder', 
+        'current_owner', 'country_of_origin', 'country', 
+        'ownership_notes', 'personal_info', 'photo', 'vet_confirmation'
     ];
 
     /**
@@ -51,7 +56,6 @@ class Cat extends Model
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
     ];
 
     protected $appends = [

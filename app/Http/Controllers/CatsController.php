@@ -25,19 +25,24 @@ class CatsController extends Controller
         $ems_color = $request->get('ems_color');
         $dob = $request->get('dob');
         $breed = $request->get('breed');
-        $registration_numbers = $request->get('registration_numbers');
+        $reg_num = $request->get('reg_num');
         $kind = $request->get('kind');
         $cats = [];
 
         if ($kind) {
-            if ($full_name || $ems_color || $dob || $breed || $registration_numbers) {
-                $cats = Cat::with('sire', 'dam')->where(function ($query) use ($kind, $full_name, $ems_color, $dob, $breed, $registration_numbers) {
+            if ($full_name || $ems_color || $dob || $breed || $reg_num) {
+                $cats = Cat::with('sire', 'dam')->where(function ($query) use ($kind, $full_name, $ems_color, $dob, $breed, $reg_num) {
                     $query->where(array_filter([
                         $full_name ? ['full_name', ($kind == "exact") ? '=' : (($kind == "substring") ? 'like' : 'like'), ($kind == "exact") ? $full_name : (($kind == "substring") ? '%'.$full_name.'%' : '%'.$full_name.'%')] : '',
                         $ems_color ? ['ems_color', ($kind == "exact") ? '=' : (($kind == "substring") ? 'like' : 'like'), ($kind == "exact") ? $ems_color : (($kind == "substring") ? '%'.$ems_color.'%' : '%'.$ems_color.'%')] : '',
                         $dob ? ['dob', ($kind == "exact") ? 'like' : (($kind == "substring") ? '=' : 'like'), ($kind == "exact") ? $dob : (($kind == "substring") ? '%'.$dob.'%' : '%'.$dob.'%')] : '',
                         $breed ? ['breed', ($kind == "exact") ? 'like' : (($kind == "substring") ? '=' : 'like'), ($kind == "exact") ? $breed : (($kind == "substring") ? '%'.$breed.'%' : '%'.$breed.'%')] : '',
-                        $registration_numbers ? ['registration_numbers', ($kind == "exact") ? '=' : (($kind == "substring") ? 'like' : 'like'), ($kind == "exact") ? $registration_numbers : (($kind == "substring") ? '%'.$registration_numbers.'%' : '%'.$registration_numbers.'%')] : '',
+                        $reg_num ? ['original_reg_num', 
+                                    ($kind == "exact") ? '=' : (($kind == "substring") ? 'like' : 'like'), 
+                                    ($kind == "exact") ? $reg_num : (($kind == "substring") ? '%'.$reg_num.'%' : '%'.$reg_num.'%'), "or",
+                                    'last_reg_num', 
+                                    ($kind == "exact") ? '=' : (($kind == "substring") ? 'like' : 'like'), 
+                                    ($kind == "exact") ? $reg_num : (($kind == "substring") ? '%'.$reg_num.'%' : '%'.$reg_num.'%')] : '',
                     ]));
                 })
                     ->orderBy('full_name', 'asc')
@@ -140,7 +145,7 @@ class CatsController extends Controller
             $replacementCats = $this->getPersonList($cat->gender_id);
         }
 
-        $validTabs = ['death', 'contact_address', 'login_account'];
+        $validTabs = ['death', 'details'];
 
         $mapZoomLevel = config('leaflet.zoom_level');
         $mapCenterLatitude = $cat->getMetadata('cemetery_location_latitude');
