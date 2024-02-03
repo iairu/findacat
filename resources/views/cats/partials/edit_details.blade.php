@@ -1,7 +1,7 @@
 <div class="panel panel-default">
     <div class="panel-heading"><h3 class="panel-title">{{ __('cat.details') }}</h3></div>
     <div class="panel-body">
-        {!! FormField::date('dob', ['label' => __('cat.dob'), 'placeholder' => __('app.example').' 1959-07-20']) !!}
+        {!! FormField::text('dob', ['label' => __('cat.dob'), 'placeholder' => __('app.example').' 1959-07-20']) !!}
         {!! FormField::textarea('genetic_tests', ['label' => __('cat.genetic_tests')]) !!}
         {!! FormField::text('chip_number', ['label' => __('cat.chip_number')]) !!}
         {!! FormField::text('breeding_station', ['label' => __('cat.breeding_station')]) !!}
@@ -9,7 +9,7 @@
         {!! FormField::text('alternative_name', ['label' => __('cat.alternative_name')]) !!}
         {!! FormField::text('print_name_r1', ['label' => __('cat.print_name_r1')]) !!}
         {!! FormField::text('print_name_r2', ['label' => __('cat.print_name_r2')]) !!}
-        {!! FormField::date('dod', ['label' => __('cat.dod')]) !!}
+        {!! FormField::text('dod', ['label' => __('cat.dod')]) !!}
         {!! FormField::text('original_reg_num', ['label' => __('cat.original_reg_num')]) !!}
         {!! FormField::text('last_reg_num', ['label' => __('cat.last_reg_num')]) !!}
         {!! FormField::text('reg_num_2', ['label' => __('cat.reg_num_2')]) !!}
@@ -23,6 +23,6 @@
         {!! FormField::text('personal_info', ['label' => __('cat.personal_info')]) !!}
         {!! FormField::text('photo', ['label' => __('cat.photo')]) !!}
         {!! FormField::text('vet_confirmation', ['label' => __('cat.vet_confirmation')]) !!}
-        {!! FormField::date('doo', ['label' => __('cat.doo')]) !!}
+        {!! FormField::text('doo', ['label' => __('cat.doo')]) !!}
     </div>
 </div>

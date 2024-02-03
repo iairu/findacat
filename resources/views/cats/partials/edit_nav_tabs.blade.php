@@ -3,8 +3,8 @@
     <li class="{{ request('tab') == null ? 'active' : '' }}">
         {!! link_to_route('cats.edit', __('cat.edit'), [$cat->id]) !!}
     </li>
-    <li class="{{ request('tab') == 'contact_address' ? 'active' : '' }}">
-        {!! link_to_route('cats.edit', __('cat.details'), [$cat->id, 'tab' => 'contact_address']) !!}
+    <li class="{{ request('tab') == 'details' ? 'active' : '' }}">
+        {!! link_to_route('cats.edit', __('cat.details'), [$cat->id, 'tab' => 'details']) !!}
     </li>
     <!-- <li class="{{ request('tab') == 'death' ? 'active' : '' }}">
         {!! link_to_route('cats.edit', __('cat.death'), [$cat->id, 'tab' => 'death']) !!}
