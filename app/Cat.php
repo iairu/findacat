@@ -134,9 +134,9 @@ class Cat extends Model
         return link_to_route('cats.'.$type, $this->full_name, [$this->id]);
     }
 
-    public function l()
+    public function l($generations = 5)
     {
-        return link_to_route('cats.tree', $this->full_name, [$this->id, 5], ['title' => $this->full_name.' ('.$this->gender.')']);
+        return link_to_route('cats.tree', $this->full_name, [$this->id, $generations], ['title' => $this->full_name.' ('.$this->gender.')']);
     }
 
     public function sireLink()
