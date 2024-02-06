@@ -119,6 +119,25 @@ class Cat extends Model
         return $this->belongsTo(Cat::class);
     }
 
+    public function findBreedName() {
+        $foundBreed = Breed::where('breed', '=', $this->breed)->first();
+        if ($foundBreed instanceof \Illuminate\Database\Eloquent\Model) {
+            return $foundBreed->name;
+        }
+        return 'Not in database';
+    }
+
+    public function findEMS() {
+        $foundBreed = Breed::where('breed', '=', $this->breed)->first();
+        if ($foundBreed instanceof \Illuminate\Database\Eloquent\Model) {
+            $foundEMS = Ems::where('breed_id', '=', $foundBreed->id)->where('ems', '=', $this->ems_color)->first();
+            if ($foundEMS instanceof \Illuminate\Database\Eloquent\Model) {
+                return $foundEMS->english;
+            }
+        }
+        return 'Not in database';
+    }
+
     public function childs()
     {
         if ($this->gender_id == 2) {

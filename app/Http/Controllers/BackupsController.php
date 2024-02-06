@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Breed;
 use App\Cat;
+use App\Ems;
 use BackupManager\Manager;
 use Illuminate\Http\Request;
 use League\Flysystem\FileExistsException;
@@ -214,4 +216,104 @@ class BackupsController extends Controller
 
         return Response::make('', 200, $headers);
     }
+
+    public function import_breeds(Request $request)
+    {
+        try {
+            $file = $request->file('file');
+            if ($file == null) throw new FileNotFoundException("");
+            if ($file->getPathname() == "") throw new FileNotFoundException("");
+            $fileContents = file($file->getPathname());
+    
+            foreach ($fileContents as $key=>$line) {
+                if ($key == 0) {
+                    continue;
+                }
+                $data = str_getcsv($line);
+    
+                Breed::create([
+                    'id' => $data[0],
+                    'breed' => $data[1],
+                    'name' => $data[2]
+                    // Add more fields as needed
+                ]);
+            }
+        } catch (FileNotFoundException $e) {
+            return redirect()->route('backups.issue');
+        }
+
+        return redirect()->route('backups.index');
+    }
+
+    public function export_breeds()
+    {
+        $breeds = Breed::all();
+        $csvFileName = 'breeds.csv';
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $csvFileName . '"',
+        ];
+
+        $handle = fopen('php://output', 'w');
+        fputcsv($handle, ['id', 'breed', 'name']); // Add more headers as needed
+
+        foreach ($breeds as $breed) {
+            fputcsv($handle, [$breed->id, $breed->breed, $breed->name]); // Add more fields as needed
+        }
+
+        fclose($handle);
+
+        return Response::make('', 200, $headers);
+    }
+
+    public function import_ems(Request $request)
+    {
+        try {
+            $file = $request->file('file');
+            if ($file == null) throw new FileNotFoundException("");
+            if ($file->getPathname() == "") throw new FileNotFoundException("");
+            $fileContents = file($file->getPathname());
+    
+            foreach ($fileContents as $key=>$line) {
+                if ($key == 0) {
+                    continue;
+                }
+                $data = str_getcsv($line);
+    
+                Ems::create([
+                    'id' => $data[0],
+                    'breed_id' => $data[1],
+                    'ems' => $data[2],
+                    'english' => $data[3]
+                    // Add more fields as needed
+                ]);
+            }
+        } catch (FileNotFoundException $e) {
+            return redirect()->route('backups.issue');
+        }
+
+        return redirect()->route('backups.index');
+    }
+
+    public function export_ems()
+    {
+        $ems = Ems::all();
+        $csvFileName = 'ems.csv';
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $csvFileName . '"',
+        ];
+
+        $handle = fopen('php://output', 'w');
+        fputcsv($handle, ['id', 'breed_id', 'ems', 'english']); // Add more headers as needed
+
+        foreach ($ems as $e) {
+            fputcsv($handle, [$e->id, $e->breed_id, $e->ems, $e->english]); // Add more fields as needed
+        }
+
+        fclose($handle);
+
+        return Response::make('', 200, $headers);
+    }
+
 }

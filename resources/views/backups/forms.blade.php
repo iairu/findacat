@@ -87,5 +87,44 @@
                 <input type="submit" value="{{ trans('backup.import') }}" class="btn btn-primary">
             </div>
         </form>
+        <hr>
+        <form action="{{ route('backups.export_breeds') }}" method="post" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <div class="form-group">
+                <input type="submit" value="{{ trans('backup.export_breeds') }}" class="btn btn-primary">
+            </div>
+        </form>
+        <hr>
+        <form action="{{ route('backups.import_breeds') }}" method="post" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <div class="form-group">
+                <label for="file" class="control-label">{{ trans('backup.import_breeds') }}</label>
+                <input type="file" name="file" class="form-control">
+                {!! $errors->first('file', '<div class="text-danger text-right">:message</div>') !!}
+            </div>
+            <div class="form-group">
+                <input type="submit" value="{{ trans('backup.import_breeds') }}" class="btn btn-primary">
+            </div>
+        </form>
+        <hr>
+        <form action="{{ route('backups.export_ems') }}" method="post" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <div class="form-group">
+                <input type="submit" value="{{ trans('backup.export_ems') }}" class="btn btn-primary">
+            </div>
+        </form>
+        <hr>
+        <form action="{{ route('backups.import_ems') }}" method="post" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <div class="form-group">
+                <label for="file" class="control-label">{{ trans('backup.import_ems') }}</label>
+                <input type="file" name="file" class="form-control">
+                {!! $errors->first('file', '<div class="text-danger text-right">:message</div>') !!}
+            </div>
+            <div class="form-group">
+                <input type="submit" value="{{ trans('backup.import_ems') }}" class="btn btn-primary">
+            </div>
+        </form>
+        <hr>
     </div>
 </div>

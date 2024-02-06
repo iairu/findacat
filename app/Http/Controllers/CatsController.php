@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Breed;
 use App\Couple;
 use App\Http\Requests\Cats\UpdateRequest;
 use App\Cat;

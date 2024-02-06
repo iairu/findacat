@@ -19,8 +19,12 @@ return [
     'cancel_restore'      => 'Cancel Restore',
     'download'            => 'Download this file',
     'upload'              => 'Upload Backup GZ File',
-    'import'              => 'Import Backup CSV File (Unsafe)',
-    'export'              => 'Export Backup CSV File',
+    'import'              => 'Import Cats Backup CSV File (Unsafe)',
+    'export'              => 'Export Cats Backup CSV File',
+    'import_breeds'              => 'Import Breeds Backup CSV File (Unsafe)',
+    'export_breeds'              => 'Export Breeds Backup CSV File',
+    'import_ems'              => 'Import EMS Backup CSV File (Unsafe)',
+    'export_ems'              => 'Export EMS Backup CSV File',
 
     // Attributes
     'file_name'  => 'File Name',

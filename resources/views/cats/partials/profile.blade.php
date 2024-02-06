@@ -33,13 +33,13 @@
             @if ($cat->ems_color)
             <tr>
                 <th>{{ trans('cat.ems_color') }}</th>
-                <td>{{ $cat->ems_color }} = </td>
+                <td>{{ $cat->ems_color }} = {{ $cat->findEMS() }}</td>
             </tr>
             @endif
             @if ($cat->breed)
             <tr>
                 <th>{{ trans('cat.breed') }}</th>
-                <td>{{ $cat->breed }} = </td>
+                <td>{{ $cat->breed }} = {{ $cat->findBreedName() }}</td>
             </tr>
             @endif
             @if ($cat->genetic_tests)

@@ -80,6 +80,10 @@ Route::group(['middleware' => 'admin'], function () {
         Route::post('backups/issue', 'issue')->name('backups.issue');
         Route::post('backups/export', 'export')->name('backups.export');
         Route::post('backups/import', 'import')->name('backups.import');
+        Route::post('backups/export_breeds', 'export_breeds')->name('backups.export_breeds');
+        Route::post('backups/import_breeds', 'import_breeds')->name('backups.import_breeds');
+        Route::post('backups/export_ems', 'export_ems')->name('backups.export_ems');
+        Route::post('backups/import_ems', 'import_ems')->name('backups.import_ems');
         Route::post('backups/upload', 'upload')->name('backups.upload');
         Route::post('backups/{fileName}/restore', 'restore')->name('backups.restore');
         Route::get('backups/{fileName}/dl', 'download')->name('backups.download');
