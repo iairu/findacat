@@ -1,0 +1,71 @@
+id,breed,name
+1,EXO,Exotic
+2,PER,Persian
+3,RAG,Ragdoll
+4,SBI,Sacred Birman
+5,TUV,Turkish Van
+6,ACL,American Curl Longhair
+7,ACS,American Curl Shorthair
+8,LPL,LaPerm longhair
+9,LPS,LaPerm shorthair
+10,MCO,Maine Coon
+11,NFO,Norwegian Forest Cat
+12,SIB,Siberian
+13,TUA,Turkish Angora
+14,NEM,Neva Masquerade
+15,XLH,Not recognised longhair
+16,BEN,Bengal
+17,BLH,British Longhair
+18,BSH,British Shorthair
+19,BML,Burmilla
+20,BUR,Burma
+21,CHA,Chartreux
+22,EUR,European
+23,KBL,Kurilean Bobtail Longhair
+24,KBS,Kurilean Bobtail Shorthair
+25,KOR,Korat
+26,MAN,Manx
+27,CYM,Cymric
+28,MAU,Egyptian Mau
+29,OCI,Ocicat
+30,SIN,Singapura
+31,SNO,Snowshoe
+32,SOK,Sokoke
+33,SRL,Selkirk Rex longhair
+34,SRS,Selkirk Rex shorthair
+35,ABY,Abyssinian
+36,SOM,Somali
+37,BAL,Balinese
+38,SIA,Siamese
+39,CRX,Cornish Rex
+40,DRX,Devon Rex
+41,GRX,German Rex
+42,DSP,Don Sphynx
+43,SPH,Sphynx
+44,JBS,Japanese Bobtail Shorthair
+45,OLH,Oriental Longhair
+46,OSH,Oriental Shorthair
+47,PEB,Peterbald
+48,RUS,Russian Blue
+49,THA,Thai
+50,XSH,Not recognised shorthair
+51,HCL,Housecat longhair
+52,HCS,Housecat shorthair
+53,ABL,Not recognised 
+54,ABS,Not recognised 
+55,ALH,Not recognised 
+56,AMS,Not recognised 
+57,AMW,Not recognised 
+58,ASH,Not recognised 
+59,AUM,Not recognised 
+60,BOM,Not recognised 
+61,BRX,Not recognised 
+62,JBL,Not recognised 
+63,LYO,Not recognised 
+64,MKB,Not recognised 
+65,NEM,Not recognised 
+66,RGM,Not recognised 
+67,TGR,Not recognised 
+68,TIF,Not recognised 
+69,TOL,Not recognised 
+70,TOS,Not recognised 
