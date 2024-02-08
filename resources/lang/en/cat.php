@@ -54,6 +54,8 @@ return [
     'personal_info' => 'Personal Info',
     'photo' => 'Photo',
     'vet_confirmation' => 'Veterinary Confirmation',
-    'doo' => 'Date of Ownership'
+    'doo' => 'Date of Ownership',
+    'delete' => 'Delete',
+    'age' => 'Age'
 
 ];
