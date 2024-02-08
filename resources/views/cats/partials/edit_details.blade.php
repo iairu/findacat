@@ -9,7 +9,7 @@
         {!! FormField::text('alternative_name', ['label' => __('cat.alternative_name')]) !!}
         {!! FormField::text('print_name_r1', ['label' => __('cat.print_name_r1')]) !!}
         {!! FormField::text('print_name_r2', ['label' => __('cat.print_name_r2')]) !!}
-        {!! FormField::text('dod', ['label' => __('cat.dod')]) !!}
+        {!! FormField::text('dod', ['label' => __('cat.dod'), 'placeholder' => __('app.example').' 1959-07-20']) !!}
         {!! FormField::text('original_reg_num', ['label' => __('cat.original_reg_num')]) !!}
         {!! FormField::text('last_reg_num', ['label' => __('cat.last_reg_num')]) !!}
         {!! FormField::text('reg_num_2', ['label' => __('cat.reg_num_2')]) !!}
@@ -21,8 +21,8 @@
         {!! FormField::text('country', ['label' => __('cat.country')]) !!}
         {!! FormField::text('ownership_notes', ['label' => __('cat.ownership_notes')]) !!}
         {!! FormField::text('personal_info', ['label' => __('cat.personal_info')]) !!}
-        {!! FormField::text('photo', ['label' => __('cat.photo')]) !!}
-        {!! FormField::text('vet_confirmation', ['label' => __('cat.vet_confirmation')]) !!}
-        {!! FormField::text('doo', ['label' => __('cat.doo')]) !!}
+        {!! FormField::file('photo', ['label' => __('cat.photo'), 'placeholder' => 'Photo upload']) !!}
+        {!! FormField::file('vet_confirmation', ['label' => __('cat.vet_confirmation'), 'placeholder' => 'Vet Confirmation upload']) !!}
+        {!! FormField::text('doo', ['label' => __('cat.doo'), 'placeholder' => __('app.example').' 1959-07-20']) !!}
     </div>
 </div>

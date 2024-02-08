@@ -382,34 +382,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('photo') ? ' has-error' : '' }}">
-                            <label for="photo" class="col-md-4 control-label">{{ trans('cat.photo') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="photo" type="text" class="form-control" name="photo" value="{{ old('photo') }}">
-
-                                @if ($errors->has('photo'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('photo') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('vet_confirmation') ? ' has-error' : '' }}">
-                            <label for="vet_confirmation" class="col-md-4 control-label">{{ trans('cat.vet_confirmation') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="vet_confirmation" type="text" class="form-control" name="vet_confirmation" value="{{ old('vet_confirmation') }}">
-
-                                @if ($errors->has('vet_confirmation'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('vet_confirmation') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                        </div>
-
                         <div class="form-group{{ $errors->has('doo') ? ' has-error' : '' }}">
                             <label for="doo" class="col-md-4 control-label">{{ trans('cat.doo') }}</label>
 

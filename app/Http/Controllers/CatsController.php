@@ -8,13 +8,19 @@ use App\Http\Requests\Cats\UpdateRequest;
 use App\Cat;
 use App\Jobs\Cats\DeleteAndReplaceCat;
 use App\CatMetadata;
+use App\Files;
+use App\Traits\Upload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Validator;
 use Ramsey\Uuid\Uuid;
 use Storage;
 
 class CatsController extends Controller
 {
+
+    use Upload;
+
     /**
      * Search cat by keyword.
      *
@@ -165,14 +171,54 @@ class CatsController extends Controller
     /**
      * Update the specified Cat in storage.
      *
-     * @param  \App\Http\Requests\Cats\UpdateRequest  $request
      * @param  \App\Cat  $cat
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UpdateRequest $request, Cat $cat)
+    public function update(Request $request, Cat $cat)
     {
-        $catAttributes = $request->validated();
-        $cat->update($catAttributes);
+        $catAttributes = Validator::make($request->all(), [
+            'full_name'    => 'sometimes|required|string|max:255',
+            'gender_id'   => 'sometimes|required|numeric',
+            'dob'         => 'nullable|string|max:255',
+            'titles_before_name'     => 'nullable|string|max:255',
+            'titles_after_name'     => 'nullable|string|max:255',
+            'ems_color'     => 'nullable|string|max:255',
+            'breed'     => 'nullable|string|max:255',
+            'genetic_tests'     => 'nullable|string|max:255',
+            'chip_number'     => 'nullable|string|max:255',
+            'breeding_station'     => 'nullable|string|max:255',
+            'country_code'     => 'nullable|string|max:255',
+            'alternative_name'     => 'nullable|string|max:255',
+            'print_name_r1'     => 'nullable|string|max:255',
+            'print_name_r2'     => 'nullable|string|max:255',
+            'dod'     => 'nullable|string|max:255',
+            'original_reg_num'     => 'nullable|string|max:255',
+            'last_reg_num'     => 'nullable|string|max:255',
+            'reg_num_2'     => 'nullable|string|max:255',
+            'reg_num_3'     => 'nullable|string|max:255',
+            'notes'     => 'nullable|string|max:255',
+            'breeder'     => 'nullable|string|max:255',
+            'current_owner'     => 'nullable|string|max:255',
+            'country_of_origin'     => 'nullable|string|max:255',
+            'country'     => 'nullable|string|max:255',
+            'ownership_notes'     => 'nullable|string|max:255',
+            'personal_info'     => 'nullable|string|max:255',
+            'photo'     => 'sometimes|mimes:jpg,png,jpeg|max:3048',
+            'vet_confirmation'     => 'sometimes|mimes:jpg,png,jpeg|max:3048'
+        ]);
+        if ($request->hasFile('photo')) {
+            $photo = $request->photo;
+            $fileName = date('Y') . $photo->getClientOriginalName();
+            $path = $photo->storeAs('photo', $fileName, 'public');
+            $catAttributes['photo'] = $path;
+        }
+        if ($request->hasFile('vet_confirmation')) {
+            $vet_confirmation = $request->vet_confirmation;
+            $fileName = date('Y') . $vet_confirmation->getClientOriginalName();
+            $path = $vet_confirmation->storeAs('vet_confirmation', $fileName, 'public');
+            $catAttributes['vet_confirmation'] = $path;
+        }
+        $cat->update($request->except('photo', 'vet_confirmation'));
         $catAttributes = collect($catAttributes);
 
         $this->updateCatMetadata($cat, $catAttributes);

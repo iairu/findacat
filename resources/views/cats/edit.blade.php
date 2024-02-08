@@ -18,7 +18,7 @@
         <div class="col-md-2">@include('cats.partials.edit_nav_tabs')</div>
         <div class="col-md-10">
             <div class="row">
-                {{ Form::model($cat, ['route' => ['cats.update', $cat->id], 'method' =>'patch', 'autocomplete' => 'off']) }}
+                {{ Form::model($cat, ['route' => ['cats.update', $cat->id], 'method' =>'post', 'autocomplete' => 'off']) }}
                 <div class="col-md-6">
                     @includeWhen(request('tab') == null || !in_array(request('tab'), $validTabs), 'cats.partials.edit_profile')
                     @includeWhen(request('tab') == 'death', 'cats.partials.edit_death')
@@ -50,6 +50,18 @@
 <script>
     (function() {
         $('#dob').datetimepicker({
+            timepicker:false,
+            format:'Y-m-d',
+            closeOnDateSelect: true,
+            scrollInput: false
+        });
+        $('#doo').datetimepicker({
+            timepicker:false,
+            format:'Y-m-d',
+            closeOnDateSelect: true,
+            scrollInput: false
+        });
+        $('#dod').datetimepicker({
             timepicker:false,
             format:'Y-m-d',
             closeOnDateSelect: true,

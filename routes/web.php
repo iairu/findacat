@@ -8,6 +8,7 @@ use App\Http\Controllers\CatMarriagesController;
 use App\Http\Controllers\CatsController;
 use App\Http\Controllers\CouplesController;
 use App\Http\Controllers\FamilyActionsController;
+use App\Http\Controllers\FilesController;
 use App\Http\Controllers\HomeController;
 
 /*
@@ -47,7 +48,7 @@ Route::controller(CatsController::class)->group(function () {
     Route::get('profile-search', 'search')->name('cats.search');
     Route::get('cats/{cat}', 'show')->name('cats.show');
     Route::get('cats/{cat}/edit', 'edit')->name('cats.edit');
-    Route::patch('cats/{cat}', 'update')->name('cats.update');
+    Route::post('cats/{cat}', 'update')->name('cats.update');
     Route::get('cats/{cat}/chart', 'chart')->name('cats.chart');
     Route::get('cats/{cat}/tree', 'tree')->name('cats.tree');
     Route::get('cats/{cat}/tree/{generations}', 'tree')->name('cats.tree');
@@ -89,4 +90,5 @@ Route::group(['middleware' => 'admin'], function () {
         Route::get('backups/{fileName}/dl', 'download')->name('backups.download');
     });
     Route::resource('backups', BackupsController::class);
+    Route::post('upload', [FilesController::class,'store']);
 });
