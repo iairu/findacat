@@ -3,3 +3,50 @@
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+@import "node_modules/material-icons/iconfont/material-icons";
+
+body {
+    background-image: url("/images/cat-1045782-2.jpg");
+}
+nav.navbar-default {
+    border-color: rgba(0, 0, 0, 0.07) !important;
+}
+.container > form {
+    max-width: 800px;
+    margin: 0 auto;
+}
+h2.page-header {
+    font-size: 48px;
+    border: none;
+}
+.navbar > .container .navbar-brand.non-collapsed-only {
+    margin: 0 auto;
+}
+.collapsed-only {
+    display: block;
+}
+.non-collapsed-only {
+    display: none;
+}
+@media (min-width: 768px) {    
+    .collapsed-only {
+        display: none;
+    }
+    .non-collapsed-only {
+        display: block;
+    }
+    .navbar-collapse.collapse {
+        display: flex !important;
+    }
+}
+input.form-control, input[type="submit"].btn, button.btn {
+    border-radius: 15px !important;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.07)
+}
+input[type="submit"].btn, button.btn {
+    background: rgb(244,196,38);
+    background: linear-gradient(90deg, rgba(244,196,38,1) 0%, rgba(245,223,135,1) 100%);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    color: black;
+}

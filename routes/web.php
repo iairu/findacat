@@ -6,6 +6,7 @@ use App\Http\Controllers\BackupsController;
 use App\Http\Controllers\BirthdayController;
 use App\Http\Controllers\CatMarriagesController;
 use App\Http\Controllers\CatsController;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\CouplesController;
 use App\Http\Controllers\FamilyActionsController;
 use App\Http\Controllers\FilesController;
@@ -35,6 +36,11 @@ Route::controller(RegisterController::class)->group(function () {
     Route::post('register', 'create')->name('register');
 });
 
+Route::controller(UsersController::class)->group(function () {
+    Route::get('authorize', 'index')->name('authorize');
+    Route::post('register-user', 'create')->name('authorize');
+});
+
 Route::controller(FamilyActionsController::class)->group(function () {
     Route::post('family-actions/{cat}/set-sire', 'setSire')->name('family-actions.set-sire');
     Route::post('family-actions/{cat}/set-dam', 'setDam')->name('family-actions.set-dam');
@@ -51,6 +57,7 @@ Route::controller(CatsController::class)->group(function () {
     Route::post('cats/{cat}', 'update')->name('cats.update');
     Route::get('cats/{cat}/chart', 'chart')->name('cats.chart');
     Route::get('cats/{cat}/tree', 'tree')->name('cats.tree');
+    Route::get('cats/test', 'test')->name('cats.test-mating');
     Route::get('cats/{cat}/tree/{generations}', 'tree')->name('cats.tree');
     Route::get('cats/{cat}/death', 'death')->name('cats.death');
     Route::delete('cats/{cat}', 'destroy')->name('cats.destroy');

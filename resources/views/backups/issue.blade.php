@@ -1,4 +1,20 @@
 @extends('layouts.app')
+
+@section('ext_css')
+<style>
+body {
+        background-image: url("images/cat-1045782-3.jpg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+    }
+.navbar-default  {
+        background: white;
+}
+</style>
+@endsection
+
 @section('title',trans('backup.index_title'))
 
 @section('content')

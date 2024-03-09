@@ -56,6 +56,7 @@ return [
     'vet_confirmation' => 'Veterinary Confirmation',
     'doo' => 'Date of Ownership',
     'delete' => 'Delete',
-    'age' => 'Age'
+    'age' => 'Age',
+    'test_mating' => 'Test Mating'
 
 ];

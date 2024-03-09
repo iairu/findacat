@@ -16,20 +16,24 @@
         border-color: rgba(0,0,0,0.15) !important;
     }
     body {
-        background-image: url("images/cat.jpg");
+        background-image: url("images/cat-1045782-2.jpg");
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
         background-attachment: fixed;
+    }
+    .navbar > .container .navbar-brand.non-collapsed-only {
+        visibility: hidden;
+    }
+    .navbar-default {
+        border-color: rgba(0, 0, 0, 0.07) !important;
     }
 </style>
 @endsection
 
 @section('content')
 <h2 class="page-header" style="text-align: center">
-<svg style="width:30px;height:30px" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-</svg>
+
 
     {{ trans('app.find_a_cat') }}
     @if (request('q'))
@@ -42,7 +46,7 @@
 <div class="input-group" style="width:100%">
     {{ Form::text('full_name', request('full_name'), ['class' => 'form-control', 'placeholder' => trans('cat.full_name')]) }}
     <details style="margin: 35px 0 0;">
-        <summary style="cursor:pointer; width:100%;text-align:center; padding: 20px 0;">-- See more search options --</summary>
+        <summary style="cursor:pointer; width:100%;text-align:center; padding: 20px 0;">Advanced Search</summary>
         {{ Form::text('ems_color', request('ems_color'), ['class' => 'form-control', 'placeholder' => trans('cat.ems_color')]) }}
         {{ Form::text('dob', request('dob'), ['class' => 'form-control', 'placeholder' => trans('cat.dob')]) }}
         {{ Form::text('breed', request('breed'), ['class' => 'form-control', 'placeholder' => trans('cat.breed')]) }}
