@@ -21,7 +21,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="{{ route('cats.search') }}">🔎{{ __('app.search') }}</a></li>
                 <li><a href="{{ route('birthdays.index') }}">🎂{{ __('app.birthdays') }}</a></li>
-                <li><a href="{{ route('cats.test-mating') }}">🔀{{ __('cat.test_mating') }}</a></li>
+                <li><a href="/test/1/1">🔀{{ __('cat.test_mating') }}</a></li>
             </ul>
 
             <!-- Branding Image -->

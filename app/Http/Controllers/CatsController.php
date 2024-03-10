@@ -148,6 +148,19 @@ class CatsController extends Controller
     }
 
     /**
+     * Show cat family tree.
+     *
+     * @param  \App\Cat  $cat
+     * @return \Illuminate\View\View
+     */
+    public function test(Cat $cat, Cat $cat2, int $generations = 5)
+    {
+        $malePersonList = $this->getPersonList(1);
+        $femalePersonList = $this->getPersonList(2);
+        return view('cats.test', compact('cat', 'cat2', 'generations', 'malePersonList', 'femalePersonList'));
+    }
+
+    /**
      * Show cat death info.
      *
      * @param  \App\Cat  $cat
