@@ -10,7 +10,7 @@ RUN cp -r /app/mariadb.service /etc/systemd/system
 RUN service mariadb start && mariadb -u root -e "CREATE DATABASE homestead; GRANT ALL ON *.* TO 'homestead'@'localhost' IDENTIFIED BY 'secret' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 RUN mkdir -p /usr/lib/php/20210902
 # RUN cp -r pdo_mysql.so /usr/lib/php/20210902
-# RUN cp -r php.ini /etc/php/8.1/cli
+RUN cp -r php.ini /etc/php/8.1/cli
 RUN php artisan key:generate
 RUN service mariadb start && php artisan migrate
 ENTRYPOINT ["sh", "entrypoint.sh"]
