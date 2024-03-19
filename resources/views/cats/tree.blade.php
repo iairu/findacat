@@ -1,28 +1,19 @@
 @extends('layouts.cat-profile-wide')
 
 @section('ext_css')
+<script src="/js/jquery.min.js"></script>
+<script src="/js/inbreeding.js"></script>
 <style>
-body {
+    body {
         background-image: url("images/cat-1045782-3.jpg");
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
         background-attachment: fixed;
-    }
-.navbar-default  {
+        }
+    .navbar-default  {
         background: white;
-}
-</style>
-@endsection
-
-@section('subtitle', trans('app.family_tree'))
-
-@section('cat-content')
-
-@section('ext_css')
-<script src="/js/jquery.min.js"></script>
-<script src="/js/inbreeding.js"></script>
-<style>
+    }
     #pedigree input {
         border: 1px solid rgba(0,0,0,0.25) !important;
         background: none !important;
@@ -47,6 +38,10 @@ body {
     }
 </style>
 @endsection
+
+@section('subtitle', trans('app.family_tree'))
+
+@section('cat-content')
 
 
 <div id="generations"><strong>Generations:</strong> <span class="generations">{{$generations}}</span> (

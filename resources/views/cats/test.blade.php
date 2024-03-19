@@ -2,16 +2,47 @@
 
 @section('ext_css')
 <style>
-body {
+    body {
         background-image: url("images/cat-1045782-3.jpg");
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
         background-attachment: fixed;
     }
-.navbar-default  {
+    .navbar-default  {
         background: white;
-}
+    }
+    #set {
+        display: flex;
+        flex-flow: row;
+        gap: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        justify-content: center;
+        padding: 25px;
+    }
+
+    #pedigree input {
+        border: 1px solid rgba(0,0,0,0.25) !important;
+        background: none !important;
+        padding: 0 10px;
+        border-radius: 5px 0 0 0;
+        margin: 5px 0 0;
+        display: none;
+    }
+    #pedigree td br {
+        display: none;
+    }
+    #pedigree a {
+        border: 1px solid rgba(0,0,0,0.25);
+        /* border-top: none; */
+        display: block;
+        position: relative;
+        background: white;
+        padding: 0 10px;
+        border-radius: 5px 0 0 5px;
+        margin: 0 0 5px;
+        width: 15vw;
+    }
 </style>
 <script>
     function maleButton(e) {
@@ -41,9 +72,35 @@ body {
         document.querySelector('#set_dam_button').addEventListener("click", femaleButton);
         document.querySelector(".page-header").innerHTML = "Test Mating";
         document.querySelector(".pull-right").style = "display:none;";
-        document.querySelector("#generations").style = "display:none;";
+    }
+    function loadScripts() {
+        var jq = document.createElement("script");
+        jq.setAttribute("src","/js/jquery.min.js");
+        document.head.append(jq);
+        var inb = document.createElement("script");
+        inb.setAttribute("src","/js/inbreeding.js");
+        document.head.append(inb);
+        var s2 = document.createElement("script");
+        s2.setAttribute("src","/js/select2.full.min.js");
+        document.head.append(s2);
+        var s2css = document.createElement("link");
+        s2css.setAttribute("rel", "stylesheet");
+        s2css.setAttribute("type", "text/css");
+        s2css.setAttribute("href", "/css/select2.min.css");
+        document.head.append(s2css);
+        var s2script = document.createElement("script");
+        s2script.innerHTML = `
+        setTimeout(() => {
+            $('[name="set_sire_id"]').select2();
+            $('[name="set_dam_id"]').select2();
+            document.querySelector('#set_sire_button').value = "Update";
+            document.querySelector('#set_dam_button').value = "Update";
+        }, 1700);
+        `;
+        document.head.append(s2script);
     }
     window.addEventListener('load', buttonBehavior);
+    window.addEventListener('load', loadScripts);
 </script>
 @endsection
 
@@ -51,51 +108,14 @@ body {
 
 @section('cat-content')
 
-@section('ext_css')
-<script src="/js/jquery.min.js"></script>
-<script src="/js/inbreeding.js"></script>
-<style>
-    #pedigree input {
-        border: 1px solid rgba(0,0,0,0.25) !important;
-        background: none !important;
-        padding: 0 10px;
-        border-radius: 5px 0 0 0;
-        margin: 5px 0 0;
-        display: none;
-    }
-    #pedigree td br {
-        display: none;
-    }
-    #pedigree a {
-        border: 1px solid rgba(0,0,0,0.25);
-        /* border-top: none; */
-        display: block;
-        position: relative;
-        background: white;
-        padding: 0 10px;
-        border-radius: 5px 0 0 5px;
-        margin: 0 0 5px;
-        width: 15vw;
-    }
-</style>
-@endsection
-
-
-<div id="generations"><strong>Generations:</strong> <span class="generations">{{$generations}}</span> (
-    <a href="./1">1</a>
-    <a href="./2">2</a>
-    <a href="./3">3</a>
-    <a href="./4">4</a>
-    <a href="./5">5</a>
-)</div>
 <div id="controls">
     <strong>Inbreeding:</strong>
         <span id="result"><i>F</i> = 0.0%</span>
 </div>
-<div id="set" style="display:flex;flex-flow:row;">
+<div id="set">
     <div class="sire">
         {{ Form::open(['route' => ['cats.test', $cat->id, $cat2->id]]) }}
-        {!! FormField::select('set_sire_id', $malePersonList, ['label' => false, 'value' => $cat->sire_id, 'placeholder' => __('app.select_from_existing_males')]) !!}
+        {!! FormField::select('set_sire_id', $malePersonList, ['label' => false, 'value' => $cat->id, 'placeholder' => __('app.select_from_existing_males')]) !!}
         <div class="input-group">
             <span class="input-group-btn">
                 {{ Form::submit(__('app.update'), ['class' => 'btn btn-info btn-sm', 'id' => 'set_sire_button']) }}
@@ -105,7 +125,7 @@ body {
     </div>
     <div class="dam">
         {{ Form::open(['route' => ['cats.test', $cat->id, $cat2->id]]) }}
-        {!! FormField::select('set_dam_id', $femalePersonList, ['label' => false, 'value' => $cat2->dam_id, 'placeholder' => __('app.select_from_existing_females')]) !!}
+        {!! FormField::select('set_dam_id', $femalePersonList, ['label' => false, 'value' => $cat2->id, 'placeholder' => __('app.select_from_existing_females')]) !!}
         <div class="input-group">
             <span class="input-group-btn">
                 {{ Form::submit(__('app.update'), ['class' => 'btn btn-info btn-sm', 'id' => 'set_dam_button']) }}
@@ -123,7 +143,7 @@ body {
                 @php $json .= "{" @endphp
                 <tr class="offspring">
 
-                    <td> Offspring:<br><input class="ind" id="offspring" type="text" data="0" disabled><br>0<br>
+                    <td><br><input class="ind" id="offspring" type="text" data="0" disabled><br><br>
                         @php $json .= "\"name\": \"" . "0" . ($generations >= 1 ? "\"," : "\"") @endphp
 
                     </td>
@@ -443,12 +463,12 @@ body {
                                                 </tr>
                                                 @php $json .= "}," @endphp
                                                 @endif
-                                                @if ($cat2 && $generations >= 2)
+                                                @if ($cat->d() && $generations >= 2)
                                                 @php $json .= "\"d\": {" @endphp
                                                 <tr class="d">
 
-                                                    <td> <input class="ind" id="sd" type="text" data="{{$cat2->id()}}" disabled><br>{{$cat2->l($generations)}}
-                                                        @php $json .= "\"name\": \"" . $cat2->id() . ($generations >= 3 ? "\"," : "\"") @endphp
+                                                    <td> <input class="ind" id="sd" type="text" data="{{$cat->d()->id()}}" disabled><br>{{$cat->d()->l($generations)}}
+                                                        @php $json .= "\"name\": \"" . $cat->d()->id() . ($generations >= 3 ? "\"," : "\"") @endphp
 
                                                     </td>
 
@@ -458,12 +478,12 @@ body {
 
                                                             <tbody>
 
-                                                                @if ($cat2->s() && $generations >= 3)
+                                                                @if ($cat->d()->s() && $generations >= 3)
                                                                 @php $json .= "\"s\": {" @endphp
                                                                 <tr class="s">
 
-                                                                    <td> <input class="ind" id="sds" type="text" data="{{$cat2->s()->id()}}" disabled><br>{{$cat2->s()->l($generations)}}
-                                                                        @php $json .= "\"name\": \"" . $cat2->s()->id() . ($generations >= 4 ? "\"," : "\"") @endphp
+                                                                    <td> <input class="ind" id="sds" type="text" data="{{$cat->d()->s()->id()}}" disabled><br>{{$cat->d()->s()->l($generations)}}
+                                                                        @php $json .= "\"name\": \"" . $cat->d()->s()->id() . ($generations >= 4 ? "\"," : "\"") @endphp
 
                                                                     </td>
 
@@ -472,29 +492,29 @@ body {
                                                                         <table data-level="4">
 
                                                                             <tbody>
-                                                                                @if ($cat2->s()->s() && $generations >= 4)
+                                                                                @if ($cat->d()->s()->s() && $generations >= 4)
                                                                                 @php $json .= "\"s\": {" @endphp
                                                                                 <tr class="s">
 
                                                                                     <td>
 
-                                                                                        <input class="ind" id="sdss" type="text" data="{{$cat2->s()->s()->id()}}" disabled><br>{{$cat2->s()->s()->l($generations)}}
+                                                                                        <input class="ind" id="sdss" type="text" data="{{$cat->d()->s()->s()->id()}}" disabled><br>{{$cat->d()->s()->s()->l($generations)}}
 
 
-                                                                                        @php $json .= "\"name\": \"" . $cat2->s()->s()->id() . ($generations >= 5 ? "\"," : "\"") @endphp
+                                                                                        @php $json .= "\"name\": \"" . $cat->d()->s()->s()->id() . ($generations >= 5 ? "\"," : "\"") @endphp
 
                                                                                     </td>
 
                                                                                     <td class="anc">
                                                                                         <table data-level="5">
                                                                                             <tbody>
-                                                                                                @if ($cat2->s()->s()->s() && $generations >= 5)
+                                                                                                @if ($cat->d()->s()->s()->s() && $generations >= 5)
                                                                                                 @php $json .= "\"s\": {" @endphp
                                                                                                 <tr class="s">
                                                                                                     <td>
-                                                                                                        <input type="text" class="ind" id="sdsss" data="{{$cat2->s()->s()->s()->id()}}" disabled><br>{{$cat2->s()->s()->s()->l($generations)}}
+                                                                                                        <input type="text" class="ind" id="sdsss" data="{{$cat->d()->s()->s()->s()->id()}}" disabled><br>{{$cat->d()->s()->s()->s()->l($generations)}}
 
-                                                                                                        @php $json .= "\"name\": \"" . $cat2->s()->s()->s()->id() . "\"" @endphp
+                                                                                                        @php $json .= "\"name\": \"" . $cat->d()->s()->s()->s()->id() . "\"" @endphp
 
                                                                                                     </td>
                                                                                                     <td class="anc">
@@ -503,13 +523,13 @@ body {
                                                                                                 </tr>
                                                                                                 @php $json .= "}," @endphp
                                                                                                 @endif
-                                                                                                @if ($cat2->s()->s()->d() && $generations >= 5)
+                                                                                                @if ($cat->d()->s()->s()->d() && $generations >= 5)
                                                                                                 @php $json .= "\"d\": {" @endphp
                                                                                                 <tr class="d">
                                                                                                     <td>
-                                                                                                        <input type="text" class="ind" id="sdssd" data="{{$cat2->s()->s()->d()->id()}}" disabled><br>{{$cat2->s()->s()->d()->l($generations)}}
+                                                                                                        <input type="text" class="ind" id="sdssd" data="{{$cat->d()->s()->s()->d()->id()}}" disabled><br>{{$cat->d()->s()->s()->d()->l($generations)}}
 
-                                                                                                        @php $json .= "\"name\": \"" . $cat2->s()->s()->d()->id() . "\"" @endphp
+                                                                                                        @php $json .= "\"name\": \"" . $cat->d()->s()->s()->d()->id() . "\"" @endphp
 
                                                                                                     </td>
                                                                                                     <td class="anc">
@@ -528,29 +548,29 @@ body {
                                                                                 @php $json .= "}," @endphp
                                                                                 @endif
 
-                                                                                @if ($cat2->s()->d() && $generations >= 4)
+                                                                                @if ($cat->d()->s()->d() && $generations >= 4)
                                                                                 @php $json .= "\"d\": {" @endphp
                                                                                 <tr class="d">
 
                                                                                     <td>
 
-                                                                                        <input class="ind" id="sdsd" type="text" data="{{$cat2->s()->d()->id()}}" disabled><br>{{$cat2->s()->d()->l($generations)}}
+                                                                                        <input class="ind" id="sdsd" type="text" data="{{$cat->d()->s()->d()->id()}}" disabled><br>{{$cat->d()->s()->d()->l($generations)}}
 
 
-                                                                                        @php $json .= "\"name\": \"" . $cat2->s()->d()->id() . ($generations >= 5 ? "\"," : "\"") @endphp
+                                                                                        @php $json .= "\"name\": \"" . $cat->d()->s()->d()->id() . ($generations >= 5 ? "\"," : "\"") @endphp
 
                                                                                     </td>
 
                                                                                     <td class="anc">
                                                                                         <table data-level="5">
                                                                                             <tbody>
-                                                                                                @if ($cat2->s()->d()->s() && $generations >= 5)
+                                                                                                @if ($cat->d()->s()->d()->s() && $generations >= 5)
                                                                                                 @php $json .= "\"s\": {" @endphp
                                                                                                 <tr class="s">
                                                                                                     <td>
-                                                                                                        <input type="text" class="ind" id="sdsds" data="{{$cat2->s()->d()->s()->id()}}" disabled><br>{{$cat2->s()->d()->s()->l($generations)}}
+                                                                                                        <input type="text" class="ind" id="sdsds" data="{{$cat->d()->s()->d()->s()->id()}}" disabled><br>{{$cat->d()->s()->d()->s()->l($generations)}}
 
-                                                                                                        @php $json .= "\"name\": \"" . $cat2->s()->d()->s()->id() . "\"" @endphp
+                                                                                                        @php $json .= "\"name\": \"" . $cat->d()->s()->d()->s()->id() . "\"" @endphp
 
                                                                                                     </td>
                                                                                                     <td class="anc">
@@ -559,13 +579,13 @@ body {
                                                                                                 </tr>
                                                                                                 @php $json .= "}," @endphp
                                                                                                 @endif
-                                                                                                @if ($cat2->s()->d()->d() && $generations >= 5)
+                                                                                                @if ($cat->d()->s()->d()->d() && $generations >= 5)
                                                                                                 @php $json .= "\"d\": {" @endphp
                                                                                                 <tr class="d">
                                                                                                     <td>
-                                                                                                        <input type="text" class="ind" id="sdsdd" data="{{$cat2->s()->d()->d()->id()}}" disabled><br>{{$cat2->s()->d()->d()->l($generations)}}
+                                                                                                        <input type="text" class="ind" id="sdsdd" data="{{$cat->d()->s()->d()->d()->id()}}" disabled><br>{{$cat->d()->s()->d()->d()->l($generations)}}
 
-                                                                                                        @php $json .= "\"name\": \"" . $cat2->s()->d()->d()->id() . "\"" @endphp
+                                                                                                        @php $json .= "\"name\": \"" . $cat->d()->s()->d()->d()->id() . "\"" @endphp
 
                                                                                                     </td>
                                                                                                     <td class="anc">
@@ -594,12 +614,12 @@ body {
                                                                 </tr>
                                                                 @php $json .= "}," @endphp
                                                                 @endif
-                                                                @if ($cat2->d() && $generations >= 3)
+                                                                @if ($cat->d()->d() && $generations >= 3)
                                                                 @php $json .= "\"d\": {" @endphp
                                                                 <tr class="d">
 
-                                                                    <td> <input class="ind" id="sdd" type="text" data="{{$cat2->d()->id()}}" disabled><br>{{$cat2->d()->l($generations)}}
-                                                                        @php $json .= "\"name\": \"" . $cat2->d()->id() . ($generations >= 4 ? "\"," : "\"") @endphp
+                                                                    <td> <input class="ind" id="sdd" type="text" data="{{$cat->d()->d()->id()}}" disabled><br>{{$cat->d()->d()->l($generations)}}
+                                                                        @php $json .= "\"name\": \"" . $cat->d()->d()->id() . ($generations >= 4 ? "\"," : "\"") @endphp
 
                                                                     </td>
 
@@ -609,29 +629,29 @@ body {
 
                                                                             <tbody>
 
-                                                                                @if ($cat2->d()->s() && $generations >= 4)
+                                                                                @if ($cat->d()->d()->s() && $generations >= 4)
                                                                                 @php $json .= "\"s\": {" @endphp
                                                                                 <tr class="s">
 
                                                                                     <td>
 
-                                                                                        <input class="ind" id="sdds" type="text" data="{{$cat2->d()->s()->id()}}" disabled><br>{{$cat2->d()->s()->l($generations)}}
+                                                                                        <input class="ind" id="sdds" type="text" data="{{$cat->d()->d()->s()->id()}}" disabled><br>{{$cat->d()->d()->s()->l($generations)}}
 
 
-                                                                                        @php $json .= "\"name\": \"" . $cat2->d()->s()->id() . ($generations >= 5 ? "\"," : "\"") @endphp
+                                                                                        @php $json .= "\"name\": \"" . $cat->d()->d()->s()->id() . ($generations >= 5 ? "\"," : "\"") @endphp
 
                                                                                     </td>
 
                                                                                     <td class="anc">
                                                                                         <table data-level="5">
                                                                                             <tbody>
-                                                                                                @if ($cat2->d()->s()->s() && $generations >= 5)
+                                                                                                @if ($cat->d()->d()->s()->s() && $generations >= 5)
                                                                                                 @php $json .= "\"s\": {" @endphp
                                                                                                 <tr class="s">
                                                                                                     <td>
-                                                                                                        <input type="text" class="ind" id="sddss" data="{{$cat2->d()->s()->s()->id()}}" disabled><br>{{$cat2->d()->s()->s()->l($generations)}}
+                                                                                                        <input type="text" class="ind" id="sddss" data="{{$cat->d()->d()->s()->s()->id()}}" disabled><br>{{$cat->d()->d()->s()->s()->l($generations)}}
 
-                                                                                                        @php $json .= "\"name\": \"" . $cat2->d()->s()->s()->id() . "\"" @endphp
+                                                                                                        @php $json .= "\"name\": \"" . $cat->d()->d()->s()->s()->id() . "\"" @endphp
 
                                                                                                     </td>
                                                                                                     <td class="anc">
@@ -640,13 +660,13 @@ body {
                                                                                                 </tr>
                                                                                                 @php $json .= "}," @endphp
                                                                                                 @endif
-                                                                                                @if ($cat2->d()->s()->d() && $generations >= 5)
+                                                                                                @if ($cat->d()->d()->s()->d() && $generations >= 5)
                                                                                                 @php $json .= "\"d\": {" @endphp
                                                                                                 <tr class="d">
                                                                                                     <td>
-                                                                                                        <input type="text" class="ind" id="sddsd" data="{{$cat2->d()->s()->d()->id()}}" disabled><br>{{$cat2->d()->s()->d()->l($generations)}}
+                                                                                                        <input type="text" class="ind" id="sddsd" data="{{$cat->d()->d()->s()->d()->id()}}" disabled><br>{{$cat->d()->d()->s()->d()->l($generations)}}
 
-                                                                                                        @php $json .= "\"name\": \"" . $cat2->d()->s()->d()->id() . "\"" @endphp
+                                                                                                        @php $json .= "\"name\": \"" . $cat->d()->d()->s()->d()->id() . "\"" @endphp
 
                                                                                                     </td>
                                                                                                     <td class="anc">
@@ -664,29 +684,29 @@ body {
                                                                                 </tr>
                                                                                 @php $json .= "}," @endphp
                                                                                 @endif
-                                                                                @if ($cat2->d()->d() && $generations >= 4)
+                                                                                @if ($cat->d()->d()->d() && $generations >= 4)
                                                                                 @php $json .= "\"d\": {" @endphp
                                                                                 <tr class="d">
 
                                                                                     <td>
 
-                                                                                        <input class="ind" id="sddd" type="text" data="{{$cat2->d()->d()->id()}}" disabled><br>{{$cat2->d()->d()->l($generations)}}
+                                                                                        <input class="ind" id="sddd" type="text" data="{{$cat->d()->d()->d()->id()}}" disabled><br>{{$cat->d()->d()->d()->l($generations)}}
 
 
-                                                                                        @php $json .= "\"name\": \"" . $cat2->d()->d()->id() . ($generations >= 5 ? "\"," : "\"") @endphp
+                                                                                        @php $json .= "\"name\": \"" . $cat->d()->d()->d()->id() . ($generations >= 5 ? "\"," : "\"") @endphp
 
                                                                                     </td>
 
                                                                                     <td class="anc">
                                                                                         <table data-level="5">
                                                                                             <tbody>
-                                                                                                @if ($cat2->d()->d()->s() && $generations >= 5)
+                                                                                                @if ($cat->d()->d()->d()->s() && $generations >= 5)
                                                                                                 @php $json .= "\"s\": {" @endphp
                                                                                                 <tr class="s">
                                                                                                     <td>
-                                                                                                        <input type="text" class="ind" id="sddds" data="{{$cat2->d()->d()->s()->id()}}" disabled><br>{{$cat2->d()->d()->s()->l($generations)}}
+                                                                                                        <input type="text" class="ind" id="sddds" data="{{$cat->d()->d()->d()->s()->id()}}" disabled><br>{{$cat->d()->d()->d()->s()->l($generations)}}
 
-                                                                                                        @php $json .= "\"name\": \"" . $cat2->d()->d()->s()->id() . "\"" @endphp
+                                                                                                        @php $json .= "\"name\": \"" . $cat->d()->d()->d()->s()->id() . "\"" @endphp
 
                                                                                                     </td>
                                                                                                     <td class="anc">
@@ -695,13 +715,13 @@ body {
                                                                                                 </tr>
                                                                                                 @php $json .= "}," @endphp
                                                                                                 @endif
-                                                                                                @if ($cat2->d()->d()->d() && $generations >= 5)
+                                                                                                @if ($cat->d()->d()->d()->d() && $generations >= 5)
                                                                                                 @php $json .= "\"d\": {" @endphp
                                                                                                 <tr class="d">
                                                                                                     <td>
-                                                                                                        <input type="text" class="ind" id="sdddd" data="{{$cat2->d()->d()->d()->id()}}" disabled><br>{{$cat2->d()->d()->d()->l($generations)}}
+                                                                                                        <input type="text" class="ind" id="sdddd" data="{{$cat->d()->d()->d()->d()->id()}}" disabled><br>{{$cat->d()->d()->d()->d()->l($generations)}}
 
-                                                                                                        @php $json .= "\"name\": \"" . $cat2->d()->d()->d()->id() . "\"" @endphp
+                                                                                                        @php $json .= "\"name\": \"" . $cat->d()->d()->d()->d()->id() . "\"" @endphp
 
                                                                                                     </td>
                                                                                                     <td class="anc">
