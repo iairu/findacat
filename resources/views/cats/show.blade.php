@@ -25,7 +25,6 @@ body {
         <div class="col-md-8">
             @include('cats.partials.parent-spouse')
             @include('cats.partials.childs')
-            @include('cats.partials.siblings')
         </div>
     </div>
 @endsection

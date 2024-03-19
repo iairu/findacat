@@ -18,7 +18,7 @@
                         </div>
                         {{ Form::close() }}
                         @else
-                            {{ $cat->sireLink() }}
+                            {{ $cat->sireLink() }} {{ $cat->s()->breed }} {{ $cat->s()->ems_color }} {{ $cat->s()->dob }}
                             <div class="pull-right">
                                 {{ link_to_route('cats.show', __('cat.set_sire'), [$cat->id, 'action' => 'set_sire'], ['class' => 'btn btn-link btn-xs']) }}
                             </div>
@@ -40,7 +40,7 @@
                         </div>
                         {{ Form::close() }}
                         @else
-                            {{ $cat->damLink() }}
+                            {{ $cat->damLink() }} {{ $cat->d()->breed }} {{ $cat->d()->ems_color }} {{ $cat->d()->dob }}
                             <div class="pull-right">
                                 {{ link_to_route('cats.show', __('cat.set_dam'), [$cat->id, 'action' => 'set_dam'], ['class' => 'btn btn-link btn-xs']) }}
                             </div>
@@ -49,77 +49,32 @@
             </tr>
             @if ($cat->gender_id == 1)
             <tr>
-                <th>{{ __('cat.wife') }}</th>
+                <th>{{ __('cat.test_mating') }}</th>
                 <td>
-                    <div class="pull-right">
-                        @unless (request('action') == 'add_spouse')
-                            {{ link_to_route('cats.show', __('cat.add_wife'), [$cat->id, 'action' => 'add_spouse'], ['class' => 'btn btn-link btn-xs']) }}
-                        @endunless
-                    </div>
-
-                    @if ($cat->wifes->isEmpty() == false)
-                        <ul class="list-unstyled">
-                            @foreach($cat->wifes as $wife)
-                            <li>{{ $wife->profileLink() }}</li>
-                            @endforeach
-                        </ul>
-                    @endif
-                        @if (request('action') == 'add_spouse')
-                        <div>
-                        {{ Form::open(['route' => ['family-actions.add-wife', $cat->id]]) }}
-                        {!! FormField::select('set_wife_id', $femalePersonList, ['label' => false, 'placeholder' => __('app.select_from_existing_females')]) !!}
+                    <div>
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-7">
-                                    {{ Form::text('set_wife', null, ['class' => 'form-control input-sm', 'placeholder' => __('app.enter_new_name')]) }}
-                                </div>
-                                <div class="col-md-5">
-                                    {{ Form::text('marriage_date', null, ['class' => 'form-control input-sm', 'placeholder' => __('couple.marriage_date')]) }}
+                                    {{ link_to_route('cats.test', __('cat.test_mating'), [$cat->id, 1], ['class' => 'btn btn-link btn-xs']) }}
                                 </div>
                             </div>
                         </div>
-                        {{ Form::submit(__('app.update'), ['class' => 'btn btn-info btn-sm', 'id' => 'set_wife_button']) }}
-                        {{ link_to_route('cats.show', __('app.cancel'), $cat, ['class' => 'btn btn-default btn-sm']) }}
-                        {{ Form::close() }}
                     </div>
-                    @endif
                 </td>
             </tr>
             @else
             <tr>
-                <th>{{ __('cat.husband') }}</th>
+                <th>{{ __('cat.test_mating') }}</th>
                 <td>
-                    <div class="pull-right">
-                        @unless (request('action') == 'add_spouse')
-                            {{ link_to_route('cats.show', __('cat.add_husband'), [$cat->id, 'action' => 'add_spouse'], ['class' => 'btn btn-link btn-xs']) }}
-                        @endunless
-                    </div>
-                    @if ($cat->husbands->isEmpty() == false)
-                        <ul class="list-unstyled">
-                            @foreach($cat->husbands as $husband)
-                            <li>{{ $husband->profileLink() }}</li>
-                            @endforeach
-                        </ul>
-                    @endif
-                    @if (request('action') == 'add_spouse')
                     <div>
-                        {{ Form::open(['route' => ['family-actions.add-husband', $cat->id]]) }}
-                        {!! FormField::select('set_husband_id', $malePersonList, ['label' => false, 'placeholder' => __('app.select_from_existing_males')]) !!}
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-7">
-                                    {{ Form::text('set_husband', null, ['class' => 'form-control input-sm', 'placeholder' => __('app.enter_new_name')]) }}
-                                </div>
-                                <div class="col-md-5">
-                                    {{ Form::text('marriage_date', null, ['class' => 'form-control input-sm', 'placeholder' => __('couple.marriage_date')]) }}
+                                    {{ link_to_route('cats.test', __('cat.test_mating'), [1, $cat->id], ['class' => 'btn btn-link btn-xs']) }}
                                 </div>
                             </div>
                         </div>
-                        {{ Form::submit(__('app.update'), ['class' => 'btn btn-info btn-sm', 'id' => 'set_husband_button']) }}
-                        {{ link_to_route('cats.show', __('app.cancel'), [$cat->id], ['class' => 'btn btn-default btn-sm']) }}
-                        {{ Form::close() }}
                     </div>
-                    @endif
                 </td>
             </tr>
             @endif

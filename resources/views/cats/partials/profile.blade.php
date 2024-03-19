@@ -27,7 +27,11 @@
             @if ($cat->dob)
             <tr>
                 <th>{{ trans('cat.dob') }}</th>
+                @if ($cat->dob == '1111-11-11')
+                <td>{{ $cat->dob }} = Not in database</td>
+                @else
                 <td>{{ $cat->dob }}</td>
+                @endif
             </tr>
             @endif
             @if ($cat->ems_color)

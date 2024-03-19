@@ -1,7 +1,6 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <div class="pull-right" style="margin: -3px -6px">
-            {{ link_to_route('cats.show', __('cat.add_child'), [$cat->id, 'action' => 'add_child'], ['class' => 'btn btn-success btn-xs']) }}
         </div>
         <h3 class="panel-title">{{ __('cat.childs') }} ({{ $cat->childs->count() }})</h3>
     </div>

@@ -82,9 +82,11 @@
     <div class="col-md-3">
         <div class="panel panel-default">
             <div class="panel-body">
-                <div>{{ $cat->titles_before_name }}</div>
-                <h3 class="panel-title">{{ $cat->profileLink() }} ({{ $cat->gender }})</h3>
+                <div>({{ $cat->gender }}) {{ $cat->titles_before_name }}</div>
+                <h3 class="panel-title">{{ $cat->profileLink() }}</h3>
                 <div>{{ $cat->titles_after_name }}</div>
+                <hr style="margin: 5px 0;">
+                <div>{{ $cat->breed }} {{ $cat->ems_color }} {{ $cat->dob }}</div>
                 <hr style="margin: 5px 0;">
                 <div>{{ trans('cat.sire') }} : {{ $cat->sire_id ? $cat->sire->full_name : '' }}</div>
                 <div>{{ trans('cat.dam') }} : {{ $cat->dam_id ? $cat->dam->full_name : '' }}</div>
