@@ -15,6 +15,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Ramsey\Uuid\Uuid;
 use Storage;
+use Illuminate\Support\Facades\DB;
 
 class CatsController extends Controller
 {
@@ -303,7 +304,8 @@ class CatsController extends Controller
      */
     private function getPersonList(int $genderId)
     {
-        return Cat::where('gender_id', $genderId)->pluck('full_name', 'id');
+        // Cat::where('gender_id', $genderId)->pluck('full_name', 'id');
+        return Cat::select(DB::raw("CONCAT(titles_before_name,' ',full_name,' ',titles_after_name) AS display_name"),'id')->where('gender_id', $genderId)->pluck('display_name','id');
     }
 
     /**

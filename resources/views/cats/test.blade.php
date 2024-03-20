@@ -90,12 +90,14 @@
         document.head.append(s2css);
         var s2script = document.createElement("script");
         s2script.innerHTML = `
-        setTimeout(() => {
-            $('[name="set_sire_id"]').select2();
-            $('[name="set_dam_id"]').select2();
-            document.querySelector('#set_sire_button').value = "Update";
-            document.querySelector('#set_dam_button').value = "Update";
-        }, 1700);
+        setInterval(() => {
+            if (document.querySelector('#set_sire_button').value !== "Update") {
+                $('[name="set_sire_id"]').select2();
+                $('[name="set_dam_id"]').select2();
+                document.querySelector('#set_sire_button').value = "Update";
+                document.querySelector('#set_dam_button').value = "Update";
+            }
+        }, 200);
         `;
         document.head.append(s2script);
     }
