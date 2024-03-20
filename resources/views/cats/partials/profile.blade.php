@@ -28,7 +28,7 @@
             <tr>
                 <th>{{ trans('cat.dob') }}</th>
                 @if ($cat->dob == '1111-11-11')
-                <td>{{ $cat->dob }} = Not in database</td>
+                <td>{{ $cat->dob }} = Not set</td>
                 @else
                 <td>{{ $cat->dob }}</td>
                 @endif

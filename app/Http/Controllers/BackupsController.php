@@ -43,6 +43,12 @@ class BackupsController extends Controller
     }
 
 
+    public function help(Request $request)
+    {
+        return view('backups.help');
+    }
+
+
     /**
      * Display the specified Backup.
      *

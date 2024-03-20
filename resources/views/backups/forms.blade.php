@@ -71,13 +71,7 @@
         <hr>
         <form action="{{ route('backups.import') }}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
-            <p>Order and format of columns in CSV import has to be kept as in export.</p>
-            <p>Existing UUIDs won't be replaced.</p>
-            <p>As CSV integrity can't be guaranteed:</p>
-            <p>- Create a backup using GZ first guaranteeing valid integrity</p>
-            <p>- Use CSV import feature below</p>
-            <p>- If integrity breaks restore given GZ backup</p>
-            <p>- Use id 1 as no origin for correct family trees and inbreeding calculation</p>
+            <p>Make sure to consult help before usage.</p>
             <div class="form-group">
                 <label for="file" class="control-label">{{ trans('backup.import') }}</label>
                 <input type="file" name="file" class="form-control">

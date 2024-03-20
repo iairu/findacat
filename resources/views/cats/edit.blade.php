@@ -12,6 +12,18 @@ body {
 .navbar-default  {
         background: white;
 }
+.panel-body {
+    display: flex;
+    flex-flow: row;
+    width: auto;
+    gap: 10px;
+}
+.panel-body .one,
+.panel-body .two {
+    display: flex;
+    flex-flow: column;
+    gap: 10px;
+}
 </style>
 @endsection
 
@@ -34,7 +46,7 @@ body {
         <div class="col-md-10">
             <div class="row">
                 {{ Form::model($cat, ['route' => ['cats.update', $cat->id], 'method' =>'post', 'autocomplete' => 'off']) }}
-                <div class="col-md-6">
+                <div class="">
                     @includeWhen(request('tab') == null || !in_array(request('tab'), $validTabs), 'cats.partials.edit_profile')
                     @includeWhen(request('tab') == 'death', 'cats.partials.edit_death')
                     @includeWhen(request('tab') == 'details', 'cats.partials.edit_details')

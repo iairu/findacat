@@ -61,6 +61,12 @@ body {
                 </tbody>
             </table>
         </div>
+        <div class="panel panel-default table-responsive">
+            <div class="panel-heading"><h3 class="panel-title">{{ trans('backup.help') }}</h3></div>
+            <a href="{{ route('backups.help', []) }}"
+                class="btn btn-warning btn-xs"
+                title="{{ trans('backup.help') }}">{{ trans('backup.help') }}</a>
+        </div>
     </div>
     <div class="col-md-4">
         @include('backups.forms')

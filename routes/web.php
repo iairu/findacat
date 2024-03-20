@@ -86,6 +86,7 @@ Route::group(['middleware' => 'admin'], function () {
      */
     Route::controller(BackupsController::class)->group(function () {
         Route::post('backups/issue', 'issue')->name('backups.issue');
+        Route::get('backups/help', 'help')->name('backups.help');
         Route::post('backups/export', 'export')->name('backups.export');
         Route::post('backups/import', 'import')->name('backups.import');
         Route::post('backups/export_breeds', 'export_breeds')->name('backups.export_breeds');
