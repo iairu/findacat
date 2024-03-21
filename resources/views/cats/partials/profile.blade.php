@@ -18,6 +18,12 @@
                 <td>{{ $cat->titles_after_name }}</td>
             </tr>
             @endif
+            @if ($cat->photo)
+            <tr>
+                <th>{{ trans('cat.photo') }}</th>
+                <td><img src="{{ $cat->photo }}" alt="Cat Photo" /></td>
+            </tr>
+            @endif
             @if ($cat->gender)
             <tr>
                 <th>{{ trans('cat.gender') }}</th>
@@ -154,16 +160,10 @@
                 <td>{{ $cat->personal_info }}</td>
             </tr>
             @endif
-            @if ($cat->photo)
-            <tr>
-                <th>{{ trans('cat.photo') }}</th>
-                <td>{{ $cat->photo }}</td>
-            </tr>
-            @endif
             @if ($cat->vet_confirmation)
             <tr>
                 <th>{{ trans('cat.vet_confirmation') }}</th>
-                <td>{{ $cat->vet_confirmation }}</td>
+                <td><a href="{{ $cat->vet_confirmation }}">{{ trans('app.download') }}</a></td>
             </tr>
             @endif
             @if ($cat->doo)

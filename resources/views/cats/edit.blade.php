@@ -45,7 +45,7 @@ body {
         <div class="col-md-2">@include('cats.partials.edit_nav_tabs')</div>
         <div class="col-md-10">
             <div class="row">
-                {{ Form::model($cat, ['route' => ['cats.update', $cat->id], 'method' =>'post', 'autocomplete' => 'off']) }}
+                {{ Form::model($cat, ['route' => ['cats.update', $cat->id], 'method' =>'post', 'autocomplete' => 'off', 'files' => true]) }}
                 <div class="">
                     @includeWhen(request('tab') == null || !in_array(request('tab'), $validTabs), 'cats.partials.edit_profile')
                     @includeWhen(request('tab') == 'death', 'cats.partials.edit_death')

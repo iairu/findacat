@@ -243,19 +243,22 @@ class CatsController extends Controller
             'photo'     => 'sometimes|mimes:jpg,png,jpeg|max:3048',
             'vet_confirmation'     => 'sometimes|mimes:jpg,png,jpeg|max:3048'
         ]);
+        $attributes = $request->except('photo', 'vet_confirmation');
         if ($request->hasFile('photo')) {
-            $photo = $request->photo;
-            $fileName = date('Y') . $photo->getClientOriginalName();
-            $path = $photo->storeAs('photo', $fileName, 'public');
-            $catAttributes['photo'] = $path;
+            $image = $request->file('photo');
+            $name = time().'_photo.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('/images');
+            $image->move($destinationPath, $name);
+            $attributes['photo'] = "/images" . "/" . $name;
         }
         if ($request->hasFile('vet_confirmation')) {
-            $vet_confirmation = $request->vet_confirmation;
-            $fileName = date('Y') . $vet_confirmation->getClientOriginalName();
-            $path = $vet_confirmation->storeAs('vet_confirmation', $fileName, 'public');
-            $catAttributes['vet_confirmation'] = $path;
+            $image = $request->file('vet_confirmation');
+            $name = time().'_vet_confirmation.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('/images');
+            $image->move($destinationPath, $name);
+            $attributes['vet_confirmation'] = "/images" . "/" . $name;
         }
-        $cat->update($request->except('photo', 'vet_confirmation'));
+        $cat->update($attributes);
         $catAttributes = collect($catAttributes);
 
         $this->updateCatMetadata($cat, $catAttributes);
