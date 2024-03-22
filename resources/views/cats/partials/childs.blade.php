@@ -5,11 +5,27 @@
         <h3 class="panel-title">{{ __('cat.childs') }} ({{ $cat->childs->count() }})</h3>
     </div>
 
-    <ul class="list-group">
-        @forelse($cat->childs as $child)
+    <ul class="list-group" id="children">
+        @forelse($cat->childs as $index => $child)
+            @if($index < 25)
             <li class="list-group-item">
-                {{ $child->profileLink() }} ({{ $child->gender }})
+                @if ($cat->gender_id == 1)
+                    @if (null !== $child->d())
+                    <div class="parent">{{ __('cat.with') }} ({{ $child->gender }}) {{ $child->titles_before_name }} {{ $child->d()->profileLink() }} {{ $child->titles_after_name }} {{ $child->breed }} {{ $child->ems_color }} {{ $child->dob }}</div>
+                    @else
+                    <div class="parent">{{ __('cat.with') }} {{ __('cat.unknown_parent') }}</div>
+                    @endif
+                    <div class="child">({{ $child->gender }}) {{ $child->titles_before_name }} {{ $child->profileLink() }} {{ $child->titles_after_name }} {{ $child->breed }} {{ $child->ems_color }} {{ $child->dob }}</div>
+                @else
+                    @if (null !== $child->s())
+                    <div class="parent">{{ __('cat.with') }} ({{ $child->gender }}) {{ $child->titles_before_name }} {{ $child->s()->profileLink() }} {{ $child->titles_after_name }} {{ $child->breed }} {{ $child->ems_color }} {{ $child->dob }}</div>
+                    @else
+                    <div class="parent">{{ __('cat.with') }} {{ __('cat.unknown_parent') }}</div>
+                    @endif
+                    <div class="child">({{ $child->gender }}) {{ $child->titles_before_name }} {{ $child->profileLink() }} {{ $child->titles_after_name }} {{ $child->breed }} {{ $child->ems_color }} {{ $child->dob }}</div>
+                @endif
             </li>
+            @endif
         @empty
             <li class="list-group-item">{{ __('app.childs_were_not_recorded') }}</li>
         @endforelse

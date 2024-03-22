@@ -54,4 +54,41 @@ img {
     });
 })();
 </script>
+<script>
+    var parentchilds = [];
+    var childcontainer = document.querySelector("#children");
+    var childelms = Array.from(childcontainer.children);
+    if (childelms) {
+        childelms.forEach(child => {
+            var parent = child.querySelector(".parent").innerHTML;
+            var set = false;
+            for (var i=0;i<parentchilds.length;i++) {
+                if (parentchilds[i].parent == parent) {
+                    parentchilds[i].children.push(child);
+                    set = true;
+                    break;
+                }
+            }
+            if (set == false) {
+                    parentchilds.push({
+                        parent: parent,
+                        children: [child]
+                    });
+            }
+        });
+    }
+    document.querySelector("#children").innerHTML = "";
+    var parentElm = document.querySelector("#children");
+    childcontainer.innerHTML = "";
+    parentchilds.forEach(parentchild => {
+        var details = document.createElement("details");
+        details.innerHTML = `
+            <summary>${parentchild.parent}</summary>
+        `;
+        parentchild.children.forEach(child => {
+            details.append(child.children[1]);
+        });
+        childcontainer.append(details);
+    });
+</script>
 @endsection
