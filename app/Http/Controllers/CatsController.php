@@ -23,29 +23,6 @@ class CatsController extends Controller
     use Upload;
 
     /**
-     * Upload cats photo.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Cat  $cat
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function photoUpload(Request $request, Cat $cat)
-    {
-        $request->validate([
-            'photo' => 'required|image|max:200',
-        ]);
-
-        if (Storage::exists($cat->photo_path)) {
-            Storage::delete($cat->photo_path);
-        }
-
-        $cat->photo_path = $request->photo->store('images');
-        $cat->save();
-
-        return back();
-    }
-
-    /**
      * Search cat by keyword.
      *
      * @return \Illuminate\View\View

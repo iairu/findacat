@@ -22,8 +22,9 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",
-        "filp/whoops": "^2.0",
         "fakerphp/faker": "^1.4",
+        "filp/whoops": "^2.0",
+        "laravel/breeze": "^1.10",
         "laravel/browser-kit-testing": "^6.0",
         "mockery/mockery": "^1.0",
         "phpunit/phpunit": "^9.0"

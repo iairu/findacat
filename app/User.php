@@ -3,11 +3,11 @@
 namespace App;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Ramsey\Uuid\Uuid;
 
-class User extends Model
+class User extends Authenticatable
 {
     use Notifiable;
 
@@ -34,8 +34,11 @@ class User extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'username',
-        'email', 'password'
+        'id', 
+        'nickname', 'is_admin', 'name',
+        'email', 'password',
+        'address', 'phone',
+        'dob', 'city',
     ];
 
     /**
@@ -44,9 +47,11 @@ class User extends Model
      * @var array
      */
     protected $hidden = [
+        'password', 'remember_token',
     ];
 
     protected $appends = [
+        'gender',
     ];
 
     protected $casts = [
@@ -54,9 +59,15 @@ class User extends Model
 
     // protected $keyType = 'string';
 
-    public function id()
+    public function getGenderAttribute()
     {
-        return $this->id;
+        return $this->gender_id == 1 ? trans('app.male_code') : trans('app.female_code');
+    }
+
+    public function profileLink($type = 'profile')
+    {
+        $type = ($type == 'chart') ? 'chart' : 'show';
+        return link_to_route('users.'.$type, $this->name, [$this->id]);
     }
 
 }

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Ramsey\Uuid\Uuid;
 
-class RegisterController extends Controller
+class RegisterCatController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/register';
+    protected $redirectTo = '/register-cat';
 
     /**
      * Create a new controller instance.
@@ -43,7 +43,7 @@ class RegisterController extends Controller
 
     public function index()
     {
-        return view('cats.register');
+        return view('cats.register-cat');
     }
 
     /**
@@ -75,6 +75,6 @@ class RegisterController extends Controller
         ]);
         $cat->save();
 
-        return view('cats.register');
+        return view('cats.register-cat');
     }
 }
