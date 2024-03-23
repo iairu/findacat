@@ -44,6 +44,16 @@
         width: 15vw;
     }
 </style>
+<link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+@endsection
+
+@section ('ext_js')
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/select2.full.min.js') }}"></script>
+<script src="{{ asset('js/inbreeding.min.js') }}"></script>
+@endsection
+
+@section ('script')
 <script>
     function maleButton(e) {
         e.preventDefault();
@@ -74,35 +84,13 @@
         document.querySelector(".pull-right").style = "display:none;";
     }
     function loadScripts() {
-        var jq = document.createElement("script");
-        jq.setAttribute("src","/js/jquery.min.js");
-        document.head.append(jq);
-        var inb = document.createElement("script");
-        inb.setAttribute("src","/js/inbreeding.js");
-        document.head.append(inb);
-        var s2 = document.createElement("script");
-        s2.setAttribute("src","/js/select2.full.min.js");
-        document.head.append(s2);
-        var s2css = document.createElement("link");
-        s2css.setAttribute("rel", "stylesheet");
-        s2css.setAttribute("type", "text/css");
-        s2css.setAttribute("href", "/css/select2.min.css");
-        document.head.append(s2css);
-        var s2script = document.createElement("script");
-        s2script.innerHTML = `
-        setInterval(() => {
-            if (document.querySelector('#set_sire_button').value !== "Update") {
-                $('[name="set_sire_id"]').select2();
-                $('[name="set_dam_id"]').select2();
-                document.querySelector('#set_sire_button').value = "Update";
-                document.querySelector('#set_dam_button').value = "Update";
-            }
-        }, 200);
-        `;
-        document.head.append(s2script);
+        $('[name="set_sire_id"]').select2();
+        $('[name="set_dam_id"]').select2();
+        document.querySelector('#set_sire_button').value = "Update";
+        document.querySelector('#set_dam_button').value = "Update";
     }
-    window.addEventListener('load', buttonBehavior);
-    window.addEventListener('load', loadScripts);
+    buttonBehavior();
+    loadScripts();
 </script>
 @endsection
 

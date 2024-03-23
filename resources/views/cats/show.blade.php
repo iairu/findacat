@@ -15,6 +15,15 @@ body {
 img {
     max-width: 100%;
 }
+#children details {
+    padding: 10px;
+}
+#children details summary {
+    cursor: pointer;
+}
+#children details:not(:last-of-type) {
+    border-bottom: 1px solid #d3e0e9;
+}
 </style>
 @endsection
 
