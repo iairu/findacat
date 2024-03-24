@@ -45,7 +45,7 @@ Route::controller(CatsController::class)->group(function () {
 });
 
 Route::get('birthdays', [BirthdayController::class, 'index'])->name('birthdays.index');
-Route::get('birthdays/{year}/{month}/{day}', [BirthdayController::class, 'date'])->name('birthdays.date');
+Route::get('birthdays/{month}/{day}', [BirthdayController::class, 'date'])->name('birthdays.date');
 
 /**
  * Admin only routes
