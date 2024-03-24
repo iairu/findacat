@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Validator;
 use Ramsey\Uuid\Uuid;
 use Storage;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class CatsController extends Controller
 {
@@ -161,25 +162,29 @@ class CatsController extends Controller
      */
     public function edit(Cat $cat)
     {
-        $replacementCats = [];
-        if (request('action') == 'delete') {
-            $replacementCats = $this->getPersonList($cat->gender_id);
+        if (Auth::user() && Auth::user()->is_admin) {
+            $replacementCats = [];
+            if (request('action') == 'delete') {
+                $replacementCats = $this->getPersonList($cat->gender_id);
+            }
+
+            $validTabs = ['death', 'details'];
+
+            $mapZoomLevel = config('leaflet.zoom_level');
+            $mapCenterLatitude = $cat->getMetadata('cemetery_location_latitude');
+            $mapCenterLongitude = $cat->getMetadata('cemetery_location_longitude');
+            if ($mapCenterLatitude && $mapCenterLongitude) {
+                $mapZoomLevel = config('leaflet.detail_zoom_level');
+            }
+            $mapCenterLatitude = $mapCenterLatitude ?: config('leaflet.map_center_latitude');
+            $mapCenterLongitude = $mapCenterLongitude ?: config('leaflet.map_center_longitude');
+
+            return view('cats.edit', compact(
+                'cat', 'replacementCats', 'validTabs', 'mapZoomLevel', 'mapCenterLatitude', 'mapCenterLongitude'
+            ));
+        } else {
+            return redirect('/');
         }
-
-        $validTabs = ['death', 'details'];
-
-        $mapZoomLevel = config('leaflet.zoom_level');
-        $mapCenterLatitude = $cat->getMetadata('cemetery_location_latitude');
-        $mapCenterLongitude = $cat->getMetadata('cemetery_location_longitude');
-        if ($mapCenterLatitude && $mapCenterLongitude) {
-            $mapZoomLevel = config('leaflet.detail_zoom_level');
-        }
-        $mapCenterLatitude = $mapCenterLatitude ?: config('leaflet.map_center_latitude');
-        $mapCenterLongitude = $mapCenterLongitude ?: config('leaflet.map_center_longitude');
-
-        return view('cats.edit', compact(
-            'cat', 'replacementCats', 'validTabs', 'mapZoomLevel', 'mapCenterLatitude', 'mapCenterLongitude'
-        ));
     }
 
     /**
@@ -190,57 +195,61 @@ class CatsController extends Controller
      */
     public function update(Request $request, Cat $cat)
     {
-        $catAttributes = Validator::make($request->all(), [
-            'full_name'    => 'sometimes|required|string|max:255',
-            'gender_id'   => 'sometimes|required|numeric',
-            'dob'         => 'nullable|string|max:255',
-            'titles_before_name'     => 'nullable|string|max:255',
-            'titles_after_name'     => 'nullable|string|max:255',
-            'ems_color'     => 'nullable|string|max:255',
-            'breed'     => 'nullable|string|max:255',
-            'genetic_tests'     => 'nullable|string|max:255',
-            'chip_number'     => 'nullable|string|max:255',
-            'breeding_station'     => 'nullable|string|max:255',
-            'country_code'     => 'nullable|string|max:255',
-            'alternative_name'     => 'nullable|string|max:255',
-            'print_name_r1'     => 'nullable|string|max:255',
-            'print_name_r2'     => 'nullable|string|max:255',
-            'dod'     => 'nullable|string|max:255',
-            'original_reg_num'     => 'nullable|string|max:255',
-            'last_reg_num'     => 'nullable|string|max:255',
-            'reg_num_2'     => 'nullable|string|max:255',
-            'reg_num_3'     => 'nullable|string|max:255',
-            'notes'     => 'nullable|string|max:255',
-            'breeder'     => 'nullable|string|max:255',
-            'current_owner'     => 'nullable|string|max:255',
-            'country_of_origin'     => 'nullable|string|max:255',
-            'country'     => 'nullable|string|max:255',
-            'ownership_notes'     => 'nullable|string|max:255',
-            'personal_info'     => 'nullable|string|max:255',
-            'photo'     => 'sometimes|mimes:jpg,png,jpeg|max:3048',
-            'vet_confirmation'     => 'sometimes|mimes:jpg,png,jpeg|max:3048'
-        ]);
-        $attributes = $request->except('photo', 'vet_confirmation');
-        if ($request->hasFile('photo')) {
-            $image = $request->file('photo');
-            $name = time().'_photo.'.$image->getClientOriginalExtension();
-            $destinationPath = public_path('/images');
-            $image->move($destinationPath, $name);
-            $attributes['photo'] = "/images" . "/" . $name;
-        }
-        if ($request->hasFile('vet_confirmation')) {
-            $image = $request->file('vet_confirmation');
-            $name = time().'_vet_confirmation.'.$image->getClientOriginalExtension();
-            $destinationPath = public_path('/images');
-            $image->move($destinationPath, $name);
-            $attributes['vet_confirmation'] = "/images" . "/" . $name;
-        }
-        $cat->update($attributes);
-        $catAttributes = collect($catAttributes);
+        if (Auth::user() && Auth::user()->is_admin) {
+            $catAttributes = Validator::make($request->all(), [
+                'full_name'    => 'sometimes|required|string|max:255',
+                'gender_id'   => 'sometimes|required|numeric',
+                'dob'         => 'nullable|string|max:255',
+                'titles_before_name'     => 'nullable|string|max:255',
+                'titles_after_name'     => 'nullable|string|max:255',
+                'ems_color'     => 'nullable|string|max:255',
+                'breed'     => 'nullable|string|max:255',
+                'genetic_tests'     => 'nullable|string|max:255',
+                'chip_number'     => 'nullable|string|max:255',
+                'breeding_station'     => 'nullable|string|max:255',
+                'country_code'     => 'nullable|string|max:255',
+                'alternative_name'     => 'nullable|string|max:255',
+                'print_name_r1'     => 'nullable|string|max:255',
+                'print_name_r2'     => 'nullable|string|max:255',
+                'dod'     => 'nullable|string|max:255',
+                'original_reg_num'     => 'nullable|string|max:255',
+                'last_reg_num'     => 'nullable|string|max:255',
+                'reg_num_2'     => 'nullable|string|max:255',
+                'reg_num_3'     => 'nullable|string|max:255',
+                'notes'     => 'nullable|string|max:255',
+                'breeder'     => 'nullable|string|max:255',
+                'current_owner'     => 'nullable|string|max:255',
+                'country_of_origin'     => 'nullable|string|max:255',
+                'country'     => 'nullable|string|max:255',
+                'ownership_notes'     => 'nullable|string|max:255',
+                'personal_info'     => 'nullable|string|max:255',
+                'photo'     => 'sometimes|mimes:jpg,png,jpeg|max:3048',
+                'vet_confirmation'     => 'sometimes|mimes:jpg,png,jpeg|max:3048'
+            ]);
+            $attributes = $request->except('photo', 'vet_confirmation');
+            if ($request->hasFile('photo')) {
+                $image = $request->file('photo');
+                $name = time().'_photo.'.$image->getClientOriginalExtension();
+                $destinationPath = public_path('/images');
+                $image->move($destinationPath, $name);
+                $attributes['photo'] = "/images" . "/" . $name;
+            }
+            if ($request->hasFile('vet_confirmation')) {
+                $image = $request->file('vet_confirmation');
+                $name = time().'_vet_confirmation.'.$image->getClientOriginalExtension();
+                $destinationPath = public_path('/images');
+                $image->move($destinationPath, $name);
+                $attributes['vet_confirmation'] = "/images" . "/" . $name;
+            }
+            $cat->update($attributes);
+            $catAttributes = collect($catAttributes);
 
-        $this->updateCatMetadata($cat, $catAttributes);
+            $this->updateCatMetadata($cat, $catAttributes);
 
-        return redirect()->route('cats.show', $cat->id);
+            return redirect()->route('cats.show', $cat->id);
+        } else {
+            return redirect('/');
+        }    
     }
 
     /**
@@ -252,27 +261,31 @@ class CatsController extends Controller
      */
     public function destroy(Request $request, Cat $cat)
     {
-        if ($request->has('replace_delete_button')) {
-            $attributes = $request->validate([
-                'replacement_cat_id' => 'required|exists:cats,id',
-            ], [
-                'replacement_cat_id.required' => __('validation.cat.replacement_cat_id.required'),
+        if (Auth::user() && Auth::user()->is_admin) {
+            if ($request->has('replace_delete_button')) {
+                $attributes = $request->validate([
+                    'replacement_cat_id' => 'required|exists:cats,id',
+                ], [
+                    'replacement_cat_id.required' => __('validation.cat.replacement_cat_id.required'),
+                ]);
+
+                $this->dispatchNow(new DeleteAndReplaceCat($cat, $attributes['replacement_cat_id']));
+
+                return redirect()->route('cats.show', $attributes['replacement_cat_id']);
+            }
+
+            $request->validate([
+                'cat_id' => 'required',
             ]);
 
-            $this->dispatchNow(new DeleteAndReplaceCat($cat, $attributes['replacement_cat_id']));
+            if ($request->get('cat_id') == $cat->id && $cat->delete()) {
+                return redirect()->route('cats.search');
+            }
 
-            return redirect()->route('cats.show', $attributes['replacement_cat_id']);
+            return back();
+        } else {
+            return redirect('/');
         }
-
-        $request->validate([
-            'cat_id' => 'required',
-        ]);
-
-        if ($request->get('cat_id') == $cat->id && $cat->delete()) {
-            return redirect()->route('cats.search');
-        }
-
-        return back();
     }
 
     /**
@@ -324,16 +337,20 @@ class CatsController extends Controller
 
     private function updateCatMetadata(Cat $cat, Collection $catAttributes)
     {
-        foreach (Cat::METADATA_KEYS as $key) {
-            if ($catAttributes->has($key) == false) {
-                continue;
+        if (Auth::user() && Auth::user()->is_admin) {
+            foreach (Cat::METADATA_KEYS as $key) {
+                if ($catAttributes->has($key) == false) {
+                    continue;
+                }
+                $catMeta = CatMetadata::firstOrNew(['cat_id' => $cat->id, 'key' => $key]);
+                if (!$catMeta->exists) {
+                    $catMeta->id = Uuid::uuid4()->toString();
+                }
+                $catMeta->value = $catAttributes->get($key);
+                $catMeta->save();
             }
-            $catMeta = CatMetadata::firstOrNew(['cat_id' => $cat->id, 'key' => $key]);
-            if (!$catMeta->exists) {
-                $catMeta->id = Uuid::uuid4()->toString();
-            }
-            $catMeta->value = $catAttributes->get($key);
-            $catMeta->save();
+        } else {
+            return redirect('/');
         }
     }
 }

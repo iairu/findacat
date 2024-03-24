@@ -22,7 +22,7 @@ body {
             <div class="panel panel-default">
                 <div class="panel-heading">Register</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('register') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ route('register-cat') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('titles_before_name') ? ' has-error' : '' }}">

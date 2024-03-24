@@ -15,14 +15,14 @@ class CreateCatsTable extends Migration
     {
         Schema::create('cats', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('full_name')->nullable();
+            $table->string('full_name');
             $table->boolean('gender_id')->unsigned();
             $table->uuid('sire_id')->nullable();
             $table->uuid('dam_id')->nullable();
             // $table->uuid('parent_id')->nullable();
             $table->string('dob')->nullable(); //date
-            $table->string('titles_before_name')->nullable();
-            $table->string('titles_after_name')->nullable();
+            $table->string('titles_before_name');
+            $table->string('titles_after_name');
             $table->string('ems_color')->nullable();
             $table->string('breed')->nullable();
             $table->string('chip_number')->nullable();

@@ -82,9 +82,15 @@
     <div class="col-md-3">
         <div class="panel panel-default">
             <div class="panel-body">
+                @if ($cat->titles_before_name)
                 <div>({{ $cat->gender }}) {{ $cat->titles_before_name }}</div>
+                @else
+                <div>({{ $cat->gender }})</div>
+                @endif
                 <h3 class="panel-title">{{ $cat->profileLink() }}</h3>
+                @if ($cat->titles_after_name)
                 <div>{{ $cat->titles_after_name }}</div>
+                @endif
                 <hr style="margin: 5px 0;">
                 <div>{{ $cat->breed }} {{ $cat->ems_color }} {{ $cat->dob }}</div>
                 <hr style="margin: 5px 0;">

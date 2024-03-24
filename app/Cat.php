@@ -184,6 +184,15 @@ class Cat extends Model
     }
 
 
+    public function titles_before_name() {
+        return $this->titles_before_name ? $this->titles_before_name : "";
+    }
+
+    public function titles_after_name() {
+        return $this->titles_after_name ? $this->titles_after_name : "";
+    }
+
+
     public function wifes()
     {
         return $this->belongsToMany(Cat::class, 'couples', 'husband_id', 'wife_id')->using('App\CouplePivot')->withPivot(['id'])->withTimestamps()->orderBy('marriage_date');

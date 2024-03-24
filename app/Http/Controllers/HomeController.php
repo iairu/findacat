@@ -25,7 +25,7 @@ class HomeController extends Controller
         $cat = Cat::find(1); // todo: if not exist create
 
         if($cat == null) {
-            return redirect()->route('register');
+            return redirect()->route('register-cat');
         }
 
         $catsMariageList = [];

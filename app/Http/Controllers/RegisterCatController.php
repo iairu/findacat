@@ -7,6 +7,7 @@ use App\Cat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterCatController extends Controller
 {
@@ -43,7 +44,11 @@ class RegisterCatController extends Controller
 
     public function index()
     {
-        return view('cats.register-cat');
+        if (Auth::user() && Auth::user()->is_admin) {
+            return view('cats.register-cat');
+        } else {
+            return redirect('/');
+        }
     }
 
     /**
@@ -68,13 +73,19 @@ class RegisterCatController extends Controller
      */
     protected function create(Request $request)
     {
-        $cat = Cat::create([
-            'id' => Uuid::uuid4()->toString(),
-            'full_name' => $request->get('full_name'),
-            'gender_id' => $request->get('gender_id'),
-        ]);
-        $cat->save();
+        if (Auth::user() && Auth::user()->is_admin) {
+            $cat = Cat::create([
+                'id' => Uuid::uuid4()->toString(),
+                'titles_before_name' => $request->get('titles_before_name') || "",
+                'full_name' => $request->get('full_name'),
+                'titles_after_name' => $request->get('titles_after_name') || "",
+                'gender_id' => $request->get('gender_id'),
+            ]);
+            $cat->save();
 
-        return view('cats.register-cat');
+            return view('cats.register-cat');
+        } else {
+            return redirect('/');
+        }
     }
 }

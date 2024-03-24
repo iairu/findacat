@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class BackupUploadRequest extends FormRequest
 {
@@ -13,7 +14,11 @@ class BackupUploadRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        if (Auth::user() && Auth::user()->is_admin) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

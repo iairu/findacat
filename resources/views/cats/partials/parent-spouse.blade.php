@@ -18,10 +18,14 @@
                         </div>
                         {{ Form::close() }}
                         @else
+                            @if ($cat->s())
                             {{ $cat->sireLink() }} {{ $cat->s()->breed }} {{ $cat->s()->ems_color }} {{ $cat->s()->dob }}
+                            @endif
+                            @if (Auth::user() && Auth::user()->is_admin) 
                             <div class="pull-right">
                                 {{ link_to_route('cats.show', __('cat.set_sire'), [$cat->id, 'action' => 'set_sire'], ['class' => 'btn btn-link btn-xs']) }}
                             </div>
+                            @endif
                         @endif
                 </td>
             </tr>
@@ -40,10 +44,14 @@
                         </div>
                         {{ Form::close() }}
                         @else
+                            @if ($cat->d())
                             {{ $cat->damLink() }} {{ $cat->d()->breed }} {{ $cat->d()->ems_color }} {{ $cat->d()->dob }}
+                            @endif
+                            @if (Auth::user() && Auth::user()->is_admin) 
                             <div class="pull-right">
                                 {{ link_to_route('cats.show', __('cat.set_dam'), [$cat->id, 'action' => 'set_dam'], ['class' => 'btn btn-link btn-xs']) }}
                             </div>
+                            @endif
                         @endif
                 </td>
             </tr>
