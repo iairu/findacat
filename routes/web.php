@@ -11,6 +11,7 @@ use App\Http\Controllers\CouplesController;
 use App\Http\Controllers\FamilyActionsController;
 use App\Http\Controllers\FilesController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LocalizationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,7 @@ use App\Http\Controllers\HomeController;
 |
 */
 
+Route::middleware(['localization'])->group(function () {
 Route::get('/', [CatsController::class, 'search']);
 
 Route::controller(HomeController::class)->group(function () {
@@ -83,5 +85,8 @@ Route::controller(BackupsController::class)->group(function () {
 });
 Route::resource('backups', BackupsController::class);
 Route::post('upload', [FilesController::class,'store']);
+
+});
+Route::post('/language/change', [LocalizationController::class, 'changeLanguage'])->name('language.change');
 
 require __DIR__.'/auth.php';

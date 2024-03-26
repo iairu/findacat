@@ -12,9 +12,6 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         @yield('ext_css')
-        <style>
-            .page-header { margin-top: 0px; }
-        </style>
         <!-- Scripts -->
         <!-- @vite(['resources/css/app.css', 'resources/js/app.js']) -->
     </head>

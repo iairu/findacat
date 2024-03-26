@@ -4,7 +4,7 @@
 
             <!-- Collapsed Branding Image -->
             <a class="navbar-brand collapsed-only" href="{{ url('/') }}">
-                {{ config('app.name', 'Laravel') }}
+                {{ config('app.name', 'Find A Cat') }}
             </a>
 
             <!-- Collapsed Hamburger -->
@@ -43,8 +43,18 @@
                     @else
                     <li><a href="{{ route('logout') }}">👤{{ Auth::user()->name }} - {{ __('app.logout') }}</a></li>
                     @endif
-
-
+                    <li><div class="lang">
+                        <form method="POST" action="{{ route('language.change') }}">
+                            @csrf
+                            <select name="locale" onchange="this.form.submit()">
+                                @foreach(config('app.supported_locales') as $locale)
+                                    <option value="{{ $locale }}" {{ app()->getLocale() == $locale ? 'selected' : '' }}>
+                                        {{ strtoupper($locale) }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </form>
+                    </div></li>
             </ul>
         </div>
     </div>
