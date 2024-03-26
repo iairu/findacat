@@ -41,19 +41,7 @@
                     <li><a href="{{ route('login') }}">👤{{ __('app.login') }}</a></li>
                     <li><a href="{{ route('register') }}">♥️{{ __('app.register') }}</a></li>
                     @else
-                    <li>
-                        <div>👤{{ Auth::user()->name }}</div>
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-
-                            <a href="route('logout')"
-                                    onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('app.logout') }}
-                            </a>
-                        </form>
-                    </li>
+                    <li><a href="{{ route('logout') }}">👤{{ Auth::user()->name }} - {{ __('app.logout') }}</a></li>
                     @endif
 
 

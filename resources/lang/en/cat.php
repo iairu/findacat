@@ -57,6 +57,6 @@ return [
     'doo' => 'Date of Ownership',
     'delete' => 'Delete',
     'age' => 'Age',
-    'test_mating' => 'Test Mating'
-
+    'test_mating' => 'Test Mating',
+    'with' => 'with'
 ];

@@ -14,6 +14,5 @@ return [
     // Attributes
     'husband'            => 'Head of Family',
     'wife'               => 'Wife',
-    'marriage_date'      => 'Mating Date',
-    'divorce_date'       => 'Divorce Date',
+    'marriage_date'      => 'Mating Date'
 ];

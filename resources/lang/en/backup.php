@@ -6,6 +6,7 @@ return [
     'list'        => 'GZ Backup File List',
     'actions'     => 'Actions',
     'empty'       => 'No backup file available.',
+    'help'        => 'Help',
 
     // Actions
     'create'              => 'Create Backup GZ File',
