@@ -44,6 +44,7 @@ class CreateCatsTable extends Migration
             $table->string('country')->nullable();
             $table->string('ownership_notes')->nullable();
             $table->string('personal_info')->nullable();
+            $table->string('genetic_tests_file')->nullable();
             $table->string('photo')->nullable();
             $table->string('vet_confirmation')->nullable();
             $table->string('doo')->nullable();

@@ -47,7 +47,7 @@ class Cat extends Model
         'print_name_r1', 'print_name_r2', 'dod', 'original_reg_num', 
         'last_reg_num', 'reg_num_2', 'reg_num_3', 'notes', 'breeder', 
         'current_owner', 'country_of_origin', 'country', 
-        'ownership_notes', 'personal_info', 'photo', 'vet_confirmation'
+        'ownership_notes', 'personal_info', 'genetic_tests_file', 'photo', 'vet_confirmation'
     ];
 
     /**
@@ -155,7 +155,15 @@ class Cat extends Model
 
     public function l($generations = 5)
     {
-        return link_to_route('cats.tree', $this->full_name, [$this->id, $generations], ['title' => $this->full_name.' ('.$this->gender.')']);
+        return link_to_route('cats.tree', $this->titles_before_name . ' ' . $this->full_name . ' ' . $this->titles_after_name, [$this->id, $generations], ['title' => $this->full_name.' ('.$this->gender.')']);
+    }
+
+    public function dob() {
+        if ($this->dob == "1111-11-11") {
+            return "";
+        } else {
+            return $this->dob;
+        }
     }
 
     public function sireLink()

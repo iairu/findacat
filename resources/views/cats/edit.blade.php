@@ -16,13 +16,21 @@ body {
     display: flex;
     flex-flow: row;
     width: auto;
-    gap: 10px;
+    gap: 40px;
 }
 .panel-body .one,
 .panel-body .two {
     display: flex;
     flex-flow: column;
-    gap: 10px;
+    gap: 40px;
+}
+.panel-body .left {
+    min-width: 500px;
+}
+.in-row ul,
+.in-row .form-group {
+    display: flex;
+    flex-flow: row;
 }
 </style>
 @endsection

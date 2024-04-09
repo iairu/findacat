@@ -89,7 +89,7 @@ img {
     parentchilds.forEach(parentchild => {
         var details = document.createElement("details");
         details.innerHTML = `
-            <summary>${parentchild.parent}</summary>
+            <summary style="font-weight: bold;">${parentchild.parent}</summary>
         `;
         parentchild.children.forEach(child => {
             details.append(child.children[1]);

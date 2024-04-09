@@ -28,6 +28,9 @@
     .navbar-default {
         border-color: rgba(0, 0, 0, 0.07) !important;
     }
+    .input-group input[type="text"] {
+        min-width: 500px;
+    }
 </style>
 @endsection
 
@@ -82,17 +85,29 @@
     <div class="col-md-3">
         <div class="panel panel-default">
             <div class="panel-body">
+                @if ($cat->gender == "F")
                 @if ($cat->titles_before_name)
-                <div>({{ $cat->gender }}) {{ $cat->titles_before_name }}</div>
+                <div style="color:red;">({{ $cat->gender }}) {{ $cat->titles_before_name }}</div>
                 @else
-                <div>({{ $cat->gender }})</div>
+                <div style="color:red;">({{ $cat->gender }})</div>
                 @endif
-                <h3 class="panel-title">{{ $cat->profileLink() }}</h3>
+                <h3 class="panel-title" style="color:red;">{{ $cat->profileLink() }}</h3>
                 @if ($cat->titles_after_name)
-                <div>{{ $cat->titles_after_name }}</div>
+                <div style="color:red;">{{ $cat->titles_after_name }}</div>
+                @endif
+                @else
+                @if ($cat->titles_before_name)
+                <div style="color:blue;">({{ $cat->gender }}) {{ $cat->titles_before_name }}</div>
+                @else
+                <div style="color:blue;">({{ $cat->gender }})</div>
+                @endif
+                <h3 class="panel-title" style="color:blue;">{{ $cat->profileLink() }}</h3>
+                @if ($cat->titles_after_name)
+                <div style="color:blue;">{{ $cat->titles_after_name }}</div>
+                @endif
                 @endif
                 <hr style="margin: 5px 0;">
-                <div>{{ $cat->breed }} {{ $cat->ems_color }} {{ $cat->dob }}</div>
+                <div>{{ $cat->breed }} {{ $cat->ems_color }} <span style="float: right;">{{ $cat->dob() }}</span></div>
                 <hr style="margin: 5px 0;">
                 <div>{{ trans('cat.sire') }} : {{ $cat->sire_id ? $cat->sire->full_name : '' }}</div>
                 <div>{{ trans('cat.dam') }} : {{ $cat->dam_id ? $cat->dam->full_name : '' }}</div>

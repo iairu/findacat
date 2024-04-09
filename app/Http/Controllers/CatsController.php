@@ -223,10 +223,18 @@ class CatsController extends Controller
                 'country'     => 'nullable|string|max:255',
                 'ownership_notes'     => 'nullable|string|max:255',
                 'personal_info'     => 'nullable|string|max:255',
+                'genetic_tests_file'     => 'sometimes|mimes:jpg,png,jpeg,pdf|max:3048',
                 'photo'     => 'sometimes|mimes:jpg,png,jpeg|max:3048',
-                'vet_confirmation'     => 'sometimes|mimes:jpg,png,jpeg|max:3048'
+                'vet_confirmation'     => 'sometimes|mimes:jpg,png,jpeg,pdf|max:3048'
             ]);
-            $attributes = $request->except('photo', 'vet_confirmation');
+            $attributes = $request->except('genetic_tests_file', 'photo', 'vet_confirmation');
+            if ($request->hasFile('genetic_tests_file')) {
+                $image = $request->file('genetic_tests_file');
+                $name = time().'_genetic_tests_file.'.$image->getClientOriginalExtension();
+                $destinationPath = public_path('/images');
+                $image->move($destinationPath, $name);
+                $attributes['genetic_tests_file'] = "/images" . "/" . $name;
+            }
             if ($request->hasFile('photo')) {
                 $image = $request->file('photo');
                 $name = time().'_photo.'.$image->getClientOriginalExtension();
@@ -298,7 +306,12 @@ class CatsController extends Controller
     private function getPersonList(int $genderId)
     {
         // Cat::where('gender_id', $genderId)->pluck('full_name', 'id');
-        return Cat::select(DB::raw("CONCAT(titles_before_name,' ',full_name,' ',titles_after_name) AS display_name"),'id')->where('gender_id', $genderId)->pluck('display_name','id');
+        if ($genderId == 2) {
+
+        return Cat::select(DB::raw("CONCAT('(', breed, ') ', titles_before_name,' ',full_name,' ',titles_after_name) AS display_name"),'id')->where('gender_id', $genderId)->pluck('display_name','id')->skip(1);
+        } else {
+        return Cat::select(DB::raw("CONCAT('(', breed, ') ', titles_before_name,' ',full_name,' ',titles_after_name) AS display_name"),'id')->where('gender_id', $genderId)->pluck('display_name','id');
+        }
     }
 
     /**

@@ -223,8 +223,9 @@ class BackupsController extends Controller
                         'country' => $data[26],
                         'ownership_notes' => $data[27],
                         'personal_info' => $data[28],
-                        'photo' => $data[29],
-                        'vet_confirmation' => $data[30]
+                        'genetic_tests_file' => $data[29],
+                        'photo' => $data[30],
+                        'vet_confirmation' => $data[31]
                         // Add more fields as needed
                     ]);
                 }
@@ -249,7 +250,7 @@ class BackupsController extends Controller
             ];
 
             $handle = fopen('php://output', 'w');
-            fputcsv($handle, ['id', 'full_name', 'gender_id', 'sire_id', 'dam_id', 'dob', 'titles_before_name', 'titles_after_name', 'ems_color', 'breed', 'chip_number', 'genetic_tests', 'breeding_station', 'country_code', 'alternative_name', 'print_name_r1', 'print_name_r2', 'dod', 'original_reg_num', 'last_reg_num', 'reg_num_2', 'reg_num_3', 'notes', 'breeder', 'current_owner', 'country_of_origin', 'country', 'ownership_notes', 'personal_info', 'photo', 'vet_confirmation']); // Add more headers as needed
+            fputcsv($handle, ['id', 'full_name', 'gender_id', 'sire_id', 'dam_id', 'dob', 'titles_before_name', 'titles_after_name', 'ems_color', 'breed', 'chip_number', 'genetic_tests', 'breeding_station', 'country_code', 'alternative_name', 'print_name_r1', 'print_name_r2', 'dod', 'original_reg_num', 'last_reg_num', 'reg_num_2', 'reg_num_3', 'notes', 'breeder', 'current_owner', 'country_of_origin', 'country', 'ownership_notes', 'personal_info', 'genetic_tests_file', 'photo', 'vet_confirmation']); // Add more headers as needed
 
             foreach ($cats as $cat) {
                 fputcsv($handle, [$cat->id, $cat->full_name, $cat->gender_id, $cat->sire_id, $cat->dam_id, $cat->dob, $cat->titles_before_name, $cat->titles_after_name, $cat->ems_color, $cat->breed, $cat->chip_number, $cat->genetic_tests, $cat->breeding_station, $cat->country_code, $cat->alternative_name, $cat->print_name_r1, $cat->print_name_r2, $cat->dod, $cat->original_reg_num, $cat->last_reg_num, $cat->reg_num_2, $cat->reg_num_3, $cat->notes, $cat->breeder, $cat->current_owner, $cat->country_of_origin, $cat->country, $cat->ownership_notes, $cat->personal_info, $cat->photo, $cat->vet_confirmation]); // Add more fields as needed
