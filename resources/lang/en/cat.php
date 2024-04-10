@@ -59,5 +59,6 @@ return [
     'age' => 'Age',
     'test_mating' => 'Test Mating',
     'with' => 'with',
-    'same_breed' => 'Only show same breed for the opposite gender in select options'
+    'same_breed' => 'Only show same breed for the opposite gender in select options',
+    'display_reg_num' => 'Show registration numbers'
 ];

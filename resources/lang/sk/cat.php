@@ -59,5 +59,6 @@ return [
     'age' => 'Vek',
     'test_mating' => 'Testovanie párenia',
     'with' => 's',
-    'same_breed' => 'Zobraziť len rovnaké plemeno pre opačné pohlavie v možnostiach výberu'
+    'same_breed' => 'Zobraziť len rovnaké plemeno pre opačné pohlavie v možnostiach výberu',
+    'display_reg_num' => 'Zobraziť registračné čísla'
 ];
