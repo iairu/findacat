@@ -12,7 +12,7 @@ class CatsDeletionTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function anyone_can_delete_a_cat()
+    public function user_can_delete_a_cat()
     {
         $cat = factory(Cat::class)->create([]);
 
@@ -31,7 +31,7 @@ class CatsDeletionTest extends TestCase
     }
 
     /** @test */
-    public function anyone_can_delete_a_cat_the_replace_childs_sire_id()
+    public function user_can_delete_a_cat_the_replace_childs_sire_id()
     {
         $cat = factory(Cat::class)->create([]);
         $oldCat = factory(Cat::class)->states('male')->create([]);
@@ -60,7 +60,7 @@ class CatsDeletionTest extends TestCase
     }
 
     /** @test */
-    public function anyone_can_delete_a_cat_the_replace_childs_dam_id()
+    public function user_can_delete_a_cat_the_replace_childs_dam_id()
     {
         $cat = factory(Cat::class)->create([]);
         $oldCat = factory(Cat::class)->states('female')->create([]);
@@ -89,11 +89,11 @@ class CatsDeletionTest extends TestCase
     }
 
     /** @test */
-    public function anyone_can_delete_a_cat_the_replace_cats_anyone_id()
+    public function user_can_delete_a_cat_the_replace_cats_user_id()
     {
         $cat = factory(Cat::class)->create([]);
         $oldCat = factory(Cat::class)->states('male')->create([]);
-        $oldCatManagedCat = factory(Cat::class)->create(['anyone_id' => $oldCat->id]);
+        $oldCatManagedCat = factory(Cat::class)->create(['user_id' => $oldCat->id]);
         $replacementCat = factory(Cat::class)->states('male')->create([]);
 
         $this->visit(route('cats.edit', [$oldCat, 'action' => 'delete']));
@@ -113,12 +113,12 @@ class CatsDeletionTest extends TestCase
 
         $this->seeInDatabase('cats', [
             'id'         => $oldCatManagedCat->id,
-            'anyone_id' => $replacementCat->id,
+            'user_id' => $replacementCat->id,
         ]);
     }
 
     /** @test */
-    public function anyone_can_delete_a_cat_the_replace_couples_husband_id()
+    public function user_can_delete_a_cat_the_replace_couples_husband_id()
     {
         $cat = factory(Cat::class)->create([]);
         $oldCat = factory(Cat::class)->states('male')->create([]);
@@ -149,7 +149,7 @@ class CatsDeletionTest extends TestCase
     }
 
     /** @test */
-    public function anyone_can_delete_a_cat_the_replace_couples_wife_id()
+    public function user_can_delete_a_cat_the_replace_couples_wife_id()
     {
         $cat = factory(Cat::class)->create([]);
         $oldCat = factory(Cat::class)->states('female')->create([]);
@@ -180,7 +180,7 @@ class CatsDeletionTest extends TestCase
     }
 
     /** @test */
-    public function anyone_can_delete_a_cat_the_replace_couples_anyone_id()
+    public function user_can_delete_a_cat_the_replace_couples_user_id()
     {
         $cat = factory(Cat::class)->create([]);
         $oldCat = factory(Cat::class)->states('male')->create([]);
@@ -206,7 +206,7 @@ class CatsDeletionTest extends TestCase
 
         $this->seeInDatabase('couples', [
             'id'         => $oldCoupleManagedCouple->id,
-            'anyone_id' => $replacementCat->id,
+            'user_id' => $replacementCat->id,
         ]);
     }
 

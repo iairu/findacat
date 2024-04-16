@@ -25,8 +25,6 @@ img {
     border-bottom: 1px solid #d3e0e9;
 }
 </style>
-<link rel="stylesheet" href="{{ asset('css/plugins/select2.min.css') }}">
-<link rel="stylesheet" href="{{ asset('css/plugins/jquery.datetimepicker.css') }}">
 @endsection
 
 @section('subtitle', trans('cat.profile'))

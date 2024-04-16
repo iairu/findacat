@@ -11,6 +11,8 @@
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('css/plugins/select2.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/plugins/jquery.datetimepicker.css') }}">
         @yield('ext_css')
         <!-- Scripts -->
         <!-- @vite(['resources/css/app.css', 'resources/js/app.js']) -->

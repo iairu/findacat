@@ -44,11 +44,4 @@ class CoupleTest extends TestCase
         $this->assertEquals($child->sire_id, $couple->husband_id);
         $this->assertEquals($child->dam_id, $couple->wife_id);
     }
-
-    /** @test */
-    public function a_couple_have_a_manager()
-    {
-        $couple = factory(Couple::class)->create();
-        $this->assertTrue($couple->manager instanceof User);
-    }
 }

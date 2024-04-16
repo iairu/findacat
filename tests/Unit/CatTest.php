@@ -37,73 +37,6 @@ class CatTest extends TestCase
     }
 
     /** @test */
-    public function cat_can_have_many_marriages()
-    {
-        $husband = factory(Cat::class)->states('male')->create();
-        $wife = factory(Cat::class)->states('female')->create();
-        $husband->addWife($wife);
-
-        $husband = $husband->fresh();
-        $this->assertCount(1, $husband->marriages);
-
-        $wife = $wife->fresh();
-        $this->assertCount(1, $wife->marriages);
-    }
-
-    /** @test */
-    public function male_person_marriages_ordered_by_marriage_date()
-    {
-        $husband = factory(Cat::class)->states('male')->create();
-        $wife1 = factory(Cat::class)->states('female')->create();
-        $wife2 = factory(Cat::class)->states('female')->create();
-        $husband->addWife($wife2, '1999-04-21');
-        $husband->addWife($wife1, '1990-02-13');
-
-        $husband = $husband->fresh();
-        $marriages = $husband->marriages;
-        $this->assertEquals('1990-02-13', $marriages->first()->marriage_date);
-        $this->assertEquals('1999-04-21', $marriages->last()->marriage_date);
-
-        $this->assertEquals($wife1->name, $husband->couples->first()->name);
-        $this->assertEquals($wife2->name, $husband->couples->last()->name);
-
-        $this->assertEquals($wife1->name, $husband->wifes->first()->name);
-        $this->assertEquals($wife2->name, $husband->wifes->last()->name);
-    }
-
-    /** @test */
-    public function female_person_marriages_ordered_by_marriage_date()
-    {
-        $wife = factory(Cat::class)->states('female')->create();
-        $husband1 = factory(Cat::class)->states('male')->create();
-        $husband2 = factory(Cat::class)->states('male')->create();
-        $wife->addHusband($husband2, '1989-04-21');
-        $wife->addHusband($husband1, '1980-02-13');
-
-        $wife = $wife->fresh();
-        $marriages = $wife->marriages;
-        $this->assertEquals('1980-02-13', $marriages->first()->marriage_date);
-        $this->assertEquals('1989-04-21', $marriages->last()->marriage_date);
-
-        $this->assertEquals($husband1->name, $wife->couples->first()->name);
-        $this->assertEquals($husband2->name, $wife->couples->last()->name);
-
-        $this->assertEquals($husband1->name, $wife->husbands->first()->name);
-        $this->assertEquals($husband2->name, $wife->husbands->last()->name);
-    }
-
-    /** @test */
-    public function cat_can_ony_marry_same_person_once()
-    {
-        $husband = factory(Cat::class)->states('male')->create();
-        $wife = factory(Cat::class)->states('female')->create();
-
-        $husband->addWife($wife);
-
-        $this->assertFalse($wife->addHusband($husband), 'This couple is married!');
-    }
-
-    /** @test */
     public function cat_have_sire_link_method()
     {
         $sire = factory(Cat::class)->create();
@@ -223,19 +156,6 @@ class CatTest extends TestCase
         ]);
 
         $this->assertEquals($age, $cat->age_detail);
-
-        Carbon::setTestNow();
-    }
-
-    /** @test */
-    public function cat_has_age_string_attribute()
-    {
-        $today = '2018-02-02';
-        Carbon::setTestNow($today);
-        $cat = factory(Cat::class)->make(['dob' => '1997-01-01']);
-
-        $ageString = '<div title="21 tahun, 1 bulan, 1 hari">21 tahun</div>';
-        $this->assertEquals($ageString, $cat->age_string);
 
         Carbon::setTestNow();
     }

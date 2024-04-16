@@ -22,14 +22,14 @@ class ManageCatFamiliesTest extends TestCase
         $this->seeElement('input', ['name' => 'set_sire']);
 
         $this->submitForm('set_sire_button', [
-            'set_sire' => 'Nama Ayah',
+            'set_sire' => 'Name',
         ]);
 
         $this->seeInDatabase('cats', [
-            'nickname' => 'Nama Ayah',
+            'nickname' => 'Name',
         ]);
 
-        $this->assertEquals('Nama Ayah', $cat->fresh()->sire->nickname);
+        $this->assertEquals('Name', $cat->fresh()->sire->nickname);
     }
 
     /** @test */
@@ -44,14 +44,14 @@ class ManageCatFamiliesTest extends TestCase
         $this->seeElement('input', ['name' => 'set_dam']);
 
         $this->submitForm('set_dam_button', [
-            'set_dam' => 'Nama Ibu',
+            'set_dam' => 'Name',
         ]);
 
         $this->seeInDatabase('cats', [
-            'nickname'   => 'Nama Ibu',
+            'nickname'   => 'Name',
         ]);
 
-        $this->assertEquals('Nama Ibu', $cat->fresh()->dam->nickname);
+        $this->assertEquals('Name', $cat->fresh()->dam->nickname);
     }
 
     /** @test */
@@ -66,13 +66,13 @@ class ManageCatFamiliesTest extends TestCase
         $this->seeElement('select', ['name' => 'add_child_parent_id']);
 
         $this->submitForm(trans('cat.add_child'), [
-            'add_child_name'      => 'Nama Anak 1',
+            'add_child_name'      => 'Name 1',
             'add_child_gender_id' => 1,
             'add_child_parent_id' => '',
         ]);
 
         $this->seeInDatabase('cats', [
-            'nickname'   => 'Nama Anak 1',
+            'nickname'   => 'Name 1',
             'gender_id'  => 1,
             'sire_id'  => $cat->id,
             'dam_id'  => null,
@@ -97,13 +97,13 @@ class ManageCatFamiliesTest extends TestCase
         $this->seeElement('select', ['name' => 'add_child_parent_id']);
 
         $this->submitForm(trans('cat.add_child'), [
-            'add_child_name'      => 'Nama Anak 1',
+            'add_child_name'      => 'Name 1',
             'add_child_gender_id' => 1,
             'add_child_parent_id' => $marriageId,
         ]);
 
         $this->seeInDatabase('cats', [
-            'nickname'   => 'Nama Anak 1',
+            'nickname'   => 'Name 1',
             'gender_id'  => 1,
             'sire_id'  => $husband->id,
             'dam_id'  => $wife->id,
@@ -120,17 +120,17 @@ class ManageCatFamiliesTest extends TestCase
         $this->seeElement('input', ['name' => 'set_wife']);
 
         $this->submitForm('set_wife_button', [
-            'set_wife'      => 'Nama Istri',
+            'set_wife'      => 'Name',
             'marriage_date' => '2010-01-01',
         ]);
 
         $this->seeInDatabase('cats', [
-            'nickname'  => 'Nama Istri',
+            'nickname'  => 'Name',
             'gender_id' => 2,
         ]);
 
         $wife = Cat::where([
-            'nickname'  => 'Nama Istri',
+            'nickname'  => 'Name',
             'gender_id' => 2,
         ])->first();
 
@@ -151,17 +151,17 @@ class ManageCatFamiliesTest extends TestCase
         $this->seeElement('input', ['name' => 'set_husband']);
 
         $this->submitForm('set_husband_button', [
-            'set_husband'   => 'Nama Suami',
+            'set_husband'   => 'Name',
             'marriage_date' => '2010-03-03',
         ]);
 
         $this->seeInDatabase('cats', [
-            'nickname'   => 'Nama Suami',
+            'nickname'   => 'Name',
             'gender_id'  => 1,
         ]);
 
         $husband = Cat::where([
-            'nickname'  => 'Nama Suami',
+            'nickname'  => 'Name',
             'gender_id' => 1,
         ])->first();
 

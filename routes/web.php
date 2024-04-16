@@ -32,10 +32,6 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('profile', 'index')->name('profile');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
-
 Route::controller(CatsController::class)->group(function () {
     Route::get('profile-search', 'search')->name('cats.search');
     Route::get('cats/{cat}', 'show')->name('cats.show');
@@ -84,7 +80,6 @@ Route::controller(BackupsController::class)->group(function () {
     Route::get('backups/{fileName}/dl', 'download')->name('backups.download');
 });
 Route::resource('backups', BackupsController::class);
-Route::post('upload', [FilesController::class,'store']);
 
 });
 Route::post('/language/change', [LocalizationController::class, 'changeLanguage'])->name('language.change');
