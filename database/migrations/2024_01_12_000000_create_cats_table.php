@@ -21,8 +21,8 @@ class CreateCatsTable extends Migration
             $table->uuid('dam_id')->nullable();
             // $table->uuid('parent_id')->nullable();
             $table->string('dob')->nullable(); //date
-            $table->string('titles_before_name');
-            $table->string('titles_after_name');
+            $table->string('titles_before_name')->nullable();
+            $table->string('titles_after_name')->nullable();
             $table->string('ems_color')->nullable();
             $table->string('breed')->nullable();
             $table->string('chip_number')->nullable();

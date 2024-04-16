@@ -60,5 +60,6 @@ return [
     'test_mating' => 'Test Mating',
     'with' => 'with',
     'same_breed' => 'Only show same breed for the opposite gender in select options',
-    'display_reg_num' => 'Show registration numbers'
+    'display_reg_num' => 'Show registration numbers',
+    'delete_confirm_button' => 'Confirm deletion'
 ];
