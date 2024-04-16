@@ -35,6 +35,20 @@ body {
             <p>- Dates of birth set to 1111-11-11 will have a note stating "Not set"</p>
             <p>---</p>
             <p>Note that the following database queries have to be executed for every user that should have access to backup functionality or cat registration: use database_name; update users set is_admin = TRUE where id = 1; Database name by default is homestead for the Docker container.</p>
+            <p>---</p>
+            <p>Poradie a formát stĺpcov v CSV importe musí byť ponechaný rovnaký ako v exporte</p>
+            <p>- Od dňa 2024-03-19 má byť poradie stĺpcov nasledovné: id, full_name, gender_id, sire_id, dam_id, dob, titles_before_name, titles_after_name, ems_color, breed, chip_number, genetic_tests, breeding_station, country_code, alternative_name, print_name_r1, print_name_r2, dod, original_reg_num, last_reg_num, reg_num_2, reg_num_3, notes, breeder, current_owner, country_of_origin, country, ownership_notes, personal_info, genetic_tests_file, photo, vet_confirmation, doo
+            <p>- Stĺpec "id" funguje ako UUID, čo znamená že je možné použiť akékoľvek unikátne ID aké chcete.</p>
+            <p>- Existujúce UUIDs nebudú prepísané.</p>
+            <p>Keďže integrita CSV nemôže byť zaručená, je odporúčané nasledovné:</p>
+            <p>- Vytvorte najprv GZ zálohu zaručujúcu integritu databázy.</p>
+            <p>- Prvá záloha môže byť na prázdnej databáze, čo aj odporúčame keďže následne môžete jednoducho vrátiť predvolený stav.</p>
+            <p>- Využite CSV import funkcionalitu.</p>
+            <p>- Ak je problém s integritou obnovte GZ zálohu.</p>
+            <p>- Potrebné: Treba obsiahnuť id "1" s full_name nastavené na "no origin" alebo podobne pre správne rodostromy a počítanie inbreedingu.</p>
+            <p>- Dátum narodenia nastavený na 1111-11-11 bude mať poznámku "Not set"</p>
+            <p>---</p>
+            <p>Nasledovné príkazy nad databázou musia byť použité pre každého používateľa, ktorý by mal mať prístup k funkcionalite zálohovania alebo k registrácií mačiek: use database_name; update users set is_admin = TRUE where id = 1; Database name by default is homestead for the Docker container.</p>
 </p>
     </div>
 </div>
