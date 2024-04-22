@@ -58,6 +58,7 @@ return [
     'delete' => 'Delete',
     'age' => 'Age',
     'test_mating' => 'Test Mating',
+    'test_mating_description' => 'Using Breeds',
     'with' => 'with',
     'same_breed' => 'Only show same breed for the opposite gender in select options',
     'display_reg_num' => 'Show registration numbers',

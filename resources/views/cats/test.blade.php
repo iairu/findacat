@@ -43,79 +43,69 @@
         margin: 0 0 5px;
         width: 15vw;
     }
+    label {
+        padding: 0 5px;
+    }
+    #controls {
+        padding: 15px 0;
+    }
 </style>
 <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
 @endsection
 
+
 @section ('ext_js')
 <script src="{{ asset('js/jquery.min.js') }}"></script>
 <script src="{{ asset('js/select2.full.min.js') }}"></script>
+@if ($breed->id > 1 && $breed2->id > 1 && $cat->id > 1 && $cat2->id > 1)
 <script src="{{ asset('js/inbreeding.js') }}"></script>
+@endif
 @endsection
 
 @section ('script')
 <script>
-    function maleButton(e) {
+    function breedButton(e) {
         e.preventDefault();
-        var maleSelector = document.querySelector('select[name="set_sire_id"]');
-        var cat = maleSelector.options[maleSelector.selectedIndex].value;
-        var uriComponents = window.location.pathname.matchAll(/\/test\/([^\/]*)\/([^\/]*)\/?/g);
+        var maleBreedSelector = document.querySelector('select[name="set_breed"]');
+        var femaleBreedSelector = document.querySelector('select[name="set_breed2"]');
+        var breed1 = maleBreedSelector.options[maleBreedSelector.selectedIndex].value;
+        var breed2 = femaleBreedSelector.options[femaleBreedSelector.selectedIndex].value;
+        var uriComponents = window.location.pathname.matchAll(/\/test\/([^\/]*)\/([^\/]*)\/([^\/]*)\/([^\/]*)\/?/g);
         for (const match of uriComponents) {
-            var cat1 = match[1];
-            var cat2 = match[2];
-            var newURI = window.location.origin + "/test/" + cat + "/" + cat2;
+            var breed1_ = match[1];
+            var breed2_ = match[2];
+            var cat1 = match[3];
+            var cat2 = match[4];
+            var newURI = window.location.origin + "/test/" + breed1 + "/" + breed2 + "/" + cat1 + "/" + cat2;
             window.location.replace(newURI);
     }}
-    function femaleButton(e) {
+    function genderButton(e) {
         e.preventDefault();
+        var maleSelector = document.querySelector('select[name="set_sire_id"]');
         var femaleSelector = document.querySelector('select[name="set_dam_id"]');
-        var cat = femaleSelector.options[femaleSelector.selectedIndex].value;
-        var uriComponents = window.location.pathname.matchAll(/\/test\/([^\/]*)\/([^\/]*)\/?/g);
+        var cat1 = maleSelector.options[maleSelector.selectedIndex].value;
+        var cat2 = femaleSelector.options[femaleSelector.selectedIndex].value;
+        var uriComponents = window.location.pathname.matchAll(/\/test\/([^\/]*)\/([^\/]*)\/([^\/]*)\/([^\/]*)\/?/g);
         for (const match of uriComponents) {
-            var cat1 = match[1];
-            var cat2 = match[2];
-            var newURI = window.location.origin + "/test/" + cat1 + "/" + cat;
+            var breed1 = match[1];
+            var breed2 = match[2];
+            var cat1_ = match[3];
+            var cat2_ = match[4];
+            var newURI = window.location.origin + "/test/" + breed1 + "/" + breed2 + "/" + cat1 + "/" + cat2;
             window.location.replace(newURI);
     }}
     function buttonBehavior() {
-        document.querySelector('#set_sire_button').addEventListener("click", maleButton);
-        document.querySelector('#set_dam_button').addEventListener("click", femaleButton);
-        document.querySelector(".page-header").innerHTML = "Test Mating";
+        if (document.querySelector('#set_gender_button')) {
+        document.querySelector('#set_gender_button').addEventListener("click", genderButton);
+        }
+        if (document.querySelector('#set_breed_button')) {
+        document.querySelector('#set_breed_button').addEventListener("click", breedButton);
+        }
         document.querySelector(".pull-right").style = "display:none;";
-    }
-    function setSameBreed() {
-        var maleSelect = document.querySelector('[name="set_sire_id"]')
-        var femaleSelect = document.querySelector('[name="set_dam_id"]')
-        var maleBreed = maleSelect.options[maleSelect.selectedIndex].text.substr(0,5);
-        var femaleBreed = femaleSelect.options[femaleSelect.selectedIndex].text.substr(0,5);
-        if (maleBreed.startsWith('(')) {
-            var femaleBreedOptions = Array.prototype.slice.call(femaleSelect.options).filter(option => option.text.substr(0,5) == maleBreed || option.text.substr(0,2) == '--')
-            femaleSelect.innerHTML = ""
-            femaleBreedOptions.forEach(option => femaleSelect.append(option))
-        } 
-        if (femaleBreed.startsWith('(')) {
-            var maleBreedOptions = Array.prototype.slice.call(maleSelect.options).filter(option => option.text.substr(0,5) == femaleBreed || option.text.substr(0,2) == '--')
-            maleSelect.innerHTML = ""
-            maleBreedOptions.forEach(option => maleSelect.append(option))
-        }
-    }
-    function sameBreedCheckboxBehavior() {
-        var checkbox = document.querySelector('input[name="same_breed"]');
-        var storedValue = localStorage.getItem('same_breed_checkbox');
-        if (JSON.parse(storedValue)) {
-            checkbox.checked = true;
-        }
-        if (checkbox.checked) {
-            setSameBreed()
-        }
-        checkbox.addEventListener("click", function(){
-            localStorage.setItem('same_breed_checkbox', JSON.stringify(checkbox.checked));
-            // Reset loaded select options to all breeds or apply ticked box (must be done before select2 gets loaded)
-            window.location.reload()
-        })
     }
     function regnumCheckboxBehavior() {
         var checkbox = document.querySelector('input[name="reg_num"]');
+        if (checkbox) {
         var storedValue = localStorage.getItem('reg_num_checkbox');
         if (JSON.parse(storedValue)) {
             checkbox.checked = true;
@@ -134,56 +124,74 @@
                 Array.prototype.slice.call(document.querySelectorAll('.reg_num')).forEach(div => div.setAttribute("style", "display:none;"))
             }
         })
+        }
     }
     function loadScripts() {
-        regnumCheckboxBehavior()
-        sameBreedCheckboxBehavior()
+        if (document.querySelector('#set_gender_button')) {
+            regnumCheckboxBehavior()
+        }
         // Interactive searchable select (default select options no longer work from now on until reload)
-        $('[name="set_sire_id"]').select2();
-        $('[name="set_dam_id"]').select2();
+        $('[name="set_breed"]').select2();
+        $('[name="set_breed2"]').select2();
+        if (document.querySelector('#set_gender_button')) {
+            $('[name="set_sire_id"]').select2();
+            $('[name="set_dam_id"]').select2();
+        }
         setInterval(function(){
-            if (document.querySelector('#set_sire_button').value !== "Update") {
-                document.querySelector('#set_sire_button').value = "Update";
-                document.querySelector('#set_dam_button').value = "Update";
+            if (document.querySelector('#set_breed_button')) {
+                if (document.querySelector('#set_breed_button').value !== "Update") {
+                    document.querySelector('#set_breed_button').value = "Update";
+                }
             }
-        }, 500)
+            if (document.querySelector('#set_gender_button')) {
+                if (document.querySelector('#set_gender_button').value !== "Update") {
+                    document.querySelector('#set_gender_button').value = "Update";
+                }
+            }
+        }, 250)
     }
     buttonBehavior();
     loadScripts();
 </script>
 @endsection
 
-@section('subtitle', trans('app.family_tree'))
+
+@section('title', trans('cat.test_mating'))
+@section('subtitle', trans('cat.test_mating_description'))
 
 @section('cat-content')
-
-<div id="controls">
-    <strong>Inbreeding:</strong>
-        <span id="result"><i>F</i> = 0.0%</span><br>
-        <input type="checkbox" name="same_breed"><label for="same_breed">{{ __('cat.same_breed') }}</label><br>
-        <input type="checkbox" name="reg_num"><label for="reg_num">{{ __('cat.display_reg_num') }}</label>
-</div>
 <div id="set">
-    <div class="sire">
-        {{ Form::open(['route' => ['cats.test', $cat->id, $cat2->id]]) }}
-        {!! FormField::select('set_sire_id', $malePersonList, ['label' => false, 'value' => $cat->id, 'placeholder' => __('app.select_from_existing_males')]) !!}
+    <div class="breed">
+        {{ Form::open(['route' => ['cats.test', $breed->id, $breed2->id, $cat->id, $cat2->id]]) }}
+        {!! FormField::select('set_breed', $breedList, ['label' => false, 'value' => $breed->id, 'placeholder' => __('app.select_from_existing_male_breeds')]) !!}
+        {!! FormField::select('set_breed2', $breedList, ['label' => false, 'value' => $breed2->id, 'placeholder' => __('app.select_from_existing_female_breeds')]) !!}
         <div class="input-group">
             <span class="input-group-btn">
-                {{ Form::submit(__('app.update'), ['class' => 'btn btn-info btn-sm', 'id' => 'set_sire_button']) }}
+                {{ Form::submit(__('app.update'), ['class' => 'btn btn-info btn-sm', 'id' => 'set_breed_button']) }}
             </span>
         </div>
         {{ Form::close() }}
     </div>
-    <div class="dam">
-        {{ Form::open(['route' => ['cats.test', $cat->id, $cat2->id]]) }}
+</div>
+@if ($breed->id > 1 && $breed2->id > 1)
+<div id="set">
+    <div class="gender">
+        {{ Form::open(['route' => ['cats.test', $breed->id, $breed2->id, $cat->id, $cat2->id]]) }}
+        {!! FormField::select('set_sire_id', $malePersonList, ['label' => false, 'value' => $cat->id, 'placeholder' => __('app.select_from_existing_males')]) !!}
         {!! FormField::select('set_dam_id', $femalePersonList, ['label' => false, 'value' => $cat2->id, 'placeholder' => __('app.select_from_existing_females')]) !!}
         <div class="input-group">
             <span class="input-group-btn">
-                {{ Form::submit(__('app.update'), ['class' => 'btn btn-info btn-sm', 'id' => 'set_dam_button']) }}
+                {{ Form::submit(__('app.update'), ['class' => 'btn btn-info btn-sm', 'id' => 'set_gender_button']) }}
             </span>
         </div>
         {{ Form::close() }}
     </div>
+</div>
+@if ($cat->id > 1 && $cat2->id > 1)
+<div id="controls">
+    <strong>Inbreeding:</strong>
+        <span id="result"><i>F</i> = 0.0%</span><br>
+        <input type="checkbox" name="reg_num"><label for="reg_num">{{ __('cat.display_reg_num') }}</label>
 </div>
 <div id="wrapper" class="family-tree">
     <div id="pedigree">
@@ -1656,7 +1664,8 @@
     </div>
 </div>
 <hr>
-
+@endif
+@endif
 @endsection
 
 @section ('ext_css')

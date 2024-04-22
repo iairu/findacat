@@ -63,7 +63,7 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-7">
-                                    {{ link_to_route('cats.test', __('cat.test_mating'), [$cat->id, 1], ['class' => 'btn btn-xs btn-warning']) }}
+                                    {{ link_to_route('cats.test', __('cat.test_mating'), [$cat->getBreed(), 1, $cat->id, 1], ['class' => 'btn btn-xs btn-warning']) }}
                                 </div>
                             </div>
                         </div>

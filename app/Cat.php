@@ -191,6 +191,17 @@ class Cat extends Model
         return $this->id != "1" ? $this->id : "";
     }
 
+    /**
+     * Get Breed
+     *
+     * @param int $genderId
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getBreed()
+    {
+        return Breed::select('breed','id')->where('breed',$this->breed)->pluck('id')->first();
+    }
 
     public function titles_before_name() {
         return $this->titles_before_name ? $this->titles_before_name : "";
@@ -200,6 +211,9 @@ class Cat extends Model
         return $this->titles_after_name ? $this->titles_after_name : "";
     }
 
+    public function full_name() {
+        return $this->full_name;
+    }
 
     public function wifes()
     {

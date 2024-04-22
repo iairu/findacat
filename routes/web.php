@@ -37,7 +37,7 @@ Route::controller(CatsController::class)->group(function () {
     Route::get('cats/{cat}', 'show')->name('cats.show');
     Route::get('cats/{cat}/chart', 'chart')->name('cats.chart');
     Route::get('cats/{cat}/tree', 'tree')->name('cats.tree');
-    Route::get('test/{cat}/{cat2}', 'test')->name('cats.test');
+    Route::get('test/{breed}/{breed2}/{cat}/{cat2}', 'test')->name('cats.test');
     Route::get('cats/{cat}/tree/{generations}', 'tree')->name('cats.tree');
     Route::get('cats/{cat}/death', 'death')->name('cats.death');
 });

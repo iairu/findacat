@@ -73,8 +73,8 @@ class CatsController extends Controller
     {
         $catsMariageList = $this->getCatMariageList($cat);
         $allMariageList = $this->getAllMariageList();
-        $malePersonList = $this->getPersonList(1);
-        $femalePersonList = $this->getPersonList(2);
+        $malePersonList = $this->getCatList(1);
+        $femalePersonList = $this->getCatList(2);
 
         return view('cats.show', [
             'cat'             => $cat,
@@ -132,11 +132,20 @@ class CatsController extends Controller
      * @param  \App\Cat  $cat
      * @return \Illuminate\View\View
      */
-    public function test(Cat $cat, Cat $cat2, int $generations = 5)
+    public function test(Breed $breed, Breed $breed2, Cat $cat = null, Cat $cat2 = null, int $generations = 5)
     {
-        $malePersonList = $this->getPersonList(1);
-        $femalePersonList = $this->getPersonList(2);
-        return view('cats.test', compact('cat', 'cat2', 'generations', 'malePersonList', 'femalePersonList'));
+        $breedList = $this->getBreedList();
+        if ($breed) {
+            $malePersonList = $this->getBreedCatList($breed,1);
+        } else {
+            $malePersonList = null;
+        }
+        if ($breed2) {
+            $femalePersonList = $this->getBreedCatList($breed2,2);
+        } else {
+            $femalePersonList = null;
+        }
+        return view('cats.test', compact('breed', 'breed2', 'cat', 'cat2', 'generations', 'breedList', 'malePersonList', 'femalePersonList'));
     }
 
     /**
@@ -165,7 +174,7 @@ class CatsController extends Controller
         if (Auth::user() && Auth::user()->is_admin) {
             $replacementCats = [];
             if (request('action') == 'delete') {
-                $replacementCats = $this->getPersonList($cat->gender_id);
+                $replacementCats = $this->getCatList($cat->gender_id);
             }
 
             $validTabs = ['death', 'details'];
@@ -303,7 +312,37 @@ class CatsController extends Controller
      *
      * @return \Illuminate\Support\Collection
      */
-    private function getPersonList(int $genderId)
+    private function getBreedCatList(Breed $breed, int $genderId)
+    {
+        // Cat::where('gender_id', $genderId)->pluck('full_name', 'id');
+        if ($genderId == 2) {
+
+        return Cat::select(DB::raw("CONCAT('(', breed, ') ', titles_before_name,' ',full_name,' ',titles_after_name) AS display_name"),'id')->where('gender_id', $genderId)->where('breed', $breed->breed())->pluck('display_name','id')->skip(1);
+        } else {
+        return Cat::select(DB::raw("CONCAT('(', breed, ') ', titles_before_name,' ',full_name,' ',titles_after_name) AS display_name"),'id')->where('gender_id', $genderId)->where('breed', $breed->breed())->pluck('display_name','id');
+        }
+    }
+
+    /**
+     * Get Breed list
+     *
+     * @param int $genderId
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private function getBreedList()
+    {
+        return Breed::select('breed','id')->pluck('breed','id')->skip(1);
+    }
+
+    /**
+     * Get Cat list based on gender.
+     *
+     * @param int $genderId
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private function getCatList(int $genderId)
     {
         // Cat::where('gender_id', $genderId)->pluck('full_name', 'id');
         if ($genderId == 2) {

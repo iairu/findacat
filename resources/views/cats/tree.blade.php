@@ -36,6 +36,9 @@
         margin: 0 0 5px;
         width: 15vw;
     }
+    label {
+        padding: 0 5px;
+    }
 </style>
 @endsection
 
@@ -70,6 +73,7 @@
 </script>
 @endsection
 
+@section('title', $cat->full_name())
 @section('subtitle', trans('app.family_tree'))
 
 @section('cat-content')
