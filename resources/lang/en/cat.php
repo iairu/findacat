@@ -59,8 +59,11 @@ return [
     'age' => 'Age',
     'test_mating' => 'Test Mating',
     'test_mating_description' => 'Using Breeds',
+    'test_mating_extended_description' => 'First, choose a breed that the tested cats should have, hit "Update", then choose the tested cats themselves and once again hit "Update". Calculated inbreeding will be shown alongside an option to display registeration numbers.',
     'with' => 'with',
     'same_breed' => 'Only show same breed for the opposite gender in select options',
     'display_reg_num' => 'Show registration numbers',
-    'delete_confirm_button' => 'Confirm deletion'
+    'delete_confirm_button' => 'Confirm deletion',
+    'download_vet_confirmation' => 'Download Vet Confirmation',
+    'download_genetic_tests_file' => 'Download Genetic Tests File'
 ];

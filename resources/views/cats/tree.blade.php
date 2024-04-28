@@ -15,7 +15,7 @@
         background: white;
     }
     #pedigree input {
-        border: 1px solid rgba(0,0,0,0.25) !important;
+        /*border: 1px solid rgba(0,0,0,0.25) !important;*/
         background: none !important;
         padding: 0 10px;
         border-radius: 5px 0 0 0;
@@ -26,11 +26,11 @@
         display: none;
     }
     #pedigree a {
-        border: 1px solid rgba(0,0,0,0.25);
+        /*border: 1px solid rgba(0,0,0,0.25);*/
         /* border-top: none; */
         display: block;
         position: relative;
-        background: white;
+        /*background: white;*/
         padding: 0 10px;
         border-radius: 5px 0 0 5px;
         margin: 0 0 5px;
@@ -38,6 +38,10 @@
     }
     label {
         padding: 0 5px;
+    }
+    #pedigree tr {
+        border: 1px solid rgba(0,0,0,0.25);
+        background: white;
     }
 </style>
 @endsection
@@ -77,8 +81,6 @@
 @section('subtitle', trans('app.family_tree'))
 
 @section('cat-content')
-
-
 <div id="generations"><strong>Generations:</strong> <span class="generations">{{$generations}}</span> (
     <a href="./1">1</a>
     <a href="./2">2</a>
@@ -108,6 +110,12 @@
         {{ $cat->last_reg_num }}<br> {{ $cat->reg_num_2 }}<br> {{ $cat->reg_num_3 }}
     @endif
     </div><br>
+            @if ($cat->genetic_tests_file)
+    <a href="{{ $cat->genetic_tests_file }}">{{ trans('cat.download_genetic_tests_file') }}</a><br>
+    @endif
+            @if ($cat->vet_confirmation)
+    <a href="{{ $cat->vet_confirmation }}">{{ trans('cat.download_vet_confirmation') }}</a>
+    @endif
                         @php $json .= "\"name\": \"" . $cat->id() . ($generations >= 1 && $cat->s() && $cat->d() ? "\"," : "\"") @endphp
 
                     </td>
@@ -127,6 +135,12 @@
         {{ $cat->s()->last_reg_num }}<br> {{ $cat->s()->reg_num_2 }}<br> {{ $cat->s()->reg_num_3 }}
     @endif
     </div><br>
+            @if ($cat->s()->genetic_tests_file)
+    <a href="{{ $cat->s()->genetic_tests_file }}">{{ trans('cat.download_genetic_tests_file') }}</a><br>
+    @endif
+            @if ($cat->s()->vet_confirmation)
+    <a href="{{ $cat->s()->vet_confirmation }}">{{ trans('cat.download_vet_confirmation') }}</a>
+    @endif
                                         @php $json .= "\"name\": \"" . $cat->s()->id() . ($generations >= 2 && $cat->s()->s() && $cat->s()->d() ? "\"," : "\"") @endphp
 
                                     </td>
@@ -934,6 +948,12 @@
         {{ $cat->d()->last_reg_num }}<br> {{ $cat->d()->reg_num_2 }}<br> {{ $cat->d()->reg_num_3 }}
     @endif
     </div><br>
+            @if ($cat->d()->genetic_tests_file)
+    <a href="{{ $cat->d()->genetic_tests_file }}">{{ trans('cat.download_genetic_tests_file') }}</a><br>
+    @endif
+            @if ($cat->d()->vet_confirmation)
+    <a href="{{ $cat->d()->vet_confirmation }}">{{ trans('cat.download_vet_confirmation') }}</a>
+    @endif
                                         @php $json .= "\"name\": \"" . $cat->d()->id() . ($generations >= 2 && $cat->d()->s() && $cat->d()->d() ? "\"," : "\"") @endphp
 
 

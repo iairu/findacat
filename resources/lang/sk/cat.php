@@ -59,8 +59,11 @@ return [
     'age' => 'Vek',
     'test_mating' => 'Testovanie párenia',
     'test_mating_description' => 'Pomocou plemien',
+    'test_mating_extended_description' => 'Najprv vyberte plemeno, ktoré by mali testované mačky mať, potvrďte pomocou "Update" tlačidla. Následne vyberte samotné testované mačky a opäť potvrďte tlačidlom "Update". Vypočítaný inbreeding bude zobrazený spolu s možnosťou zobraziť registračné čísla.',
     'with' => 's',
     'same_breed' => 'Zobraziť len rovnaké plemeno pre opačné pohlavie v možnostiach výberu',
     'display_reg_num' => 'Zobraziť registračné čísla',
-    'delete_confirm_button' => 'Potvrdiť vymazanie'
+    'delete_confirm_button' => 'Potvrdiť vymazanie',
+    'download_vet_confirmation' => 'Stiahnuť potvrdenie od veterinára',
+    'download_genetic_tests_file' => 'Stiahnuť súbor genetických testov'
 ];

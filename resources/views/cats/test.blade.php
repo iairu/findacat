@@ -22,7 +22,7 @@
     }
 
     #pedigree input {
-        border: 1px solid rgba(0,0,0,0.25) !important;
+        /*border: 1px solid rgba(0,0,0,0.25) !important;*/
         background: none !important;
         padding: 0 10px;
         border-radius: 5px 0 0 0;
@@ -33,11 +33,11 @@
         display: none;
     }
     #pedigree a {
-        border: 1px solid rgba(0,0,0,0.25);
+        /*border: 1px solid rgba(0,0,0,0.25);*/
         /* border-top: none; */
         display: block;
         position: relative;
-        background: white;
+        /*background: white;*/
         padding: 0 10px;
         border-radius: 5px 0 0 5px;
         margin: 0 0 5px;
@@ -48,6 +48,15 @@
     }
     #controls {
         padding: 15px 0;
+    }
+    #pedigree tr {
+        border: 1px solid rgba(0,0,0,0.25);
+        background: white;
+    }
+    @media print {
+        #description {
+            display: none;
+        }
     }
 </style>
 <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
@@ -160,6 +169,9 @@
 @section('subtitle', trans('cat.test_mating_description'))
 
 @section('cat-content')
+<div id="description">
+    {{ __('cat.test_mating_extended_description') }}
+</div>
 <div id="set">
     <div class="breed">
         {{ Form::open(['route' => ['cats.test', $breed->id, $breed2->id, $cat->id, $cat2->id]]) }}
@@ -223,6 +235,12 @@
         {{ $cat->last_reg_num }}<br> {{ $cat->reg_num_2 }}<br> {{ $cat->reg_num_3 }}
     @endif
     </div><br>
+            @if ($cat->genetic_tests_file)
+    <a href="{{ $cat->genetic_tests_file }}">{{ trans('cat.download_genetic_tests_file') }}</a><br>
+    @endif
+            @if ($cat->vet_confirmation)
+    <a href="{{ $cat->vet_confirmation }}">{{ trans('cat.download_vet_confirmation') }}</a>
+    @endif
                                         @php $json .= "\"name\": \"" . $cat->id() . ($generations >= 2 ? "\"," : "\"") @endphp
                                         
                                     </td>
@@ -242,7 +260,13 @@
     {{ $cat->s()->original_reg_num }}<br> 
         {{ $cat->s()->last_reg_num }}<br> {{ $cat->s()->reg_num_2 }}<br> {{ $cat->s()->reg_num_3 }}
     @endif
-    </div>
+    </div><br>
+            @if ($cat->s()->genetic_tests_file)
+    <a href="{{ $cat->s()->genetic_tests_file }}">{{ trans('cat.download_genetic_tests_file') }}</a><br>
+    @endif
+            @if ($cat->s()->vet_confirmation)
+    <a href="{{ $cat->s()->vet_confirmation }}">{{ trans('cat.download_vet_confirmation') }}</a>
+    @endif
                                                         @php $json .= "\"name\": \"" . $cat->s()->id() . ($generations >= 3 ? "\"," : "\"") @endphp
 
                                                     </td>
@@ -629,6 +653,12 @@
         {{ $cat->d()->last_reg_num }}<br> {{ $cat->d()->reg_num_2 }}<br> {{ $cat->d()->reg_num_3 }}
     @endif
     </div>
+            @if ($cat->d()->genetic_tests_file)
+    <a href="{{ $cat->d()->genetic_tests_file }}">{{ trans('cat.download_genetic_tests_file') }}</a><br>
+    @endif
+            @if ($cat->d()->vet_confirmation)
+    <a href="{{ $cat->d()->vet_confirmation }}">{{ trans('cat.download_vet_confirmation') }}</a>
+    @endif
                                                         @php $json .= "\"name\": \"" . $cat->d()->id() . ($generations >= 3 ? "\"," : "\"") @endphp
 
                                                     </td>
@@ -1025,6 +1055,18 @@
                                     <td> Dam:<br>
 
                                         <input class="ind" id="d" type="text" data="{{$cat2->id()}}" disabled><br>{{$cat2->l($generations)}}<br>{{ $cat2->breed }} {{ $cat2->ems_color }} {{ $cat2->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->id != "1")
+    {{ $cat2->original_reg_num }}<br> 
+        {{ $cat2->last_reg_num }}<br> {{ $cat2->reg_num_2 }}<br> {{ $cat2->reg_num_3 }}
+    @endif
+    </div>
+            @if ($cat2->genetic_tests_file)
+    <a href="{{ $cat2->genetic_tests_file }}">{{ trans('cat.download_genetic_tests_file') }}</a><br>
+    @endif
+            @if ($cat2->vet_confirmation)
+    <a href="{{ $cat2->vet_confirmation }}">{{ trans('cat.download_vet_confirmation') }}</a>
+    @endif
                                         @php $json .= "\"name\": \"" . $cat2->id() . ($generations >= 2 ? "\"," : "\"") @endphp
 
 
@@ -1040,7 +1082,19 @@
                                                 @php $json .= "\"s\": {" @endphp
                                                 <tr class="s">
 
-                                                    <td> <input class="ind" id="ds" type="text" data="{{$cat2->s()->id()}}" disabled><br>{{$cat2->s()->l($generations)}}<br>{{ $cat2->s()->breed }} {{ $cat2->s()->ems_color }} {{ $cat2->s()->dob() }}
+                                                    <td> <input class="ind" id="ds" type="text" data="{{$cat2->s()->id()}}" disabled><br>{{$cat2->s()->l($generations)}}<br>{{ $cat2->s()->breed }} {{ $cat2->s()->ems_color }} {{ $cat2->s()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->s()->id != "1")
+    {{ $cat2->s()->original_reg_num }}<br> 
+        {{ $cat2->s()->last_reg_num }}<br> {{ $cat2->s()->reg_num_2 }}<br> {{ $cat2->s()->reg_num_3 }}
+    @endif
+    </div>
+            @if ($cat2->s()->genetic_tests_file)
+    <a href="{{ $cat2->s()->genetic_tests_file }}">{{ trans('cat.download_genetic_tests_file') }}</a><br>
+    @endif
+            @if ($cat2->s()->vet_confirmation)
+    <a href="{{ $cat2->s()->vet_confirmation }}">{{ trans('cat.download_vet_confirmation') }}</a>
+    @endif
                                                         @php $json .= "\"name\": \"" . $cat2->s()->id() . ($generations >= 3 ? "\"," : "\"") @endphp
 
                                                     </td>
@@ -1054,7 +1108,13 @@
                                                                 @php $json .= "\"s\": {" @endphp
                                                                 <tr class="s">
 
-                                                                    <td> <input class="ind" id="dss" type="text" data="{{$cat2->s()->s()->id()}}" disabled><br>{{$cat2->s()->s()->l($generations)}}<br>{{ $cat2->s()->s()->breed }} {{ $cat2->s()->s()->ems_color }} {{ $cat2->s()->s()->dob() }}
+                                                                    <td> <input class="ind" id="dss" type="text" data="{{$cat2->s()->s()->id()}}" disabled><br>{{$cat2->s()->s()->l($generations)}}<br>{{ $cat2->s()->s()->breed }} {{ $cat2->s()->s()->ems_color }} {{ $cat2->s()->s()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->s()->s()->id != "1")
+    {{ $cat2->s()->s()->original_reg_num }}<br> 
+        {{ $cat2->s()->s()->last_reg_num }}<br> {{ $cat2->s()->s()->reg_num_2 }}<br> {{ $cat2->s()->s()->reg_num_3 }}
+    @endif
+    </div>
                                                                         @php $json .= "\"name\": \"" . $cat2->s()->s()->id() . ($generations >= 4 ? "\"," : "\"") @endphp
 
                                                                     </td>
@@ -1070,7 +1130,13 @@
 
                                                                                     <td>
 
-                                                                                        <input class="ind" id="dsss" type="text" data="{{$cat2->s()->s()->s()->id()}}" disabled><br>{{$cat2->s()->s()->s()->l($generations)}}<br>{{ $cat2->s()->s()->s()->breed }} {{ $cat2->s()->s()->s()->ems_color }} {{ $cat2->s()->s()->s()->dob() }}
+                                                                                        <input class="ind" id="dsss" type="text" data="{{$cat2->s()->s()->s()->id()}}" disabled><br>{{$cat2->s()->s()->s()->l($generations)}}<br>{{ $cat2->s()->s()->s()->breed }} {{ $cat2->s()->s()->s()->ems_color }} {{ $cat2->s()->s()->s()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->s()->s()->s()->id != "1")
+    {{ $cat2->s()->s()->s()->original_reg_num }}<br> 
+        {{ $cat2->s()->s()->s()->last_reg_num }}<br> {{ $cat2->s()->s()->s()->reg_num_2 }}<br> {{ $cat2->s()->s()->s()->reg_num_3 }}
+    @endif
+    </div>
 
 
                                                                                         @php $json .= "\"name\": \"" . $cat2->s()->s()->s()->id() . ($generations >= 5 ? "\"," : "\"") @endphp
@@ -1084,7 +1150,13 @@
                                                                                                 @php $json .= "\"s\": {" @endphp
                                                                                                 <tr class="s">
                                                                                                     <td>
-                                                                                                        <input type="text" class="ind" id="dssss" data="{{$cat2->s()->s()->s()->s()->id()}}" disabled><br>{{$cat2->s()->s()->s()->s()->l($generations)}}<br>{{ $cat2->s()->s()->s()->s()->breed }} {{ $cat2->s()->s()->s()->s()->ems_color }} {{ $cat2->s()->s()->s()->s()->dob() }}
+                                                                                                        <input type="text" class="ind" id="dssss" data="{{$cat2->s()->s()->s()->s()->id()}}" disabled><br>{{$cat2->s()->s()->s()->s()->l($generations)}}<br>{{ $cat2->s()->s()->s()->s()->breed }} {{ $cat2->s()->s()->s()->s()->ems_color }} {{ $cat2->s()->s()->s()->s()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->s()->s()->s()->s()->id != "1")
+    {{ $cat2->s()->s()->s()->s()->original_reg_num }}<br> 
+        {{ $cat2->s()->s()->s()->s()->last_reg_num }}<br> {{ $cat2->s()->s()->s()->s()->reg_num_2 }}<br> {{ $cat2->s()->s()->s()->s()->reg_num_3 }}
+    @endif
+    </div>
 
                                                                                                         @php $json .= "\"name\": \"" . $cat2->s()->s()->s()->s()->id() . "\"" @endphp
 
@@ -1099,7 +1171,13 @@
                                                                                                 @php $json .= "\"d\": {" @endphp
                                                                                                 <tr class="d">
                                                                                                     <td>
-                                                                                                        <input type="text" class="ind" id="dsssd" data="{{$cat2->s()->s()->s()->d()->id()}}" disabled><br>{{$cat2->s()->s()->s()->d()->l($generations)}}<br>{{ $cat2->s()->s()->s()->d()->breed }} {{ $cat2->s()->s()->s()->d()->ems_color }} {{ $cat2->s()->s()->s()->d()->dob() }}
+                                                                                                        <input type="text" class="ind" id="dsssd" data="{{$cat2->s()->s()->s()->d()->id()}}" disabled><br>{{$cat2->s()->s()->s()->d()->l($generations)}}<br>{{ $cat2->s()->s()->s()->d()->breed }} {{ $cat2->s()->s()->s()->d()->ems_color }} {{ $cat2->s()->s()->s()->d()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->s()->s()->s()->d()->id != "1")
+    {{ $cat2->s()->s()->s()->d()->original_reg_num }}<br> 
+        {{ $cat2->s()->s()->s()->d()->last_reg_num }}<br> {{ $cat2->s()->s()->s()->d()->reg_num_2 }}<br> {{ $cat2->s()->s()->s()->d()->reg_num_3 }}
+    @endif
+    </div>
 
                                                                                                         @php $json .= "\"name\": \"" . $cat2->s()->s()->s()->d()->id() . "\"" @endphp
 
@@ -1125,7 +1203,13 @@
 
                                                                                     <td>
 
-                                                                                        <input class="ind" id="dssd" type="text" data="{{$cat2->s()->s()->d()->id()}}" disabled><br>{{$cat2->s()->s()->d()->l($generations)}}<br>{{ $cat2->s()->s()->d()->breed }} {{ $cat2->s()->s()->d()->ems_color }} {{ $cat2->s()->s()->d()->dob() }}
+                                                                                        <input class="ind" id="dssd" type="text" data="{{$cat2->s()->s()->d()->id()}}" disabled><br>{{$cat2->s()->s()->d()->l($generations)}}<br>{{ $cat2->s()->s()->d()->breed }} {{ $cat2->s()->s()->d()->ems_color }} {{ $cat2->s()->s()->d()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->s()->s()->d()->id != "1")
+    {{ $cat2->s()->s()->d()->original_reg_num }}<br> 
+        {{ $cat2->s()->s()->d()->last_reg_num }}<br> {{ $cat2->s()->s()->d()->reg_num_2 }}<br> {{ $cat2->s()->s()->d()->reg_num_3 }}
+    @endif
+    </div>
 
 
                                                                                         @php $json .= "\"name\": \"" . $cat2->s()->s()->d()->id() . ($generations >= 5 ? "\"," : "\"") @endphp
@@ -1139,7 +1223,13 @@
                                                                                                 @php $json .= "\"s\": {" @endphp
                                                                                                 <tr class="s">
                                                                                                     <td>
-                                                                                                        <input type="text" class="ind" id="dssds" data="{{$cat2->s()->s()->d()->s()->id()}}" disabled><br>{{$cat2->s()->s()->d()->s()->l($generations)}}<br>{{ $cat2->s()->s()->d()->s()->breed }} {{ $cat2->s()->s()->d()->s()->ems_color }} {{ $cat2->s()->s()->d()->s()->dob() }}
+                                                                                                        <input type="text" class="ind" id="dssds" data="{{$cat2->s()->s()->d()->s()->id()}}" disabled><br>{{$cat2->s()->s()->d()->s()->l($generations)}}<br>{{ $cat2->s()->s()->d()->s()->breed }} {{ $cat2->s()->s()->d()->s()->ems_color }} {{ $cat2->s()->s()->d()->s()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->s()->s()->d()->s()->id != "1")
+    {{ $cat2->s()->s()->d()->s()->original_reg_num }}<br> 
+        {{ $cat2->s()->s()->d()->s()->last_reg_num }}<br> {{ $cat2->s()->s()->d()->s()->reg_num_2 }}<br> {{ $cat2->s()->s()->d()->s()->reg_num_3 }}
+    @endif
+    </div>
 
                                                                                                         @php $json .= "\"name\": \"" . $cat2->s()->s()->d()->s()->id() . "\"" @endphp
 
@@ -1154,7 +1244,13 @@
                                                                                                 @php $json .= "\"d\": {" @endphp
                                                                                                 <tr class="d">
                                                                                                     <td>
-                                                                                                        <input type="text" class="ind" id="dssdd" data="{{$cat2->s()->s()->d()->d()->id()}}" disabled><br>{{$cat2->s()->s()->d()->d()->l($generations)}}<br>{{ $cat2->s()->s()->d()->d()->breed }} {{ $cat2->s()->s()->d()->d()->ems_color }} {{ $cat2->s()->s()->d()->d()->dob() }}
+                                                                                                        <input type="text" class="ind" id="dssdd" data="{{$cat2->s()->s()->d()->d()->id()}}" disabled><br>{{$cat2->s()->s()->d()->d()->l($generations)}}<br>{{ $cat2->s()->s()->d()->d()->breed }} {{ $cat2->s()->s()->d()->d()->ems_color }} {{ $cat2->s()->s()->d()->d()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->s()->s()->d()->d()->id != "1")
+    {{ $cat2->s()->s()->d()->d()->original_reg_num }}<br> 
+        {{ $cat2->s()->s()->d()->d()->last_reg_num }}<br> {{ $cat2->s()->s()->d()->d()->reg_num_2 }}<br> {{ $cat2->s()->s()->d()->d()->reg_num_3 }}
+    @endif
+    </div>
 
                                                                                                         @php $json .= "\"name\": \"" . $cat2->s()->s()->d()->d()->id() . "\"" @endphp
 
@@ -1189,7 +1285,13 @@
                                                                 @php $json .= "\"d\": {" @endphp
                                                                 <tr class="d">
 
-                                                                    <td> <input class="ind" id="dsd" type="text" data="{{$cat2->s()->d()->id()}}" disabled><br>{{$cat2->s()->d()->l($generations)}}<br>{{ $cat2->s()->d()->breed }} {{ $cat2->s()->d()->ems_color }} {{ $cat2->s()->d()->dob() }}
+                                                                    <td> <input class="ind" id="dsd" type="text" data="{{$cat2->s()->d()->id()}}" disabled><br>{{$cat2->s()->d()->l($generations)}}<br>{{ $cat2->s()->d()->breed }} {{ $cat2->s()->d()->ems_color }} {{ $cat2->s()->d()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->s()->d()->id != "1")
+    {{ $cat2->s()->d()->original_reg_num }}<br> 
+        {{ $cat2->s()->d()->last_reg_num }}<br> {{ $cat2->s()->d()->reg_num_2 }}<br> {{ $cat2->s()->d()->reg_num_3 }}
+    @endif
+    </div>
                                                                         @php $json .= "\"name\": \"" . $cat2->s()->d()->id() . ($generations >= 4 ? "\"," : "\"") @endphp
 
                                                                     </td>
@@ -1206,7 +1308,13 @@
 
                                                                                     <td>
 
-                                                                                        <input class="ind" id="dsds" type="text" data="{{$cat2->s()->d()->s()->id()}}" disabled><br>{{$cat2->s()->d()->s()->l($generations)}}<br>{{ $cat2->s()->d()->s()->breed }} {{ $cat2->s()->d()->s()->ems_color }} {{ $cat2->s()->d()->s()->dob() }}
+                                                                                        <input class="ind" id="dsds" type="text" data="{{$cat2->s()->d()->s()->id()}}" disabled><br>{{$cat2->s()->d()->s()->l($generations)}}<br>{{ $cat2->s()->d()->s()->breed }} {{ $cat2->s()->d()->s()->ems_color }} {{ $cat2->s()->d()->s()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->s()->d()->s()->id != "1")
+    {{ $cat2->s()->d()->s()->original_reg_num }}<br> 
+        {{ $cat2->s()->d()->s()->last_reg_num }}<br> {{ $cat2->s()->d()->s()->reg_num_2 }}<br> {{ $cat2->s()->d()->s()->reg_num_3 }}
+    @endif
+    </div>
 
 
                                                                                         @php $json .= "\"name\": \"" . $cat2->s()->d()->s()->id() . ($generations >= 5 ? "\"," : "\"") @endphp
@@ -1220,7 +1328,13 @@
                                                                                                 @php $json .= "\"s\": {" @endphp
                                                                                                 <tr class="s">
                                                                                                     <td>
-                                                                                                        <input type="text" class="ind" id="dsdss" data="{{$cat2->s()->d()->s()->s()->id()}}" disabled><br>{{$cat2->s()->d()->s()->s()->l($generations)}}<br>{{ $cat2->s()->d()->s()->s()->breed }} {{ $cat2->s()->d()->s()->s()->ems_color }} {{ $cat2->s()->d()->s()->s()->dob() }}
+                                                                                                        <input type="text" class="ind" id="dsdss" data="{{$cat2->s()->d()->s()->s()->id()}}" disabled><br>{{$cat2->s()->d()->s()->s()->l($generations)}}<br>{{ $cat2->s()->d()->s()->s()->breed }} {{ $cat2->s()->d()->s()->s()->ems_color }} {{ $cat2->s()->d()->s()->s()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->s()->d()->s()->s()->id != "1")
+    {{ $cat2->s()->d()->s()->s()->original_reg_num }}<br> 
+        {{ $cat2->s()->d()->s()->s()->last_reg_num }}<br> {{ $cat2->s()->d()->s()->s()->reg_num_2 }}<br> {{ $cat2->s()->d()->s()->s()->reg_num_3 }}
+    @endif
+    </div>
 
                                                                                                         @php $json .= "\"name\": \"" . $cat2->s()->d()->s()->s()->id() . "\"" @endphp
 
@@ -1235,7 +1349,13 @@
                                                                                                 @php $json .= "\"d\": {" @endphp
                                                                                                 <tr class="d">
                                                                                                     <td>
-                                                                                                        <input type="text" class="ind" id="dsdsd" data="{{$cat2->s()->d()->s()->d()->id()}}" disabled><br>{{$cat2->s()->d()->s()->d()->l($generations)}}<br>{{ $cat2->s()->d()->s()->d()->breed }} {{ $cat2->s()->d()->s()->d()->ems_color }} {{ $cat2->s()->d()->s()->d()->dob() }}
+                                                                                                        <input type="text" class="ind" id="dsdsd" data="{{$cat2->s()->d()->s()->d()->id()}}" disabled><br>{{$cat2->s()->d()->s()->d()->l($generations)}}<br>{{ $cat2->s()->d()->s()->d()->breed }} {{ $cat2->s()->d()->s()->d()->ems_color }} {{ $cat2->s()->d()->s()->d()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->s()->d()->s()->d()->id != "1")
+    {{ $cat2->s()->d()->s()->d()->original_reg_num }}<br> 
+        {{ $cat2->s()->d()->s()->d()->last_reg_num }}<br> {{ $cat2->s()->d()->s()->d()->reg_num_2 }}<br> {{ $cat2->s()->d()->s()->d()->reg_num_3 }}
+    @endif
+    </div>
 
                                                                                                         @php $json .= "\"name\": \"" . $cat2->s()->d()->s()->d()->id() . "\"" @endphp
 
@@ -1261,7 +1381,13 @@
 
                                                                                     <td>
 
-                                                                                        <input class="ind" id="dsdd" type="text" data="{{$cat2->s()->d()->d()->id()}}" disabled><br>{{$cat2->s()->d()->d()->l($generations)}}<br>{{ $cat2->s()->d()->d()->breed }} {{ $cat2->s()->d()->d()->ems_color }} {{ $cat2->s()->d()->d()->dob() }}
+                                                                                        <input class="ind" id="dsdd" type="text" data="{{$cat2->s()->d()->d()->id()}}" disabled><br>{{$cat2->s()->d()->d()->l($generations)}}<br>{{ $cat2->s()->d()->d()->breed }} {{ $cat2->s()->d()->d()->ems_color }} {{ $cat2->s()->d()->d()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->s()->d()->d()->id != "1")
+    {{ $cat2->s()->d()->d()->original_reg_num }}<br> 
+        {{ $cat2->s()->d()->d()->last_reg_num }}<br> {{ $cat2->s()->d()->d()->reg_num_2 }}<br> {{ $cat2->s()->d()->d()->reg_num_3 }}
+    @endif
+    </div>
 
 
                                                                                         @php $json .= "\"name\": \"" . $cat2->s()->d()->d()->id() . ($generations >= 5 ? "\"," : "\"") @endphp
@@ -1275,7 +1401,13 @@
                                                                                                 @php $json .= "\"s\": {" @endphp
                                                                                                 <tr class="s">
                                                                                                     <td>
-                                                                                                        <input type="text" class="ind" id="dsdds" data="{{$cat2->s()->d()->d()->s()->id()}}" disabled><br>{{$cat2->s()->d()->d()->s()->l($generations)}}<br>{{ $cat2->s()->d()->d()->s()->breed }} {{ $cat2->s()->d()->d()->s()->ems_color }} {{ $cat2->s()->d()->d()->s()->dob() }}
+                                                                                                        <input type="text" class="ind" id="dsdds" data="{{$cat2->s()->d()->d()->s()->id()}}" disabled><br>{{$cat2->s()->d()->d()->s()->l($generations)}}<br>{{ $cat2->s()->d()->d()->s()->breed }} {{ $cat2->s()->d()->d()->s()->ems_color }} {{ $cat2->s()->d()->d()->s()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->s()->d()->d()->s()->id != "1")
+    {{ $cat2->s()->d()->d()->s()->original_reg_num }}<br> 
+        {{ $cat2->s()->d()->d()->s()->last_reg_num }}<br> {{ $cat2->s()->d()->d()->s()->reg_num_2 }}<br> {{ $cat2->s()->d()->d()->s()->reg_num_3 }}
+    @endif
+    </div>
 
                                                                                                         @php $json .= "\"name\": \"" . $cat2->s()->d()->d()->s()->id() . "\"" @endphp
 
@@ -1290,7 +1422,13 @@
                                                                                                 @php $json .= "\"d\": {" @endphp
                                                                                                 <tr class="d">
                                                                                                     <td>
-                                                                                                        <input type="text" class="ind" id="dsddd" data="{{$cat2->s()->d()->d()->d()->id()}}" disabled><br>{{$cat2->s()->d()->d()->d()->l($generations)}}<br>{{ $cat2->s()->d()->d()->d()->breed }} {{ $cat2->s()->d()->d()->d()->ems_color }} {{ $cat2->s()->d()->d()->d()->dob() }}
+                                                                                                        <input type="text" class="ind" id="dsddd" data="{{$cat2->s()->d()->d()->d()->id()}}" disabled><br>{{$cat2->s()->d()->d()->d()->l($generations)}}<br>{{ $cat2->s()->d()->d()->d()->breed }} {{ $cat2->s()->d()->d()->d()->ems_color }} {{ $cat2->s()->d()->d()->d()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->s()->d()->d()->d()->id != "1")
+    {{ $cat2->s()->d()->d()->d()->original_reg_num }}<br> 
+        {{ $cat2->s()->d()->d()->d()->last_reg_num }}<br> {{ $cat2->s()->d()->d()->d()->reg_num_2 }}<br> {{ $cat2->s()->d()->d()->d()->reg_num_3 }}
+    @endif
+    </div>
 
                                                                                                         @php $json .= "\"name\": \"" . $cat2->s()->d()->d()->d()->id() . "\"" @endphp
 
@@ -1336,7 +1474,19 @@
                                                 @php $json .= "\"d\": {" @endphp
                                                 <tr class="d">
 
-                                                    <td> <input class="ind" id="dd" type="text" data="{{$cat2->d()->id()}}" disabled><br>{{$cat2->d()->l($generations)}}<br>{{ $cat2->d()->breed }} {{ $cat2->d()->ems_color }} {{ $cat2->d()->dob() }}
+                                                    <td> <input class="ind" id="dd" type="text" data="{{$cat2->d()->id()}}" disabled><br>{{$cat2->d()->l($generations)}}<br>{{ $cat2->d()->breed }} {{ $cat2->d()->ems_color }} {{ $cat2->d()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->d()->id != "1")
+    {{ $cat2->d()->original_reg_num }}<br> 
+        {{ $cat2->d()->last_reg_num }}<br> {{ $cat2->d()->reg_num_2 }}<br> {{ $cat2->d()->reg_num_3 }}
+    @endif
+    </div>
+            @if ($cat2->d()->genetic_tests_file)
+    <a href="{{ $cat2->d()->genetic_tests_file }}">{{ trans('cat.download_genetic_tests_file') }}</a><br>
+    @endif
+            @if ($cat2->d()->vet_confirmation)
+    <a href="{{ $cat2->d()->vet_confirmation }}">{{ trans('cat.download_vet_confirmation') }}</a>
+    @endif
                                                         @php $json .= "\"name\": \"" . $cat2->d()->id() . ($generations >= 3 ? "\"," : "\"") @endphp
 
                                                     </td>
@@ -1351,7 +1501,13 @@
                                                                 @php $json .= "\"s\": {" @endphp
                                                                 <tr class="s">
 
-                                                                    <td> <input class="ind" id="dds" type="text" data="{{$cat2->d()->s()->id()}}" disabled><br>{{$cat2->d()->s()->l($generations)}}<br>{{ $cat2->d()->s()->breed }} {{ $cat2->d()->s()->ems_color }} {{ $cat2->d()->s()->dob() }}
+                                                                    <td> <input class="ind" id="dds" type="text" data="{{$cat2->d()->s()->id()}}" disabled><br>{{$cat2->d()->s()->l($generations)}}<br>{{ $cat2->d()->s()->breed }} {{ $cat2->d()->s()->ems_color }} {{ $cat2->d()->s()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->d()->s()->id != "1")
+    {{ $cat2->d()->s()->original_reg_num }}<br> 
+        {{ $cat2->d()->s()->last_reg_num }}<br> {{ $cat2->d()->s()->reg_num_2 }}<br> {{ $cat2->d()->s()->reg_num_3 }}
+    @endif
+    </div>
                                                                         @php $json .= "\"name\": \"" . $cat2->d()->s()->id() . ($generations >= 4 ? "\"," : "\"") @endphp
 
                                                                     </td>
@@ -1368,7 +1524,13 @@
 
                                                                                     <td>
 
-                                                                                        <input class="ind" id="ddss" type="text" data="{{$cat2->d()->s()->s()->id()}}" disabled><br>{{$cat2->d()->s()->s()->l($generations)}}<br>{{ $cat2->d()->s()->s()->breed }} {{ $cat2->d()->s()->s()->ems_color }} {{ $cat2->d()->s()->s()->dob() }}
+                                                                                        <input class="ind" id="ddss" type="text" data="{{$cat2->d()->s()->s()->id()}}" disabled><br>{{$cat2->d()->s()->s()->l($generations)}}<br>{{ $cat2->d()->s()->s()->breed }} {{ $cat2->d()->s()->s()->ems_color }} {{ $cat2->d()->s()->s()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->d()->s()->s()->id != "1")
+    {{ $cat2->d()->s()->s()->original_reg_num }}<br> 
+        {{ $cat2->d()->s()->s()->last_reg_num }}<br> {{ $cat2->d()->s()->s()->reg_num_2 }}<br> {{ $cat2->d()->s()->s()->reg_num_3 }}
+    @endif
+    </div>
 
 
                                                                                         @php $json .= "\"name\": \"" . $cat2->d()->s()->s()->id() . ($generations >= 5 ? "\"," : "\"") @endphp
@@ -1382,7 +1544,13 @@
                                                                                                 @php $json .= "\"s\": {" @endphp
                                                                                                 <tr class="s">
                                                                                                     <td>
-                                                                                                        <input type="text" class="ind" id="ddsss" data="{{$cat2->d()->s()->s()->s()->id()}}" disabled><br>{{$cat2->d()->s()->s()->s()->l($generations)}}<br>{{ $cat2->d()->s()->s()->s()->breed }} {{ $cat2->d()->s()->s()->s()->ems_color }} {{ $cat2->d()->s()->s()->s()->dob() }}
+                                                                                                        <input type="text" class="ind" id="ddsss" data="{{$cat2->d()->s()->s()->s()->id()}}" disabled><br>{{$cat2->d()->s()->s()->s()->l($generations)}}<br>{{ $cat2->d()->s()->s()->s()->breed }} {{ $cat2->d()->s()->s()->s()->ems_color }} {{ $cat2->d()->s()->s()->s()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->d()->s()->s()->s()->id != "1")
+    {{ $cat2->d()->s()->s()->s()->original_reg_num }}<br> 
+        {{ $cat2->d()->s()->s()->s()->last_reg_num }}<br> {{ $cat2->d()->s()->s()->s()->reg_num_2 }}<br> {{ $cat2->d()->s()->s()->s()->reg_num_3 }}
+    @endif
+    </div>
 
                                                                                                         @php $json .= "\"name\": \"" . $cat2->d()->s()->s()->s()->id() . "\"" @endphp
 
@@ -1398,7 +1566,13 @@
                                                                                                 @php $json .= "\"d\": {" @endphp
                                                                                                 <tr class="d">
                                                                                                     <td>
-                                                                                                        <input type="text" class="ind" id="ddssd" data="{{$cat2->d()->s()->s()->d()->id()}}" disabled><br>{{$cat2->d()->s()->s()->d()->l($generations)}}<br>{{ $cat2->d()->s()->s()->d()->breed }} {{ $cat2->d()->s()->s()->d()->ems_color }} {{ $cat2->d()->s()->s()->d()->dob() }}
+                                                                                                        <input type="text" class="ind" id="ddssd" data="{{$cat2->d()->s()->s()->d()->id()}}" disabled><br>{{$cat2->d()->s()->s()->d()->l($generations)}}<br>{{ $cat2->d()->s()->s()->d()->breed }} {{ $cat2->d()->s()->s()->d()->ems_color }} {{ $cat2->d()->s()->s()->d()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->d()->s()->s()->d()->id != "1")
+    {{ $cat2->d()->s()->s()->d()->original_reg_num }}<br> 
+        {{ $cat2->d()->s()->s()->d()->last_reg_num }}<br> {{ $cat2->d()->s()->s()->d()->reg_num_2 }}<br> {{ $cat2->d()->s()->s()->d()->reg_num_3 }}
+    @endif
+    </div>
 
                                                                                                         @php $json .= "\"name\": \"" . $cat2->d()->s()->s()->d()->id() . "\"" @endphp
 
@@ -1425,7 +1599,13 @@
 
                                                                                     <td>
 
-                                                                                        <input class="ind" id="ddsd" type="text" data="{{$cat2->d()->s()->d()->id()}}" disabled><br>{{$cat2->d()->s()->d()->l($generations)}}<br>{{ $cat2->d()->s()->d()->breed }} {{ $cat2->d()->s()->d()->ems_color }} {{ $cat2->d()->s()->d()->dob() }}
+                                                                                        <input class="ind" id="ddsd" type="text" data="{{$cat2->d()->s()->d()->id()}}" disabled><br>{{$cat2->d()->s()->d()->l($generations)}}<br>{{ $cat2->d()->s()->d()->breed }} {{ $cat2->d()->s()->d()->ems_color }} {{ $cat2->d()->s()->d()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->d()->s()->d()->id != "1")
+    {{ $cat2->d()->s()->d()->original_reg_num }}<br> 
+        {{ $cat2->d()->s()->d()->last_reg_num }}<br> {{ $cat2->d()->s()->d()->reg_num_2 }}<br> {{ $cat2->d()->s()->d()->reg_num_3 }}
+    @endif
+    </div>
 
 
                                                                                         @php $json .= "\"name\": \"" . $cat2->d()->s()->d()->id() . ($generations >= 5 ? "\"," : "\"") @endphp
@@ -1440,7 +1620,13 @@
                                                                                                 @php $json .= "\"s\": {" @endphp
                                                                                                 <tr class="s">
                                                                                                     <td>
-                                                                                                        <input type="text" class="ind" id="ddsds" data="{{$cat2->d()->s()->d()->s()->id()}}" disabled><br>{{$cat2->d()->s()->d()->s()->l($generations)}}<br>{{ $cat2->d()->s()->d()->s()->breed }} {{ $cat2->d()->s()->d()->s()->ems_color }} {{ $cat2->d()->s()->d()->s()->dob() }}
+                                                                                                        <input type="text" class="ind" id="ddsds" data="{{$cat2->d()->s()->d()->s()->id()}}" disabled><br>{{$cat2->d()->s()->d()->s()->l($generations)}}<br>{{ $cat2->d()->s()->d()->s()->breed }} {{ $cat2->d()->s()->d()->s()->ems_color }} {{ $cat2->d()->s()->d()->s()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->d()->s()->d()->s()->id != "1")
+    {{ $cat2->d()->s()->d()->s()->original_reg_num }}<br> 
+        {{ $cat2->d()->s()->d()->s()->last_reg_num }}<br> {{ $cat2->d()->s()->d()->s()->reg_num_2 }}<br> {{ $cat2->d()->s()->d()->s()->reg_num_3 }}
+    @endif
+    </div>
 
                                                                                                         @php $json .= "\"name\": \"" . $cat2->d()->s()->d()->s()->id() . "\"" @endphp
 
@@ -1455,7 +1641,13 @@
                                                                                                 @php $json .= "\"d\": {" @endphp
                                                                                                 <tr class="d">
                                                                                                     <td>
-                                                                                                        <input type="text" class="ind" id="ddsdd" data="{{$cat2->d()->s()->d()->d()->id()}}" disabled><br>{{$cat2->d()->s()->d()->d()->l($generations)}}<br>{{ $cat2->d()->s()->d()->d()->breed }} {{ $cat2->d()->s()->d()->d()->ems_color }} {{ $cat2->d()->s()->d()->d()->dob() }}
+                                                                                                        <input type="text" class="ind" id="ddsdd" data="{{$cat2->d()->s()->d()->d()->id()}}" disabled><br>{{$cat2->d()->s()->d()->d()->l($generations)}}<br>{{ $cat2->d()->s()->d()->d()->breed }} {{ $cat2->d()->s()->d()->d()->ems_color }} {{ $cat2->d()->s()->d()->d()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->d()->s()->d()->d()->id != "1")
+    {{ $cat2->d()->s()->d()->d()->original_reg_num }}<br> 
+        {{ $cat2->d()->s()->d()->d()->last_reg_num }}<br> {{ $cat2->d()->s()->d()->d()->reg_num_2 }}<br> {{ $cat2->d()->s()->d()->d()->reg_num_3 }}
+    @endif
+    </div>
 
                                                                                                         @php $json .= "\"name\": \"" . $cat2->d()->s()->d()->d()->id() . "\"" @endphp
 
@@ -1490,7 +1682,13 @@
                                                                 @php $json .= "\"d\": {" @endphp
                                                                 <tr class="d">
 
-                                                                    <td> <input class="ind" id="ddd" type="text" data="{{$cat2->d()->d()->id()}}" disabled><br>{{$cat2->d()->d()->l($generations)}}<br>{{ $cat2->d()->d()->breed }} {{ $cat2->d()->d()->ems_color }} {{ $cat2->d()->d()->dob() }}
+                                                                    <td> <input class="ind" id="ddd" type="text" data="{{$cat2->d()->d()->id()}}" disabled><br>{{$cat2->d()->d()->l($generations)}}<br>{{ $cat2->d()->d()->breed }} {{ $cat2->d()->d()->ems_color }} {{ $cat2->d()->d()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->d()->d()->id != "1")
+    {{ $cat2->d()->d()->original_reg_num }}<br> 
+        {{ $cat2->d()->d()->last_reg_num }}<br> {{ $cat2->d()->d()->reg_num_2 }}<br> {{ $cat2->d()->d()->reg_num_3 }}
+    @endif
+    </div>
                                                                         @php $json .= "\"name\": \"" . $cat2->d()->d()->id() . ($generations >= 4 ? "\"," : "\"") @endphp
 
                                                                     </td>
@@ -1506,7 +1704,13 @@
 
                                                                                     <td>
 
-                                                                                        <input class="ind" id="ddds" type="text" data="{{$cat2->d()->d()->s()->id()}}" disabled><br>{{$cat2->d()->d()->s()->l($generations)}}<br>{{ $cat2->d()->d()->s()->breed }} {{ $cat2->d()->d()->s()->ems_color }} {{ $cat2->d()->d()->s()->dob() }}
+                                                                                        <input class="ind" id="ddds" type="text" data="{{$cat2->d()->d()->s()->id()}}" disabled><br>{{$cat2->d()->d()->s()->l($generations)}}<br>{{ $cat2->d()->d()->s()->breed }} {{ $cat2->d()->d()->s()->ems_color }} {{ $cat2->d()->d()->s()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->d()->d()->s()->id != "1")
+    {{ $cat2->d()->d()->s()->original_reg_num }}<br> 
+        {{ $cat2->d()->d()->s()->last_reg_num }}<br> {{ $cat2->d()->d()->s()->reg_num_2 }}<br> {{ $cat2->d()->d()->s()->reg_num_3 }}
+    @endif
+    </div>
 
 
                                                                                         @php $json .= "\"name\": \"" . $cat2->d()->d()->s()->id() . ($generations >= 5 ? "\"," : "\"") @endphp
@@ -1520,7 +1724,13 @@
                                                                                                 @php $json .= "\"s\": {" @endphp
                                                                                                 <tr class="s">
                                                                                                     <td>
-                                                                                                        <input type="text" class="ind" id="dddss" data="{{$cat2->d()->d()->s()->s()->id()}}" disabled><br>{{$cat2->d()->d()->s()->s()->l($generations)}}<br>{{ $cat2->d()->d()->s()->s()->breed }} {{ $cat2->d()->d()->s()->s()->ems_color }} {{ $cat2->d()->d()->s()->s()->dob() }}
+                                                                                                        <input type="text" class="ind" id="dddss" data="{{$cat2->d()->d()->s()->s()->id()}}" disabled><br>{{$cat2->d()->d()->s()->s()->l($generations)}}<br>{{ $cat2->d()->d()->s()->s()->breed }} {{ $cat2->d()->d()->s()->s()->ems_color }} {{ $cat2->d()->d()->s()->s()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->d()->d()->s()->s()->id != "1")
+    {{ $cat2->d()->d()->s()->s()->original_reg_num }}<br> 
+        {{ $cat2->d()->d()->s()->s()->last_reg_num }}<br> {{ $cat2->d()->d()->s()->s()->reg_num_2 }}<br> {{ $cat2->d()->d()->s()->s()->reg_num_3 }}
+    @endif
+    </div>
 
                                                                                                         @php $json .= "\"name\": \"" . $cat2->d()->d()->s()->s()->id() . "\"" @endphp
 
@@ -1536,7 +1746,13 @@
                                                                                                 @php $json .= "\"d\": {" @endphp
                                                                                                 <tr class="d">
                                                                                                     <td>
-                                                                                                        <input type="text" class="ind" id="dddsd" data="{{$cat2->d()->d()->s()->d()->id()}}" disabled><br>{{$cat2->d()->d()->s()->d()->l($generations)}}<br>{{ $cat2->d()->d()->s()->d()->breed }} {{ $cat2->d()->d()->s()->d()->ems_color }} {{ $cat2->d()->d()->s()->d()->dob() }}
+                                                                                                        <input type="text" class="ind" id="dddsd" data="{{$cat2->d()->d()->s()->d()->id()}}" disabled><br>{{$cat2->d()->d()->s()->d()->l($generations)}}<br>{{ $cat2->d()->d()->s()->d()->breed }} {{ $cat2->d()->d()->s()->d()->ems_color }} {{ $cat2->d()->d()->s()->d()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->d()->d()->s()->d()->id != "1")
+    {{ $cat2->d()->d()->s()->d()->original_reg_num }}<br> 
+        {{ $cat2->d()->d()->s()->d()->last_reg_num }}<br> {{ $cat2->d()->d()->s()->d()->reg_num_2 }}<br> {{ $cat2->d()->d()->s()->d()->reg_num_3 }}
+    @endif
+    </div>
 
                                                                                                         @php $json .= "\"name\": \"" . $cat2->d()->d()->s()->d()->id() . "\"" @endphp
 
@@ -1562,7 +1778,13 @@
 
                                                                                     <td>
 
-                                                                                        <input class="ind" id="dddd" type="text" data="{{$cat2->d()->d()->d()->id()}}" disabled><br>{{$cat2->d()->d()->d()->l($generations)}}<br>{{ $cat2->d()->d()->d()->breed }} {{ $cat2->d()->d()->d()->ems_color }} {{ $cat2->d()->d()->d()->dob() }}
+                                                                                        <input class="ind" id="dddd" type="text" data="{{$cat2->d()->d()->d()->id()}}" disabled><br>{{$cat2->d()->d()->d()->l($generations)}}<br>{{ $cat2->d()->d()->d()->breed }} {{ $cat2->d()->d()->d()->ems_color }} {{ $cat2->d()->d()->d()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->d()->d()->d()->id != "1")
+    {{ $cat2->d()->d()->d()->original_reg_num }}<br> 
+        {{ $cat2->d()->d()->d()->last_reg_num }}<br> {{ $cat2->d()->d()->d()->reg_num_2 }}<br> {{ $cat2->d()->d()->d()->reg_num_3 }}
+    @endif
+    </div>
 
 
                                                                                         @php $json .= "\"name\": \"" . $cat2->d()->d()->d()->id() . ($generations >= 5 ? "\"," : "\"") @endphp
@@ -1576,7 +1798,13 @@
                                                                                                 @php $json .= "\"s\": {" @endphp
                                                                                                 <tr class="s">
                                                                                                     <td>
-                                                                                                        <input type="text" class="ind" id="dddds" data="{{$cat2->d()->d()->d()->s()->id()}}" disabled><br>{{$cat2->d()->d()->d()->s()->l($generations)}}<br>{{ $cat2->d()->d()->d()->s()->breed }} {{ $cat2->d()->d()->d()->s()->ems_color }} {{ $cat2->d()->d()->d()->s()->dob() }}
+                                                                                                        <input type="text" class="ind" id="dddds" data="{{$cat2->d()->d()->d()->s()->id()}}" disabled><br>{{$cat2->d()->d()->d()->s()->l($generations)}}<br>{{ $cat2->d()->d()->d()->s()->breed }} {{ $cat2->d()->d()->d()->s()->ems_color }} {{ $cat2->d()->d()->d()->s()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->d()->d()->d()->s()->id != "1")
+    {{ $cat2->d()->d()->d()->s()->original_reg_num }}<br> 
+        {{ $cat2->d()->d()->d()->s()->last_reg_num }}<br> {{ $cat2->d()->d()->d()->s()->reg_num_2 }}<br> {{ $cat2->d()->d()->d()->s()->reg_num_3 }}
+    @endif
+    </div>
 
                                                                                                         @php $json .= "\"name\": \"" . $cat2->d()->d()->d()->s()->id() . "\"" @endphp
 
@@ -1592,7 +1820,13 @@
                                                                                                 @php $json .= "\"d\": {" @endphp
                                                                                                 <tr class="d">
                                                                                                     <td>
-                                                                                                        <input type="text" class="ind" id="ddddd" data="{{$cat2->d()->d()->d()->d()->id()}}" disabled><br>{{$cat2->d()->d()->d()->d()->l($generations)}}<br>{{ $cat2->d()->d()->d()->d()->breed }} {{ $cat2->d()->d()->d()->d()->ems_color }} {{ $cat2->d()->d()->d()->d()->dob() }}
+                                                                                                        <input type="text" class="ind" id="ddddd" data="{{$cat2->d()->d()->d()->d()->id()}}" disabled><br>{{$cat2->d()->d()->d()->d()->l($generations)}}<br>{{ $cat2->d()->d()->d()->d()->breed }} {{ $cat2->d()->d()->d()->d()->ems_color }} {{ $cat2->d()->d()->d()->d()->dob() }}<br>
+                                        <div class="reg_num">
+    @if ($cat2->d()->d()->d()->d()->id != "1")
+    {{ $cat2->d()->d()->d()->d()->original_reg_num }}<br> 
+        {{ $cat2->d()->d()->d()->d()->last_reg_num }}<br> {{ $cat2->d()->d()->d()->d()->reg_num_2 }}<br> {{ $cat2->d()->d()->d()->d()->reg_num_3 }}
+    @endif
+    </div>
 
                                                                                                         @php $json .= "\"name\": \"" . $cat2->d()->d()->d()->d()->id() . "\"" @endphp
 
