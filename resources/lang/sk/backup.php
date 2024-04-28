@@ -21,10 +21,13 @@ return [
     'download'            => 'Stiahnúť tento súbor',
     'upload'              => 'Nahrať zálohový GZ súbor',
     'import'              => 'Importovať zálohový CSV súbor mačiek (Nebezpečné)',
+    'clear'              => 'Prečistiť mačky',
     'export'              => 'Exportovať zálohový CSV súbor mačiek',
     'import_breeds'              => 'Importovať zálohový CSV súbor plemien (Nebezpečné)',
+    'clear_breeds'              => 'Prečistiť plemená',
     'export_breeds'              => 'Exportovať zálohový CSV súbor plemien',
     'import_ems'              => 'Importovať zálohový CSV súbor EMS (Nebezpečné)',
+    'clear_ems'              => 'Prečistiť EMS',
     'export_ems'              => 'Exportovať zálohový CSV súbor EMS',
 
     // Attributes

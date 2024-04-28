@@ -69,12 +69,15 @@ Route::controller(CatsController::class)->group(function () {
 Route::controller(BackupsController::class)->group(function () {
     Route::post('backups/issue', 'issue')->name('backups.issue');
     Route::get('backups/help', 'help')->name('backups.help');
-    Route::post('backups/export', 'export')->name('backups.export');
-    Route::post('backups/import', 'import')->name('backups.import');
+    Route::post('backups/export_cats', 'export_cats')->name('backups.export_cats');
+    Route::post('backups/import_cats', 'import_cats')->name('backups.import_cats');
+    Route::post('backups/clear_cats', 'clear_cats')->name('backups.clear_cats');
     Route::post('backups/export_breeds', 'export_breeds')->name('backups.export_breeds');
     Route::post('backups/import_breeds', 'import_breeds')->name('backups.import_breeds');
+    Route::post('backups/clear_breeds', 'clear_breeds')->name('backups.clear_breeds');
     Route::post('backups/export_ems', 'export_ems')->name('backups.export_ems');
     Route::post('backups/import_ems', 'import_ems')->name('backups.import_ems');
+    Route::post('backups/clear_ems', 'clear_ems')->name('backups.clear_ems');
     Route::post('backups/upload', 'upload')->name('backups.upload');
     Route::post('backups/{fileName}/restore', 'restore')->name('backups.restore');
     Route::get('backups/{fileName}/dl', 'download')->name('backups.download');

@@ -49,7 +49,6 @@
                 <input type="submit" value="{{ trans('backup.create') }}" class="btn btn-success">
             </div>
         </form>
-        <hr>
         <form action="{{ route('backups.upload') }}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-group">
@@ -62,14 +61,19 @@
             </div>
         </form>
         <hr>
-        <form action="{{ route('backups.export') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('backups.clear_cats') }}" method="post" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <div class="form-group">
+                <input type="submit" value="{{ trans('backup.clear') }}" class="btn btn-primary">
+            </div>
+        </form>
+        <form action="{{ route('backups.export_cats') }}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-group">
                 <input type="submit" value="{{ trans('backup.export') }}" class="btn btn-primary">
             </div>
         </form>
-        <hr>
-        <form action="{{ route('backups.import') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('backups.import_cats') }}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
             <p>Make sure to consult help before usage.</p>
             <div class="form-group">
@@ -82,13 +86,18 @@
             </div>
         </form>
         <hr>
+        <form action="{{ route('backups.clear_breeds') }}" method="post" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <div class="form-group">
+                <input type="submit" value="{{ trans('backup.clear_breeds') }}" class="btn btn-primary">
+            </div>
+        </form>
         <form action="{{ route('backups.export_breeds') }}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-group">
                 <input type="submit" value="{{ trans('backup.export_breeds') }}" class="btn btn-primary">
             </div>
         </form>
-        <hr>
         <form action="{{ route('backups.import_breeds') }}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-group">
@@ -101,13 +110,18 @@
             </div>
         </form>
         <hr>
+        <form action="{{ route('backups.clear_ems') }}" method="post" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <div class="form-group">
+                <input type="submit" value="{{ trans('backup.clear_ems') }}" class="btn btn-primary">
+            </div>
+        </form>
         <form action="{{ route('backups.export_ems') }}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-group">
                 <input type="submit" value="{{ trans('backup.export_ems') }}" class="btn btn-primary">
             </div>
         </form>
-        <hr>
         <form action="{{ route('backups.import_ems') }}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-group">

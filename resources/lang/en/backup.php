@@ -21,10 +21,13 @@ return [
     'download'            => 'Download this file',
     'upload'              => 'Upload Backup GZ File',
     'import'              => 'Import Cats Backup CSV File (Unsafe)',
+    'clear'              => 'Clear Cats',
     'export'              => 'Export Cats Backup CSV File',
     'import_breeds'              => 'Import Breeds Backup CSV File (Unsafe)',
+    'clear_breeds'              => 'Clear Breeds',
     'export_breeds'              => 'Export Breeds Backup CSV File',
     'import_ems'              => 'Import EMS Backup CSV File (Unsafe)',
+    'clear_ems'              => 'Clear EMS',
     'export_ems'              => 'Export EMS Backup CSV File',
 
     // Attributes

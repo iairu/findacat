@@ -178,7 +178,22 @@ class BackupsController extends Controller
         }
     }
 
-    public function import(Request $request)
+    public function clear_cats(Request $request)
+    {
+        if (Auth::user() && Auth::user()->is_admin) {
+            try {
+                Cat::truncate();
+            } catch (FileNotFoundException $e) {
+                return redirect()->route('backups.issue');
+            }
+
+            return redirect()->route('backups.index');
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function import_cats(Request $request)
     {
         if (Auth::user() && Auth::user()->is_admin) {
             try {
@@ -239,7 +254,7 @@ class BackupsController extends Controller
         }
     }
 
-    public function export()
+    public function export_cats()
     {
         if (Auth::user() && Auth::user()->is_admin) {
             $cats = Cat::all();
@@ -259,6 +274,21 @@ class BackupsController extends Controller
             fclose($handle);
 
             return Response::make('', 200, $headers);
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function clear_breeds(Request $request)
+    {
+        if (Auth::user() && Auth::user()->is_admin) {
+            try {
+                Breed::truncate();
+            } catch (FileNotFoundException $e) {
+                return redirect()->route('backups.issue');
+            }
+
+            return redirect()->route('backups.index');
         } else {
             return redirect('/');
         }
@@ -316,6 +346,21 @@ class BackupsController extends Controller
             fclose($handle);
 
             return Response::make('', 200, $headers);
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function clear_ems(Request $request)
+    {
+        if (Auth::user() && Auth::user()->is_admin) {
+            try {
+                Ems::truncate();
+            } catch (FileNotFoundException $e) {
+                return redirect()->route('backups.issue');
+            }
+
+            return redirect()->route('backups.index');
         } else {
             return redirect('/');
         }
