@@ -240,23 +240,23 @@ class CatsController extends Controller
             if ($request->hasFile('genetic_tests_file')) {
                 $image = $request->file('genetic_tests_file');
                 $name = time().'_genetic_tests_file.'.$image->getClientOriginalExtension();
-                $destinationPath = public_path('/images');
+                $destinationPath = public_path('/uploads');
                 $image->move($destinationPath, $name);
-                $attributes['genetic_tests_file'] = "/images" . "/" . $name;
+                $attributes['genetic_tests_file'] = "/uploads" . "/" . $name;
             }
             if ($request->hasFile('photo')) {
                 $image = $request->file('photo');
                 $name = time().'_photo.'.$image->getClientOriginalExtension();
-                $destinationPath = public_path('/images');
+                $destinationPath = public_path('/uploads');
                 $image->move($destinationPath, $name);
-                $attributes['photo'] = "/images" . "/" . $name;
+                $attributes['photo'] = "/uploads" . "/" . $name;
             }
             if ($request->hasFile('vet_confirmation')) {
                 $image = $request->file('vet_confirmation');
                 $name = time().'_vet_confirmation.'.$image->getClientOriginalExtension();
-                $destinationPath = public_path('/images');
+                $destinationPath = public_path('/uploads');
                 $image->move($destinationPath, $name);
-                $attributes['vet_confirmation'] = "/images" . "/" . $name;
+                $attributes['vet_confirmation'] = "/uploads" . "/" . $name;
             }
             $cat->update($attributes);
             $catAttributes = collect($catAttributes);
@@ -332,7 +332,7 @@ class CatsController extends Controller
      */
     private function getBreedList()
     {
-        return Breed::select('breed','id')->pluck('breed','id')->skip(1);
+        return Breed::select('id','breed')->orderByRaw("CAST(id as UNSIGNED) ASC")->pluck('breed','id')->skip(1);
     }
 
     /**
