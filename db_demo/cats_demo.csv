@@ -1,0 +1,11 @@
+id,full_name,gender_id,sire_id,dam_id,dob,titles_before_name,titles_after_name,ems_color,breed,chip_number,genetic_tests,breeding_station,country_code,alternative_name,print_name_r1,print_name_r2,dod,original_reg_num,last_reg_num,reg_num_2,reg_num_3,notes,breeder,current_owner,country_of_origin,country,ownership_notes,personal_info,genetic_tests_file,photo,vet_confirmation,doo
+1,Unknown Origin,2,1,1,1111-11-11,,-,-,-,,,,,,,,, Unknown Origin ,, Unknown Origin ,,,- ,- ,,,,,,,,
+2,Grand Sire,1,1,1,2002-11-16,,del Fiore Nero,w 62,PER,,,,,,,,,(SK) SZCH LO 1000/2002/PER ,,,,,"John Doe, 123 Cat St, Catville",,,,,,,,,
+3,Grand Dam,2,1,1,2002-11-16,,del Fiore Nero,n 01,PER,,,,,,,,,(SK) SZCH LO 1001/2002/PER ,,,,,"John Doe, 123 Cat St, Catville",,,,,,,,,
+4,Sire,1,2,3,2002-11-16,Ch,del Fiore Nero,w 62,PER,,,,,,,,,(SK) SZCH LO 1002/2002/PER ,,,,,"John Doe, 123 Cat St, Catville","John Doe, 123 Cat St, Catville",,,,,,,,2002-11-16
+5,Dam,2,1,1,2002-11-16,,"Cattery XYZ, US",e 01,PER,,,,,,,,,(SK) SZCH LO 1003/2002/PER ,,,,,"Jane Smith, 456 Purr Lane, Meowtown","Jane Smith, 456 Purr Lane, Meowtown",,,,,,,,2002-11-16
+6,Kitten 1,1,4,5,2003-05-22,,Cattery ABC,w 62,PER,,,,,,,,,(SK) SZCH LO 1006/2003/PER ,,,,,"John Doe, 123 Cat St, Catville",,,,,,,,,
+7,Kitten 2,2,4,5,2003-05-22,,Cattery ABC,e 03,PER,,,,,,,,,(SK) SZCH LO 1007/2003/PER ,,,,,"John Doe, 123 Cat St, Catville",,,,,,,,,
+8,Champion Cat,1,2,3,2002-11-18,IC,"Cattery XYZ, US",ns 04,PER,,,,,,,,,(SK) SZCH LO 1011/2002/PER ,,,,,"Jane Smith, 456 Purr Lane, Meowtown","Jane Smith, 456 Purr Lane, Meowtown",,,,,,,,2002-11-18
+9,Show Cat,2,8,5,2003-05-22,,Cattery DEF,n 01,PER,,,,,,,,,(SK) SZCH LO 1016/2003/PER ,,,,,"Bob Johnson, 789 Whisker Rd, Pawville","Alice Brown, 101 Feline Ave, Catburg",,,,,,,,2003-05-22
+10,Imported Cat,1,1,1,2003-05-22,GIC,Cattery International,a,MCO,,,,,,,,,(US) CFA 1736-1350215,,(DE) DEKZV 210099,,,"Foreign Breeder, 1 Global St, Worldcity",,,,,,,,,

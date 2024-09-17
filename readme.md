@@ -1,115 +1,49 @@
-![Laravel](https://laravel.com/assets/img/components/logo-laravel.svg)
+<div align="center">
+  <h1>🐈 Find A Cat - Cat Pedigree Management with Inbreeding</h1>
+  <p>Ondrej Špánik (iairu) &copy; 2024</p>
+</div>
 
-<h1 align="center">Genealogy Application</h1>
+## Overview
 
-[![Build Status](https://travis-ci.org/nafiesl/silsilah.svg?branch=master)](https://travis-ci.org/nafiesl/silsilah)
-[![Coverage Status](https://coveralls.io/repos/github/nafiesl/silsilah/badge.svg?branch=master)](https://coveralls.io/github/nafiesl/silsilah?branch=master)
+Find A Cat is a web application based on Laravel to help people find and manage cats, cat pedigrees, and calculate inbreeding of cat pairs to determine if mating is a good idea. Please read my thesis to get a better idea about the functionality and intentions behind this application. My thesis includes a guide on how to set up an admin account by flagging it as such in the database after registration.
 
-> **Development in progress**  
-> In development progress, any changes of table structure **will be updated** directly to corresponding **migration file**.
->
-> [Baca README Bahasa Indonesia](readme.id.md)
+See for yourself: [findacat.eu](https://findacat.eu)
 
-## About
-Genealogy (Silsilah) application to record our family members.
+## Web Application
 
-## Features
-This application uses Bahasa Indonesia and English based on `config.locale`.
+The web application is a Laravel-based system designed to help cat breeders and enthusiasts manage and track cat pedigrees. 
+This application uses English, Slovak, and supports multiple languages.
+It offers features such as:
 
-### Logic Concept
-1. A person can have one sire
-2. A person can have one dam
-3. A person can have one parent (couple of dam and sire)
-4. A person can have 0 to many children
-5. A person can have 0 to many spouses (husbands or wife)
-6. A couple can have 0 to many children (based on parent_id)
+- Cat registration and pedigree tracking
+- Breed and color (EMS) management
+- User authentication and authorization
+- Pedigree visualization
 
-### Family Member Entry
-1. Enter Name and Gender
-2. Set Sire
-3. Set Dam
-4. Add Spouse
-5. Add Child
+## Thesis
 
-### Person Attribute
-1. Nickname
-2. Gender
-3. Fullname
-4. Date of birth
-5. Date of death (or at least year of death)
-6. Address
-7. Phone Number
-8. Email
+The thesis document provides an in-depth look at the research, development process, and technical decisions made during the creation of the Find A Cat application. It covers topics such as:
 
-### Couple Attribute (TODO)
-1. Husband
-2. Wife
-3. Marriage Date
-4. Divorce Date
-5. Address
+- Background on cat breeding and pedigree management
+- System architecture and design decisions
+- Implementation details and challenges
+- User experience considerations
+- Future improvements and potential expansions
 
-## How to Install
+The thesis documents can be found in the `thesis` directory.
 
-### Server Requirements
+## Directory Structure
 
-This application can be installed on local server and online server with these specifications :
-
-1. PHP 7.3 (and meet other [Laravel 8.x server requirements](https://laravel.com/docs/8.x/deployment#server-requirements)),
-2. MySQL or MariaDB database,
-3. SQlite (for automated testing).
-
-### Installation Steps
-
-1. Clone the repo : `git clone https://github.com/nafiesl/silsilah.git`
-2. `cd silsilah`
-3. `composer install`
-4. `cp .env.example .env`
-5. `php artisan key:generate`
-6. Create **database on MySQL**
-7. **Set database credentials** on `.env` file
-8. `php artisan migrate`
-9. `php artisan storage:link`
-10. `php artisan serve`
-11. Register as new user to start using the application.
-12. Add the registered email address to the `.env` file:
-    ```
-    SYSTEM_ADMIN_EMAILS=admin@email.com;other_admin@email.com
-    ```
-
-## Testing
-This application built with testing (TDD) using in-memory sqlite database.
-```bash
-$ vendor/bin/phpunit
-```
+- `src/`: Contains the Laravel application source code
+- `thesis/`: Contains the thesis document and related materials
+- `db_demo/`: Includes demo database import files to be used in the web app UI, such as the EMS values CSV
 
 ## Contributing
-Feel free to submit Issue for bugs or sugestions and Pull Request.
 
-## Screenshots
-
-#### Family Tree
-![Family Tree](public/images/02-pohon-keluarga.jpg "Family Tree")
-
-This family tree view is using the [Horizontal Family Tree CSS](https://codepen.io/P233/pen/Kzbsi), thanks to [Peiwen Lu](https://codepen.io/P233/pen/Kzbsi).
-
-#### Family Chart
-![Family Chart](public/images/03-bagan-keluarga.jpg "Family Chart")
-
-#### Search Family Member
-![Search Family Member](public/images/01-cari-keluarga.jpg "Search Family Member")
-
-#### User Profile
-![User Profile](public/images/04-profil.jpg "User Profile")
-
-#### Profile Form
-![Profile Form](public/images/05-form-profil.jpg "Profile Form")
-
-#### Profil Edit Form
-![Profil Edit Form](public/images/06-edit-profil.jpg "Profil Edit Form")
-
-#### Automated Testing
-![Automated Testing](public/images/07-automated-testing.jpg "Automated Testing")
+This project is primarily for educational purposes. However, if you'd like to contribute or have suggestions, please open an issue or submit a pull request.
 
 ## License
 
-Silsilah project is open-sourced software licensed under the [MIT license](LICENSE).
+Find A Cat project (`src` folder) is based on Silsilah (https://github.com/nafiesl/silsilah) and open-sourced software licensed under the [MIT license](src/LICENSE) with the exception of my thesis (`thesis` folder) and database demo files used to demonstrate import capabilities of the web interface (`db_demo` folder).
+
+Thesis and database files are © 2024 Ondrej Špánik (iairu). All rights reserved. Redistribution without permission is prohibited; feel free to link to the GitHub repository instead. Personal use is fine, commercial use is not granted.
