@@ -105,7 +105,7 @@ class RegisterCatController extends Controller
             ]);
             $cat->save();
 
-            return view('cats.register-cat');
+            return redirect()->route('register-cat')->with('success', __('app.cat_registered_success'));
         } else {
             return redirect('/');
         }

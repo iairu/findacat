@@ -69,6 +69,13 @@ class CatsController extends Controller
      * @param  \App\Cat  $cat
      * @return \Illuminate\View\View
      */
+
+    /**
+     * Display the specified Cat.
+     *
+     * @param  \App\Cat  $cat
+     * @return \Illuminate\View\View
+     */
     public function show(Cat $cat)
     {
         $catsMariageList = $this->getCatMariageList($cat);
@@ -134,17 +141,36 @@ class CatsController extends Controller
      */
     public function test(Breed $breed, Breed $breed2, Cat $cat = null, Cat $cat2 = null, int $generations = 5)
     {
+        // Check if there are any cats in the database
+        $totalCats = Cat::count();
+        if ($totalCats === 0) {
+            return redirect()->route('cats.search')->with('error', __('app.no_cats_in_database'));
+        }
+
+        // Check if valid breeds are selected (ID > 1 means actual breed, 1 is placeholder)
+        if ($breed->id == 1 || $breed2->id == 1) {
+            return redirect()->route('cats.search')->with('error', __('app.invalid_breed_selection'));
+        }
+
         $breedList = $this->getBreedList();
-        if ($breed) {
-            $malePersonList = $this->getBreedCatList($breed,1);
-        } else {
-            $malePersonList = null;
+        
+        // Get cats for selected breeds
+        $malePersonList = $this->getBreedCatList($breed, 1);
+        $femalePersonList = $this->getBreedCatList($breed2, 2);
+
+        // Check if there are cats available for the selected breeds
+        if ($malePersonList->isEmpty() || $femalePersonList->isEmpty()) {
+            return redirect()->route('cats.search')->with('error', __('app.no_cats_in_database'));
         }
-        if ($breed2) {
-            $femalePersonList = $this->getBreedCatList($breed2,2);
-        } else {
-            $femalePersonList = null;
+
+        // If cats are not properly selected, default to first available
+        if (!$cat || $cat->id == 1) {
+            $cat = Cat::where('gender_id', 1)->where('breed', $breed->breed())->first();
         }
+        if (!$cat2 || $cat2->id == 1) {
+            $cat2 = Cat::where('gender_id', 2)->where('breed', $breed2->breed())->first();
+        }
+
         return view('cats.test', compact('breed', 'breed2', 'cat', 'cat2', 'generations', 'breedList', 'malePersonList', 'femalePersonList'));
     }
 
@@ -263,7 +289,7 @@ class CatsController extends Controller
 
             $this->updateCatMetadata($cat, $catAttributes);
 
-            return redirect()->route('cats.show', $cat->id);
+            return redirect()->route('cats.show', $cat->id)->with('success', __('app.cat_updated_success'));
         } else {
             return redirect('/');
         }    
@@ -316,10 +342,9 @@ class CatsController extends Controller
     {
         // Cat::where('gender_id', $genderId)->pluck('full_name', 'id');
         if ($genderId == 2) {
-
-        return Cat::select(DB::raw("CONCAT('(', breed, ') ', titles_before_name,' ',full_name,' ',titles_after_name) AS display_name"),'id')->where('gender_id', $genderId)->where('breed', $breed->breed())->pluck('display_name','id')->skip(1);
+            return Cat::select(DB::raw("CONCAT('(', breed, ') ', titles_before_name,' ',full_name,' ',titles_after_name) AS display_name"),'id')->where('gender_id', $genderId)->where('breed', $breed->breed())->pluck('display_name','id')->skip(1);
         } else {
-        return Cat::select(DB::raw("CONCAT('(', breed, ') ', titles_before_name,' ',full_name,' ',titles_after_name) AS display_name"),'id')->where('gender_id', $genderId)->where('breed', $breed->breed())->pluck('display_name','id');
+            return Cat::select(DB::raw("CONCAT('(', breed, ') ', titles_before_name,' ',full_name,' ',titles_after_name) AS display_name"),'id')->where('gender_id', $genderId)->where('breed', $breed->breed())->pluck('display_name','id');
         }
     }
 
