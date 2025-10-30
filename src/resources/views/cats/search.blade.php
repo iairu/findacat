@@ -132,7 +132,7 @@
                 @endif
                 @endif
                 <hr style="margin: 5px 0;">
-                <div>{{ $cat->breed }} {{ $cat->ems_color }} <span style="float: right;">{{ $cat->dob() }}</span></div>
+                <div>{{ $cat->breed ?? '' }} {{ $cat->ems_color ?? '' }} <span style="float: right;">{{ $cat->dob() }}</span></div>
                 <hr style="margin: 5px 0;">
                 <div>{{ trans('cat.sire') }} : {{ $cat->sire_id ? $cat->sire->full_name : '' }}</div>
                 <div>{{ trans('cat.dam') }} : {{ $cat->dam_id ? $cat->dam->full_name : '' }}</div>
