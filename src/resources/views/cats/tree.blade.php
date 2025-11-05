@@ -1,21 +1,18 @@
 @extends('layouts.cat-profile-wide')
 
 @section('ext_css')
+<link rel="stylesheet" href="{{ asset('css/enhanced-tree.css') }}">
 <script src="/js/jquery.min.js"></script>
 <script src="/js/inbreeding.js"></script>
 <style>
-    body {
-        background-image: url("images/cat-1045782-3.jpg");
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-attachment: fixed;
-        }
+    body::before {
+        background-image: url("images/cat-1045782-3.jpg") !important;
+        opacity: 0.05 !important;
+    }
     .navbar-default  {
-        background: white;
+        background: var(--bg-card);
     }
     #pedigree input {
-        /*border: 1px solid rgba(0,0,0,0.25) !important;*/
         background: none !important;
         padding: 0 10px;
         border-radius: 5px 0 0 0;
@@ -26,31 +23,129 @@
         display: none;
     }
     #pedigree a {
-        /*border: 1px solid rgba(0,0,0,0.25);*/
-        /* border-top: none; */
         display: block;
         position: relative;
-        /*background: white;*/
-        padding: 0 10px;
-        border-radius: 5px 0 0 5px;
-        margin: 0 0 5px;
+        padding: 8px 12px;
+        border-radius: 10px;
+        margin: 3px 0;
         width: 15vw;
+        background: var(--bg-card);
+        color: var(--primary);
+        transition: all 0.3s ease;
+        border: 2px solid var(--border-color);
+        font-weight: 600;
+    }
+    #pedigree a:hover {
+        background: var(--gradient-primary);
+        color: white;
+        transform: translateX(5px);
+        box-shadow: var(--shadow-md);
     }
     label {
         padding: 0 5px;
     }
-    #pedigree tr {
-    }
     #pedigree td {
         max-width: 200px !important;
         width: 200px;
-        border-left: 1px solid rgba(0,0,0,0.25);
-        border-top: 1px solid rgba(0,0,0,0.25);
-        border-bottom: 1px solid rgba(0,0,0,0.25);
-        background: white;
+        border-left: 2px solid var(--border-color);
+        border-top: 2px solid var(--border-color);
+        border-bottom: 2px solid var(--border-color);
+        background: var(--bg-card);
+        padding: 15px;
+        color: var(--text-primary);
+        transition: all 0.3s ease;
+    }
+    #pedigree td:hover {
+        background: rgba(108, 92, 231, 0.05);
+        box-shadow: var(--shadow-sm);
     }
     .reg_num {
-        font-size: 12px;
+        font-size: 11px;
+        padding: 5px 8px;
+        background: rgba(108, 92, 231, 0.08);
+        border-radius: 8px;
+        margin-top: 5px;
+        color: var(--text-secondary);
+    }
+    #generations, #controls {
+        padding: 15px 20px;
+        background: var(--bg-card);
+        border-radius: 15px;
+        margin-bottom: 15px;
+        box-shadow: var(--shadow-sm);
+        animation: slideInUp 0.5s ease;
+    }
+    #generations a {
+        display: inline-block;
+        padding: 5px 12px;
+        margin: 0 3px;
+        border-radius: 10px;
+        background: var(--gradient-primary);
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    #generations a:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+    #result {
+        display: inline-block;
+        padding: 5px 15px;
+        background: var(--gradient-secondary);
+        color: white;
+        border-radius: 10px;
+        font-weight: 700;
+        margin-left: 10px;
+    }
+    .tree-layout-selector {
+        padding: 20px;
+        background: var(--bg-card);
+        border-radius: 15px;
+        margin-bottom: 20px;
+        box-shadow: var(--shadow-sm);
+        animation: scaleIn 0.5s ease;
+    }
+    .tree-layout-selector h4 {
+        margin: 0 0 15px 0;
+        color: var(--text-primary);
+        font-size: 18px;
+    }
+    .layout-options {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+    .layout-option {
+        flex: 1;
+        min-width: 200px;
+        padding: 20px;
+        border: 2px solid var(--border-color);
+        border-radius: 15px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: var(--bg-secondary);
+    }
+    .layout-option:hover {
+        border-color: var(--primary);
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+    }
+    .layout-option.active {
+        background: var(--gradient-primary);
+        color: white;
+        border-color: var(--primary);
+        box-shadow: var(--shadow-md);
+    }
+    .layout-option-icon {
+        font-size: 32px;
+        margin-bottom: 10px;
+    }
+    .layout-option-name {
+        font-weight: 700;
+        font-size: 16px;
     }
 </style>
 @endsection
@@ -79,8 +174,44 @@
             }
         })
     }
+
+    // Tree Layout Switching
+    function treeLayoutBehavior() {
+        const wrapper = document.getElementById('wrapper');
+        const layoutOptions = document.querySelectorAll('.layout-option');
+
+        // Load saved layout
+        const savedLayout = localStorage.getItem('tree_layout') || 'classic';
+        wrapper.className = 'family-tree tree-layout-' + savedLayout;
+
+        // Update active state
+        layoutOptions.forEach(option => {
+            if (option.getAttribute('data-layout') === savedLayout) {
+                option.classList.add('active');
+            }
+        });
+
+        // Layout switching
+        layoutOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const layout = this.getAttribute('data-layout');
+
+                // Update classes
+                layoutOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+
+                // Apply layout
+                wrapper.className = 'family-tree tree-layout-' + layout;
+
+                // Save preference
+                localStorage.setItem('tree_layout', layout);
+            });
+        });
+    }
+
     function loadScripts() {
-        regnumCheckboxBehavior()
+        regnumCheckboxBehavior();
+        treeLayoutBehavior();
     }
     loadScripts()
 </script>
@@ -90,6 +221,29 @@
 @section('subtitle', trans('app.family_tree'))
 
 @section('cat-content')
+
+<!-- Tree Layout Selector -->
+<div class="tree-layout-selector">
+    <h4>🎨 {{ __('tree.choose_layout', 'Choose Tree Layout') }}</h4>
+    <div class="layout-options">
+        <div class="layout-option active" data-layout="classic">
+            <div class="layout-option-icon">📊</div>
+            <div class="layout-option-name">{{ __('tree.classic', 'Classic') }}</div>
+            <small>{{ __('tree.classic_desc', 'Traditional horizontal view') }}</small>
+        </div>
+        <div class="layout-option" data-layout="compact">
+            <div class="layout-option-icon">📋</div>
+            <div class="layout-option-name">{{ __('tree.compact', 'Compact') }}</div>
+            <small>{{ __('tree.compact_desc', 'Space-saving layout') }}</small>
+        </div>
+        <div class="layout-option" data-layout="modern">
+            <div class="layout-option-icon">✨</div>
+            <div class="layout-option-name">{{ __('tree.modern', 'Modern') }}</div>
+            <small>{{ __('tree.modern_desc', 'Card-based design') }}</small>
+        </div>
+    </div>
+</div>
+
 <div id="generations"><strong>Generations:</strong> <span class="generations">{{$generations}}</span> (
     <a href="./1">1</a>
     <a href="./2">2</a>
