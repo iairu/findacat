@@ -20,6 +20,9 @@
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <link href="{{ asset('css/advanced-features.css') }}" rel="stylesheet">
         <link href="{{ asset('css/enhanced-features.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/themes.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/animated-cats.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/theme-selector.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('css/plugins/select2.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/plugins/jquery.datetimepicker.css') }}">
         @yield('ext_css')
@@ -52,6 +55,7 @@
         <script src="{{ asset('js/app.js') }}"></script>
         <script src="{{ asset('js/advanced-features.js') }}"></script>
         <script src="{{ asset('js/enhanced-features.js') }}"></script>
+        <script src="{{ asset('js/theme-system.js') }}"></script>
         @yield('ext_js')
         @yield('script')
 

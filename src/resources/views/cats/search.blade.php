@@ -42,6 +42,9 @@
     <p>{{ __('app.search_tagline', 'Discover cat pedigrees, explore family trees, and trace feline lineages') }}</p>
 </div>
 
+<!-- Theme Selector Panel -->
+<div id="themeSelectorContainer"></div>
+
 <h2 class="page-header" style="text-align: center">
     {{ trans('app.search_cats', 'Search Cats') }}
     @if (request('q'))
