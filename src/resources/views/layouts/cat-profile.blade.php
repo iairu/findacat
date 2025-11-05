@@ -40,6 +40,10 @@
 
     @include('cats.partials.action-buttons', ['cat' => $cat])
 
+    <!-- Pedigree Tools -->
+    @component('components.pedigree-tools', ['cat' => $cat])
+    @endcomponent
+
     @yield('cat-content')
 
     <script>
