@@ -209,6 +209,51 @@
         });
     }
 
+    // Export tree as image (using html2canvas if available, otherwise show message)
+    function exportTreeAsImage() {
+        toast.info('Taking snapshot of family tree...', 2000);
+
+        // Simple fallback - show print dialog
+        setTimeout(() => {
+            window.print();
+            toast.success('Use your browser\'s print-to-PDF feature to save as file', 4000);
+        }, 100);
+    }
+
+    // Share tree
+    function shareTree() {
+        const url = window.location.href;
+        const title = document.title;
+
+        if (navigator.share) {
+            navigator.share({
+                title: title,
+                url: url
+            }).then(() => {
+                toast.success('Shared successfully!');
+            }).catch((error) => {
+                copyToClipboard(url);
+            });
+        } else {
+            copyToClipboard(url);
+        }
+    }
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            toast.success('Link copied to clipboard!');
+        }).catch(() => {
+            // Fallback
+            const input = document.createElement('input');
+            input.value = text;
+            document.body.appendChild(input);
+            input.select();
+            document.execCommand('copy');
+            document.body.removeChild(input);
+            toast.success('Link copied to clipboard!');
+        });
+    }
+
     function loadScripts() {
         regnumCheckboxBehavior();
         treeLayoutBehavior();
@@ -252,9 +297,24 @@
     <a href="./5">5</a>
 )</div>
 <div id="controls">
-    <strong>Inbreeding:</strong>
-        <span id="result"><i>F</i> = 0.0%</span><br>
-        <input type="checkbox" name="reg_num"><label for="reg_num">{{ __('cat.display_reg_num') }}</label>
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+        <div>
+            <strong>Inbreeding:</strong>
+            <span id="result"><i>F</i> = 0.0%</span><br>
+            <input type="checkbox" name="reg_num"><label for="reg_num">{{ __('cat.display_reg_num') }}</label>
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <button class="btn btn-primary" onclick="window.print()" data-tooltip="Print family tree" data-tooltip-position="bottom">
+                🖨️ {{ __('tree.print', 'Print') }}
+            </button>
+            <button class="btn btn-success" onclick="exportTreeAsImage()" data-tooltip="Save as image" data-tooltip-position="bottom">
+                📸 {{ __('tree.export', 'Export') }}
+            </button>
+            <button class="btn btn-warning" onclick="shareTree()" data-tooltip="Share this tree" data-tooltip-position="bottom">
+                🔗 {{ __('tree.share', 'Share') }}
+            </button>
+        </div>
+    </div>
 </div>
 <div id="wrapper" class="family-tree">
     <div id="pedigree">

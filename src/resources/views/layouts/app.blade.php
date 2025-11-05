@@ -18,6 +18,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/advanced-features.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('css/plugins/select2.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/plugins/jquery.datetimepicker.css') }}">
         @yield('ext_css')
@@ -48,6 +49,7 @@
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}"></script>
+        <script src="{{ asset('js/advanced-features.js') }}"></script>
         @yield('ext_js')
         @yield('script')
 
